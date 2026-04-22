@@ -1,3 +1,4 @@
+import { Comets } from "./comets";
 import { NorthStar } from "./north-star";
 import { StarField } from "./star-field";
 
@@ -5,6 +6,7 @@ export function Hero() {
   return (
     <section className="relative flex min-h-[100svh] items-center justify-center overflow-hidden">
       <StarField />
+      <Comets />
 
       <div className="shell relative z-10 mx-auto flex w-full max-w-3xl flex-col items-center text-center">
         <p className="eyebrow mb-10">
