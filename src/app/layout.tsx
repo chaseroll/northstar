@@ -1,12 +1,6 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Fraunces } from "next/font/google";
+import { Geist_Mono, Fraunces } from "next/font/google";
 import "./globals.css";
-
-const geistSans = Geist({
-  variable: "--font-sans",
-  subsets: ["latin"],
-  display: "swap",
-});
 
 const geistMono = Geist_Mono({
   variable: "--font-mono",
@@ -49,8 +43,15 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${fraunces.variable} h-full antialiased`}
+      className={`${geistMono.variable} ${fraunces.variable} h-full antialiased`}
     >
+      <head>
+        <link rel="preconnect" href="https://api.fontshare.com" crossOrigin="anonymous" />
+        <link
+          rel="stylesheet"
+          href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600&display=swap"
+        />
+      </head>
       <body className="min-h-full bg-navy text-white font-sans selection:bg-white/20 selection:text-white">
         {children}
       </body>

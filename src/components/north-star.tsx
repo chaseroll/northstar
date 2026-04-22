@@ -7,16 +7,16 @@ import { useId } from "react";
  * NorthStar — anamorphic lens-flare guide star.
  *
  * Composition (bottom → top):
- *   1. Outer corona bloom (wide, soft, low-opacity)
- *   2. Pulsing ring — circular hairline that expands + fades on loop
- *   3. Secondary 45° rays (very faint — gives 8-point presence)
- *   4. Long tapered vertical beam (soft glow + sharp inner highlight)
- *   5. Shorter tapered horizontal beam
- *   6. Diffraction hairlines beyond beam tips
- *   7. Hot white core with radial bloom
- *   8. Tiny specular pinprick
+ *   1. Outer corona bloom (wide, soft, gently pulsing opacity)
+ *   2. Secondary 45° rays (very faint — gives 8-point presence)
+ *   3. Long tapered vertical beam (soft glow + sharp inner highlight)
+ *   4. Shorter tapered horizontal beam
+ *   5. Diffraction hairlines beyond beam tips
+ *   6. Hot white core with radial bloom
+ *   7. Tiny specular pinprick
  *
- * All colors are pure white. No blue tint.
+ * All colors are pure white. No blue tint. No expanding ring pulse —
+ * the "pulse" is just the bloom's opacity breathing in sync with the core.
  */
 export function NorthStar({
   size = 720,
@@ -99,53 +99,28 @@ export function NorthStar({
           </filter>
         </defs>
 
-        {/* 1 · Outer atmospheric bloom */}
-        <circle
+        {/* 1 · Outer atmospheric bloom — breathes gently for a soft pulse */}
+        <motion.circle
           cx="0"
           cy="0"
           r="170"
           fill={`url(#${id.bloom})`}
           filter={`url(#${id.bigBlur})`}
-        />
-
-        {/* 2 · Pulsing rings — two phased hairlines that expand + fade */}
-        <motion.circle
-          cx="0"
-          cy="0"
-          r="55"
-          fill="none"
-          stroke="#ffffff"
-          strokeWidth="0.6"
-          animate={{ r: [55, 150, 55], opacity: [0.55, 0, 0.55] }}
+          animate={{ opacity: [0.85, 1, 0.85] }}
           transition={{
-            duration: 4.2,
+            duration: 6.5,
             repeat: Infinity,
-            ease: "easeOut",
-          }}
-        />
-        <motion.circle
-          cx="0"
-          cy="0"
-          r="55"
-          fill="none"
-          stroke="#ffffff"
-          strokeWidth="0.5"
-          animate={{ r: [55, 150, 55], opacity: [0.4, 0, 0.4] }}
-          transition={{
-            duration: 4.2,
-            repeat: Infinity,
-            ease: "easeOut",
-            delay: 2.1,
+            ease: "easeInOut",
           }}
         />
 
-        {/* 3 · Secondary 45° rays */}
+        {/* 2 · Secondary 45° rays */}
         <g opacity="0.28" transform="rotate(45)">
           <polygon points="0,-90 0.8,0 0,90 -0.8,0" fill="#ffffff" />
           <polygon points="-60,0 0,0.5 60,0 0,-0.5" fill="#ffffff" />
         </g>
 
-        {/* 4 · Vertical beam */}
+        {/* 3 · Vertical beam */}
         <g>
           <polygon
             points="0,-260 4.2,0 0,260 -4.2,0"
@@ -155,7 +130,7 @@ export function NorthStar({
           <polygon points="0,-260 0.9,0 0,260 -0.9,0" fill="#ffffff" />
         </g>
 
-        {/* 5 · Horizontal beam */}
+        {/* 4 · Horizontal beam */}
         <g>
           <polygon
             points="-190,0 0,3 190,0 0,-3"
@@ -165,7 +140,7 @@ export function NorthStar({
           <polygon points="-190,0 0,0.7 190,0 0,-0.7" fill="#ffffff" />
         </g>
 
-        {/* 6 · Diffraction hairlines */}
+        {/* 5 · Diffraction hairlines */}
         <g stroke="#ffffff" strokeWidth="0.35" opacity="0.35">
           <line x1="0" y1="-295" x2="0" y2="-260" />
           <line x1="0" y1="260" x2="0" y2="295" />
@@ -175,7 +150,7 @@ export function NorthStar({
           <line x1="190" y1="0" x2="225" y2="0" />
         </g>
 
-        {/* 7 · Hot core — gently breathing */}
+        {/* 6 · Hot core — gently breathing */}
         <motion.g
           animate={{ opacity: [1, 0.82, 1] }}
           transition={{
