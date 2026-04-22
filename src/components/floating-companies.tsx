@@ -41,18 +41,16 @@ type Company = {
 // heights across the top and bottom, mixed insets on the sides, and uneven
 // gaps — so the arrangement reads as organic instead of gridded.
 const COMPANIES: Company[] = [
-  { name: "Anduril", url: "https://www.anduril.com", x: 3, y: 22, size: 11, mobile: true },
-  { name: "Palantir", url: "https://www.palantir.com", x: 21, y: 5, size: 13, mobile: false },
-  { name: "Ramp", url: "https://ramp.com", x: 44, y: 16, size: 10, mobile: false },
-  { name: "Linear", url: "https://linear.app", x: 71, y: 8, size: 11, mobile: false },
-  { name: "Cursor", url: "https://cursor.com", x: 94, y: 19, size: 12, mobile: true },
-  { name: "Vercel", url: "https://vercel.com", x: 13, y: 34, size: 13, mobile: false },
-  { name: "Anthropic", url: "https://www.anthropic.com", x: 2, y: 65, size: 10, mobile: false },
-  { name: "Figma", url: "https://www.figma.com", x: 92, y: 31, size: 11, mobile: true },
-  { name: "Stripe", url: "https://stripe.com", x: 86, y: 68, size: 12, mobile: false },
-  { name: "SpaceX", url: "https://www.spacex.com", x: 73, y: 78, size: 13, mobile: false },
-  { name: "Neuralink", url: "https://neuralink.com", x: 9, y: 92, size: 10, mobile: true },
-  { name: "Scale AI", url: "https://scale.com", x: 49, y: 86, size: 11, mobile: false },
+  { name: "Reading Rooms", url: "https://readingrooms.org", x: 3, y: 22, size: 11, mobile: true },
+  { name: "SpecScout", url: "https://specscout.org", x: 21, y: 5, size: 13, mobile: false },
+  { name: "Texas Film Scene", url: "https://filmscenetexas.com", x: 44, y: 16, size: 10, mobile: false },
+  { name: "GumGauge Dental", url: "https://gumgaugedental.com", x: 71, y: 8, size: 11, mobile: false },
+  { name: "ResearchDocAI", url: "https://researchdocai.com", x: 94, y: 19, size: 12, mobile: true },
+  { name: "ZenQuill", url: "https://zenquill.ai", x: 13, y: 34, size: 13, mobile: false },
+  { name: "OptionsAI", url: "https://optionsai.com", x: 2, y: 65, size: 10, mobile: false },
+  { name: "Oros Hydration", url: "https://getoros.com", x: 92, y: 31, size: 11, mobile: true },
+  { name: "Nemora", url: "https://nemora.app", x: 86, y: 68, size: 12, mobile: false },
+  { name: "Urban Pulse", url: "https://urbanpulsemapping.com", x: 73, y: 78, size: 13, mobile: false },
 ];
 
 const PROX_RADIUS_PX = 220;
