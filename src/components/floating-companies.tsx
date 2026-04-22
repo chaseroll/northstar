@@ -55,7 +55,7 @@ export function FloatingCompanies() {
   return (
     <div
       aria-label="Aspirational companies"
-      className="pointer-events-none fixed inset-0"
+      className="pointer-events-none absolute inset-0"
       style={{ zIndex: 1 }}
     >
       {COMPANIES.map((company, i) => {

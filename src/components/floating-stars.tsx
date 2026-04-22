@@ -42,7 +42,7 @@ export function FloatingStars() {
   return (
     <div
       aria-hidden
-      className="pointer-events-none fixed inset-0"
+      className="pointer-events-none absolute inset-0"
       style={{ zIndex: 1 }}
     >
       {STARS.map((star, i) => {

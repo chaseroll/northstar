@@ -12,7 +12,7 @@
 
   /* ─── Fonts ──────────────────────────────────────────── */
   --font-sans:
-    "General Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    var(--font-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI",
     sans-serif;
   --font-mono:
     var(--font-mono), ui-monospace, "SF Mono", "JetBrains Mono", monospace;
@@ -44,6 +44,7 @@ html,
 body {
   background-color: var(--color-navy);
   color: var(--color-white);
+  font-family: var(--font-sans);
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

@@ -50,11 +50,14 @@ export function StarField({
     let stars: Star[] = [];
     let W = 0;
     let H = 0;
+    let rect = canvas.getBoundingClientRect();
     const mouse = { x: -10_000, y: -10_000 };
 
     const regenerate = () => {
-      W = window.innerWidth;
-      H = window.innerHeight;
+      rect = canvas.getBoundingClientRect();
+      W = rect.width;
+      H = rect.height;
+      if (W === 0 || H === 0) return;
       canvas.width = Math.floor(W * DPR);
       canvas.height = Math.floor(H * DPR);
       canvas.style.width = `${W}px`;
@@ -80,9 +83,12 @@ export function StarField({
     regenerate();
 
     const onResize = () => regenerate();
+    const onScroll = () => {
+      rect = canvas.getBoundingClientRect();
+    };
     const onMove = (e: MouseEvent) => {
-      mouse.x = e.clientX;
-      mouse.y = e.clientY;
+      mouse.x = e.clientX - rect.left;
+      mouse.y = e.clientY - rect.top;
     };
     const onLeave = () => {
       mouse.x = -10_000;
@@ -90,6 +96,7 @@ export function StarField({
     };
 
     window.addEventListener("resize", onResize);
+    window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("mousemove", onMove, { passive: true });
     window.addEventListener("mouseleave", onLeave);
 
@@ -159,6 +166,7 @@ export function StarField({
     return () => {
       cancelAnimationFrame(raf);
       window.removeEventListener("resize", onResize);
+      window.removeEventListener("scroll", onScroll);
       window.removeEventListener("mousemove", onMove);
       window.removeEventListener("mouseleave", onLeave);
       document.removeEventListener("visibilitychange", onVisibility);
@@ -169,8 +177,7 @@ export function StarField({
     <canvas
       ref={ref}
       aria-hidden
-      className={`pointer-events-none fixed inset-0 ${className}`}
-      style={{ zIndex: 0 }}
+      className={`pointer-events-none absolute inset-0 h-full w-full ${className}`}
     />
   );
 }
