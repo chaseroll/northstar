@@ -685,7 +685,7 @@ export function ApplicationForm() {
       </FormSection>
 
       {/* ───────────────────────────── Submit */}
-      <div className="border-t border-white/10 py-20 md:py-28">
+      <div className="border-t border-hair py-20 md:py-28">
         <div className="mx-auto flex max-w-2xl flex-col items-center gap-6 text-center">
           <p className="text-[11px] uppercase tracking-[0.18em] text-white/45">
             Ready
@@ -759,11 +759,11 @@ function SuccessState() {
         </p>
       </div>
 
-      <ol className="mt-16 border-t border-white/10">
+      <ol className="mt-16 border-t border-hair">
         {steps.map((s) => (
           <li
             key={s.marker}
-            className="grid grid-cols-12 gap-x-6 border-b border-white/10 py-6"
+            className="grid grid-cols-12 gap-x-6 border-b border-hair py-6"
           >
             <span className="col-span-3 text-[11px] uppercase tracking-[0.16em] text-white/45 md:col-span-2">
               {s.marker}

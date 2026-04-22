@@ -4,7 +4,11 @@ import { useEffect, useState } from "react";
 
 export type RailSection = { id: string; label: string };
 
-export function ProgressRail({ sections }: { sections: RailSection[] }) {
+export function ProgressRail({
+  sections,
+}: {
+  sections: readonly RailSection[];
+}) {
   const [active, setActive] = useState<string>(sections[0]?.id ?? "");
 
   useEffect(() => {
@@ -58,7 +62,7 @@ export function ProgressRail({ sections }: { sections: RailSection[] }) {
           </p>
         </div>
 
-        <div className="mb-6 h-px w-full bg-white/10">
+        <div className="mb-6 h-px w-full bg-hair">
           <div
             className="h-px bg-white/80 transition-[width] duration-500 ease-out"
             style={{ width: `${percent}%` }}

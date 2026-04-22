@@ -3,6 +3,7 @@ import { ApplicationForm } from "@/components/apply/application-form";
 import { ProgressRail } from "@/components/apply/progress-rail";
 import { Footer } from "@/components/footer";
 import { Nav } from "@/components/nav";
+import { SECTIONS } from "./sections";
 import "./apply.css";
 
 export const metadata: Metadata = {
@@ -10,18 +11,6 @@ export const metadata: Metadata = {
   description:
     "Apply to the University of Austin NorthStar program. Non-equity grants up to $50,000, mentor network, and monthly accountability reviews",
 };
-
-const SECTIONS = [
-  { id: "founder", label: "Founder" },
-  { id: "team", label: "Team" },
-  { id: "company", label: "Company" },
-  { id: "what-why", label: "What & why" },
-  { id: "progress", label: "Progress" },
-  { id: "why-you", label: "Why you" },
-  { id: "ask", label: "Ask" },
-  { id: "video", label: "Video" },
-  { id: "else", label: "Anything else" },
-];
 
 const STATS: { label: string; value: string }[] = [
   { label: "Cohort", value: "01" },
@@ -53,7 +42,7 @@ export default function ApplyPage() {
               {STATS.map((s) => (
                 <li
                   key={s.label}
-                  className="inline-flex items-baseline gap-2 rounded-full border border-white/15 px-4 py-1.5 text-[12px]"
+                  className="inline-flex items-baseline gap-2 rounded-full border border-hair-strong px-4 py-1.5 text-[12px]"
                 >
                   <span className="uppercase tracking-[0.14em] text-white/45">
                     {s.label}

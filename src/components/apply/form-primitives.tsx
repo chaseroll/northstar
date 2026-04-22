@@ -2,16 +2,6 @@
 
 import type { InputHTMLAttributes, SelectHTMLAttributes, TextareaHTMLAttributes, ReactNode } from "react";
 
-/**
- * Editorial form primitives for the NorthStar application.
- *
- * Visual language:
- *   - Transparent inputs with a hairline bottom border (focus → white)
- *   - Monospace, uppercase labels sitting above the field
- *   - Small muted helper text below
- *   - No card chrome, no rounded boxes, no filled backgrounds
- */
-
 export function Field({
   label,
   hint,
@@ -81,7 +71,7 @@ export function CharCounter({ current, max }: { current: number; max: number }) 
 }
 
 const baseInputCls =
-  "w-full border-b border-white/15 bg-transparent px-0 py-3 text-[15.5px] text-white placeholder:text-white/30 transition-colors focus:border-white focus:outline-none disabled:opacity-60";
+  "w-full border-b border-hair-strong bg-transparent px-0 py-3 text-[15.5px] text-white placeholder:text-white/30 transition-colors focus:border-white focus:outline-none disabled:opacity-60";
 
 export function TextInput(props: InputHTMLAttributes<HTMLInputElement>) {
   return <input {...props} className={`${baseInputCls} ${props.className ?? ""}`} />;
@@ -143,7 +133,7 @@ export function RadioGroup({
             className={`cursor-pointer rounded-full border px-4 py-2 text-[13px] transition-colors ${
               checked
                 ? "border-white bg-white text-navy"
-                : "border-white/15 text-white hover:border-white/40"
+                : "border-hair-strong text-white hover:border-white/40"
             }`}
           >
             <input
@@ -185,7 +175,7 @@ export function FormSection({
     <section
       id={id}
       data-apply-section=""
-      className="border-t border-white/10 py-16 md:py-24"
+      className="border-t border-hair py-16 md:py-24"
     >
       <div className="grid grid-cols-12 gap-x-8 gap-y-10">
         <div className="col-span-12 md:col-span-3">
