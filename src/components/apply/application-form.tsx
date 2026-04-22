@@ -686,33 +686,38 @@ export function ApplicationForm() {
 
       {/* ───────────────────────────── Submit */}
       <div className="border-t border-hair py-20 md:py-28">
-        <div className="mx-auto flex max-w-2xl flex-col items-center gap-6 text-center">
-          <p className="text-[11px] uppercase tracking-[0.18em] text-white/45">
+        <div className="mx-auto flex max-w-xl flex-col items-center gap-5 text-center">
+          <p className="text-[12px] italic tracking-[0.18em] text-white/55">
             Ready
           </p>
-          <h2 className="text-[clamp(30px,3.4vw,44px)] font-medium leading-[1.05] tracking-[-0.02em] text-white text-balance">
+          <h2 className="text-[clamp(32px,3.8vw,52px)] font-normal italic leading-[1.05] tracking-[-0.005em] text-white text-balance">
             Submit your application
           </h2>
-          <p className="max-w-[52ch] text-[15px] leading-[1.55] text-white/55 text-balance">
+          <p className="max-w-[48ch] text-[17px] leading-[1.55] text-white/60 text-balance">
             Applications are reviewed on a rolling basis by the Executive
             Director of the Innovation Labs. You’ll hear back within two weeks
           </p>
 
+          <div
+            aria-hidden
+            className="my-2 h-px w-16 bg-gradient-to-r from-transparent via-white/40 to-transparent"
+          />
+
           <button
             type="submit"
             disabled={disabled}
-            className="mt-4 inline-flex h-12 items-center rounded-full bg-white px-8 text-[14px] font-medium tracking-tight text-navy transition-[transform,opacity,background-color] hover:bg-white/90 active:scale-[0.98] disabled:opacity-60"
+            className="mt-2 inline-flex h-12 items-center rounded-full bg-white px-8 text-[15px] italic tracking-tight text-navy transition-[transform,opacity,background-color] hover:bg-white/90 active:scale-[0.98] disabled:opacity-60"
           >
             {status === "submitting" ? "Submitting…" : "Submit application"}
           </button>
 
-          <p className="text-[12px] text-white/40">
+          <p className="max-w-[44ch] text-[13px] italic text-white/40 text-balance">
             By submitting, you confirm the information above is accurate to the
             best of your knowledge
           </p>
 
           <p
-            className={`h-4 text-[12.5px] transition-opacity ${
+            className={`h-4 text-[13px] italic transition-opacity ${
               message ? "opacity-100" : "opacity-0"
             } ${status === "error" ? "text-red-300" : "text-white/55"}`}
             role={status === "error" ? "alert" : "status"}
@@ -745,35 +750,33 @@ function SuccessState() {
     },
   ];
   return (
-    <div className="mx-auto max-w-2xl py-24 md:py-40">
-      <div className="text-center">
-        <p className="text-[11px] uppercase tracking-[0.18em] text-white/45">
-          Application received
-        </p>
-        <h2 className="mt-6 text-[clamp(36px,5vw,60px)] font-medium leading-[1] tracking-[-0.025em] text-white text-balance">
-          Thank you — we have your submission
-        </h2>
-        <p className="mx-auto mt-6 max-w-[52ch] text-[15.5px] leading-[1.55] text-white/60 text-balance">
-          A member of the Innovation Labs team will review your application and
-          reach out within two weeks. Keep building in the meantime
-        </p>
-      </div>
+    <div className="mx-auto flex max-w-2xl flex-col items-center py-24 text-center md:py-40">
+      <p className="text-[12px] italic tracking-[0.18em] text-white/55">
+        Application received
+      </p>
+      <h2 className="mt-6 text-[clamp(40px,5.4vw,72px)] font-normal italic leading-[1] tracking-[-0.005em] text-white text-balance">
+        Thank you — we have your submission
+      </h2>
+      <p className="mx-auto mt-6 max-w-[48ch] text-[18px] leading-[1.55] text-white/60 text-balance">
+        A member of the Innovation Labs team will review your application and
+        reach out within two weeks. Keep building in the meantime
+      </p>
 
-      <ol className="mt-16 border-t border-hair">
+      <div
+        aria-hidden
+        className="my-14 h-px w-24 bg-gradient-to-r from-transparent via-white/40 to-transparent"
+      />
+
+      <ol className="flex flex-col items-center gap-10">
         {steps.map((s) => (
-          <li
-            key={s.marker}
-            className="grid grid-cols-12 gap-x-6 border-b border-hair py-6"
-          >
-            <span className="col-span-3 text-[11px] uppercase tracking-[0.16em] text-white/45 md:col-span-2">
+          <li key={s.marker} className="flex flex-col items-center gap-1.5">
+            <span className="text-[12px] italic tracking-[0.18em] text-white/50">
               {s.marker}
             </span>
-            <div className="col-span-9 md:col-span-10">
-              <p className="text-[15px] font-medium text-white">{s.title}</p>
-              <p className="mt-1 text-[14px] leading-[1.55] text-white/55">
-                {s.body}
-              </p>
-            </div>
+            <p className="text-[20px] italic text-white">{s.title}</p>
+            <p className="max-w-[44ch] text-[15.5px] leading-[1.55] text-white/55 text-balance">
+              {s.body}
+            </p>
           </li>
         ))}
       </ol>

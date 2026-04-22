@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
 import { ApplicationForm } from "@/components/apply/application-form";
-import { ProgressRail } from "@/components/apply/progress-rail";
 import { Footer } from "@/components/footer";
 import { Nav } from "@/components/nav";
-import { SECTIONS } from "./sections";
 import "./apply.css";
 
 export const metadata: Metadata = {
@@ -20,31 +18,31 @@ const STATS: { label: string; value: string }[] = [
 
 export default function ApplyPage() {
   return (
-    <div className="font-general-sans bg-navy text-white">
+    <div className="apply-fancy bg-navy text-white">
       <Nav />
-      <main>
+      <main className="text-center">
         <section className="relative pt-36 pb-14 md:pt-44 md:pb-20">
-          <div className="mx-auto max-w-3xl px-6 text-center">
-            <p className="text-[11px] uppercase tracking-[0.2em] text-white/45">
+          <div className="mx-auto max-w-3xl px-6">
+            <p className="text-[12px] italic tracking-[0.18em] text-white/55">
               Cohort 01 · Application
             </p>
-            <h1 className="mt-6 text-[clamp(52px,8vw,108px)] font-medium leading-[0.98] tracking-[-0.028em] text-white text-balance">
+            <h1 className="mt-6 text-[clamp(58px,9vw,132px)] font-normal italic leading-[0.95] tracking-[-0.01em] text-white text-balance">
               Apply to NorthStar
             </h1>
-            <p className="mx-auto mt-8 max-w-[58ch] text-[16.5px] leading-[1.6] text-white/60 text-balance">
+            <p className="mx-auto mt-10 max-w-[50ch] text-[20px] leading-[1.55] text-white/75 text-balance">
               One form. Nine short sections. Non-equity grants up to $50,000,
               a curated mentor network, and monthly accountability with the
               Executive Director of the Innovation Labs. Admission is by
               application and selection
             </p>
 
-            <ul className="mt-10 flex flex-wrap items-center justify-center gap-2">
+            <ul className="mt-12 flex flex-wrap items-center justify-center gap-2.5">
               {STATS.map((s) => (
                 <li
                   key={s.label}
-                  className="inline-flex items-baseline gap-2 rounded-full border border-hair-strong px-4 py-1.5 text-[12px]"
+                  className="inline-flex items-baseline gap-2 rounded-full border border-hair-strong px-4 py-1.5 text-[13px]"
                 >
-                  <span className="uppercase tracking-[0.14em] text-white/45">
+                  <span className="italic tracking-[0.12em] text-white/50">
                     {s.label}
                   </span>
                   <span className="text-white/25">·</span>
@@ -52,18 +50,16 @@ export default function ApplyPage() {
                 </li>
               ))}
             </ul>
+
+            <div
+              aria-hidden
+              className="mx-auto mt-16 h-px w-24 bg-gradient-to-r from-transparent via-white/40 to-transparent"
+            />
           </div>
         </section>
 
-        <div className="mx-auto max-w-6xl px-6 pb-24 md:px-10">
-          <div className="grid grid-cols-12 gap-x-10 gap-y-8">
-            <aside className="col-span-12 lg:col-span-3">
-              <ProgressRail sections={SECTIONS} />
-            </aside>
-            <div className="col-span-12 lg:col-span-9">
-              <ApplicationForm />
-            </div>
-          </div>
+        <div className="mx-auto w-full max-w-2xl px-6 pb-24">
+          <ApplicationForm />
         </div>
       </main>
       <Footer />

@@ -1,20 +1,35 @@
-@import url("https://api.fontshare.com/v2/css?f[]=general-sans@300,400,500,600,700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Cormorant+Infant:ital,wght@0,400;0,500;1,400&display=swap");
 
-/* Scope every font inside the apply section to General Sans — override the
-   Geist Sans / Mono / Fraunces serif fallbacks defined in globals.css. */
-.font-general-sans,
-.font-general-sans * {
+/* Scope every font inside the apply section to Cormorant Garamond — override
+   the Geist Sans / Mono / Fraunces serif fallbacks defined in globals.css. */
+.apply-fancy,
+.apply-fancy * {
   font-family:
-    "General Sans",
-    ui-sans-serif,
-    system-ui,
-    -apple-system,
-    "Segoe UI",
-    sans-serif !important;
+    "Cormorant Garamond",
+    "Cormorant Infant",
+    "EB Garamond",
+    ui-serif,
+    Georgia,
+    "Times New Roman",
+    serif !important;
   font-variation-settings: normal !important;
+  -webkit-font-feature-settings: "liga", "dlig", "swsh", "calt";
+  font-feature-settings: "liga", "dlig", "swsh", "calt";
+  letter-spacing: 0;
+}
+
+/* A touch more air at the reading size so the serif breathes properly. */
+.apply-fancy p,
+.apply-fancy label,
+.apply-fancy input,
+.apply-fancy textarea,
+.apply-fancy select,
+.apply-fancy option,
+.apply-fancy button {
+  font-size: calc(1em + 1px);
 }
 
 /* Section anchor offset so the sticky nav doesn't cover jumped-to sections. */
-.font-general-sans [data-apply-section] {
+.apply-fancy [data-apply-section] {
   scroll-margin-top: 6.5rem;
 }

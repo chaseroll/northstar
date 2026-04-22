@@ -1,6 +1,11 @@
 "use client";
 
-import type { InputHTMLAttributes, SelectHTMLAttributes, TextareaHTMLAttributes, ReactNode } from "react";
+import type {
+  InputHTMLAttributes,
+  SelectHTMLAttributes,
+  TextareaHTMLAttributes,
+  ReactNode,
+} from "react";
 
 export function Field({
   label,
@@ -20,36 +25,38 @@ export function Field({
   counter?: ReactNode;
 }) {
   return (
-    <div className={`flex flex-col gap-2 ${className}`}>
-      <div className="flex items-baseline justify-between gap-4">
-        <label
-          htmlFor={htmlFor}
-          className="text-[11px] uppercase tracking-[0.16em] text-white/75"
-        >
-          {label}
-          {required ? (
-            <span className="ml-1 text-white/30" aria-hidden>
-              *
-            </span>
-          ) : (
-            <span
-              className="ml-2 text-[10px] normal-case tracking-normal text-white/30"
-              aria-hidden
-            >
-              (optional)
-            </span>
-          )}
-        </label>
+    <div className={`flex flex-col items-center gap-2 text-center ${className}`}>
+      <label
+        htmlFor={htmlFor}
+        className="text-[13px] italic tracking-[0.06em] text-white/70"
+      >
+        {label}
+        {required ? (
+          <span className="ml-1 text-white/30" aria-hidden>
+            *
+          </span>
+        ) : (
+          <span
+            className="ml-2 text-[12px] normal-case tracking-normal text-white/30"
+            aria-hidden
+          >
+            (optional)
+          </span>
+        )}
+      </label>
+      <div className="w-full">{children}</div>
+      <div className="flex w-full items-baseline justify-center gap-3">
+        {hint ? (
+          <p className="text-[13px] italic leading-snug text-white/45">
+            {hint}
+          </p>
+        ) : null}
         {counter ? (
-          <span className="text-[10.5px] tabular-nums text-white/40">
+          <span className="text-[11px] tabular-nums text-white/40">
             {counter}
           </span>
         ) : null}
       </div>
-      {children}
-      {hint ? (
-        <p className="text-[12.5px] leading-snug text-white/45">{hint}</p>
-      ) : null}
     </div>
   );
 }
@@ -71,17 +78,19 @@ export function CharCounter({ current, max }: { current: number; max: number }) 
 }
 
 const baseInputCls =
-  "w-full border-b border-hair-strong bg-transparent px-0 py-3 text-[15.5px] text-white placeholder:text-white/30 transition-colors focus:border-white focus:outline-none disabled:opacity-60";
+  "w-full border-b border-hair-strong bg-transparent px-0 py-3 text-center text-[17px] text-white placeholder:italic placeholder:text-white/30 transition-colors focus:border-white focus:outline-none disabled:opacity-60";
 
 export function TextInput(props: InputHTMLAttributes<HTMLInputElement>) {
-  return <input {...props} className={`${baseInputCls} ${props.className ?? ""}`} />;
+  return (
+    <input {...props} className={`${baseInputCls} ${props.className ?? ""}`} />
+  );
 }
 
 export function TextArea(props: TextareaHTMLAttributes<HTMLTextAreaElement>) {
   return (
     <textarea
       {...props}
-      className={`${baseInputCls} resize-none leading-[1.6] py-3 ${props.className ?? ""}`}
+      className={`${baseInputCls} resize-none leading-[1.55] py-3 ${props.className ?? ""}`}
     />
   );
 }
@@ -122,7 +131,10 @@ export function RadioGroup({
   required?: boolean;
 }) {
   return (
-    <div role="radiogroup" className="flex flex-wrap gap-2">
+    <div
+      role="radiogroup"
+      className="flex flex-wrap items-center justify-center gap-2"
+    >
       {options.map((opt) => {
         const id = `${name}-${opt.value}`;
         const checked = value === opt.value;
@@ -130,7 +142,7 @@ export function RadioGroup({
           <label
             key={opt.value}
             htmlFor={id}
-            className={`cursor-pointer rounded-full border px-4 py-2 text-[13px] transition-colors ${
+            className={`cursor-pointer rounded-full border px-5 py-2 text-[14px] italic transition-colors ${
               checked
                 ? "border-white bg-white text-navy"
                 : "border-hair-strong text-white hover:border-white/40"
@@ -177,29 +189,24 @@ export function FormSection({
       data-apply-section=""
       className="border-t border-hair py-16 md:py-24"
     >
-      <div className="grid grid-cols-12 gap-x-8 gap-y-10">
-        <div className="col-span-12 md:col-span-3">
-          <div className="sticky top-28 flex items-baseline gap-3">
-            <span className="text-[11px] tabular-nums text-white/35">
-              {indexLabel}
-            </span>
-            <span className="text-[11px] uppercase tracking-[0.18em] text-white/75">
-              {label}
-            </span>
-          </div>
-        </div>
+      <div className="mx-auto flex max-w-xl flex-col items-center gap-4 text-center">
+        <p className="flex items-baseline gap-2 text-[12px] italic tracking-[0.14em] text-white/55">
+          <span className="tabular-nums text-white/30">{indexLabel}</span>
+          <span className="text-white/20">·</span>
+          <span>{label}</span>
+        </p>
+        <h2 className="text-[clamp(30px,3.4vw,44px)] font-normal italic leading-[1.1] tracking-[-0.005em] text-white text-balance">
+          {title}
+        </h2>
+        {lede ? (
+          <p className="mt-1 max-w-[50ch] text-[17px] leading-[1.55] text-white/60 text-balance">
+            {lede}
+          </p>
+        ) : null}
+      </div>
 
-        <div className="col-span-12 md:col-span-9 md:col-start-4">
-          <h2 className="text-[clamp(26px,2.6vw,34px)] font-medium leading-[1.15] tracking-[-0.018em] text-white text-balance">
-            {title}
-          </h2>
-          {lede ? (
-            <p className="mt-4 max-w-[54ch] text-[15px] leading-[1.55] text-white/60 text-balance">
-              {lede}
-            </p>
-          ) : null}
-          <div className="mt-12 flex flex-col gap-10">{children}</div>
-        </div>
+      <div className="mx-auto mt-14 flex w-full max-w-xl flex-col gap-12">
+        {children}
       </div>
     </section>
   );
@@ -218,5 +225,5 @@ export function FieldGrid({
       : cols === 3
         ? "grid-cols-1 md:grid-cols-3"
         : "grid-cols-1 md:grid-cols-2";
-  return <div className={`grid gap-8 ${cls}`}>{children}</div>;
+  return <div className={`grid gap-10 ${cls}`}>{children}</div>;
 }
