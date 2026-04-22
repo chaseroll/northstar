@@ -32,7 +32,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "NorthStar — A founders program at the University of Austin",
     description:
-      "Non-equity grants up to $50,000, 50+ mentors, and monthly progress reviews. Proposed by Joshua Strauss & Chase Roll.",
+      "Non-equity grants up to $50,000, 50+ mentors, and monthly progress reviews.",
     type: "website",
   },
   twitter: {

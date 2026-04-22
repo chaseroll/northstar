@@ -27,7 +27,7 @@ export function Hero() {
           <span className="block">NorthStar.</span>
         </h1>
 
-        <p className="body mt-10 max-w-[38ch] text-balance">
+        <p className="display-md mt-12 max-w-[28ch] text-balance text-white [text-shadow:0_0_28px_var(--color-navy),0_0_14px_var(--color-navy)]">
           A program whose sole purpose is to increase the number of
           venture-backable startups within the university.
         </p>

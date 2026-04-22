@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import {
+  CharCounter,
   Field,
   FieldGrid,
   FormSection,
@@ -48,17 +49,41 @@ const CLASS_YEARS = [
   "Other",
 ];
 
-const GRANT_ASK = [
-  "Under $10,000",
-  "$10,000 – $25,000",
-  "$25,000 – $50,000",
-  "I don't know yet",
-];
+type CountedName =
+  | "oneliner"
+  | "what"
+  | "problem"
+  | "built"
+  | "extra";
+
+const MAX: Record<CountedName, number> = {
+  oneliner: 140,
+  what: 1200,
+  problem: 1200,
+  built: 800,
+  extra: 800,
+};
 
 export function ApplicationForm() {
   const [status, setStatus] = useState<Status>("idle");
   const [message, setMessage] = useState<string>("");
   const [structure, setStructure] = useState<string>("solo");
+  const [counts, setCounts] = useState<Record<CountedName, number>>({
+    oneliner: 0,
+    what: 0,
+    problem: 0,
+    built: 0,
+    extra: 0,
+  });
+
+  const track =
+    (name: CountedName) =>
+    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      const length = e.currentTarget.value.length;
+      setCounts((prev) =>
+        prev[name] === length ? prev : { ...prev, [name]: length },
+      );
+    };
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -75,28 +100,17 @@ export function ApplicationForm() {
       });
       if (!res.ok) throw new Error(await res.text());
       setStatus("success");
-      setMessage("Application received. We’ll be in touch.");
+      setMessage("");
       form.reset();
       window.scrollTo({ top: 0, behavior: "smooth" });
     } catch {
       setStatus("error");
-      setMessage("Something went wrong. Try again.");
+      setMessage("Something went wrong — try again");
     }
   }
 
   if (status === "success") {
-    return (
-      <div className="mx-auto max-w-2xl py-24 text-center md:py-40">
-        <p className="eyebrow mb-8">Application received</p>
-        <h2 className="display-lg text-balance">
-          Thank you. We have your submission.
-        </h2>
-        <p className="body mx-auto mt-6 max-w-[52ch] text-balance">
-          A member of the Innovation Labs team will review your application
-          and reach out within two weeks. Keep building in the meantime.
-        </p>
-      </div>
-    );
+    return <SuccessState />;
   }
 
   const disabled = status === "submitting";
@@ -105,10 +119,11 @@ export function ApplicationForm() {
     <form onSubmit={onSubmit} noValidate>
       {/* ───────────────────────────── 01 · Founder */}
       <FormSection
+        id="founder"
         index={1}
         label="Founder"
-        title="Tell us who you are."
-        lede="You — the person (or lead founder) behind what you’re building. We review every application; answers here should be you, not a deck voice."
+        title="Tell us who you are"
+        lede="You — the person (or lead founder) behind what you’re building. We read every application personally; answers here should sound like you, not a deck"
       >
         <FieldGrid cols={2}>
           <Field label="Full name" required htmlFor="name">
@@ -133,7 +148,7 @@ export function ApplicationForm() {
               disabled={disabled}
             />
           </Field>
-          <Field label="Phone" htmlFor="phone" hint="Optional, but helpful.">
+          <Field label="Phone" htmlFor="phone" hint="Optional, but helpful">
             <TextInput
               id="phone"
               name="phone"
@@ -174,7 +189,7 @@ export function ApplicationForm() {
           <Field
             label="Links"
             htmlFor="links"
-            hint="LinkedIn, GitHub, X, personal site — one per line is fine."
+            hint="LinkedIn, GitHub, X, personal site — comma-separated is fine"
           >
             <TextInput
               id="links"
@@ -189,10 +204,11 @@ export function ApplicationForm() {
 
       {/* ───────────────────────────── 02 · Team */}
       <FormSection
+        id="team"
         index={2}
         label="Team"
         title="Are you building solo, or with co-founders?"
-        lede="Solo is fine. Teams are also fine. If you have co-founders, list them below so we can review the whole team."
+        lede="Solo is fine. Teams are also fine. If you have co-founders, list them below so we can review the whole team"
       >
         <Field label="Team structure" required>
           <RadioGroup
@@ -209,13 +225,15 @@ export function ApplicationForm() {
             <Field
               label="Co-founders"
               htmlFor="cofounders"
-              hint="One per line. Name · email · role (e.g. Ada Lovelace · ada@uaustin.org · Engineering)."
+              hint="One per line. Name · email · role (e.g. Ada Lovelace · ada@uaustin.org · Engineering)"
             >
               <TextArea
                 id="cofounders"
                 name="cofounders"
                 rows={4}
-                placeholder={"Ada Lovelace · ada@uaustin.org · Engineering\nCharles Babbage · charles@uaustin.org · Hardware"}
+                placeholder={
+                  "Ada Lovelace · ada@uaustin.org · Engineering\nCharles Babbage · charles@uaustin.org · Hardware"
+                }
                 disabled={disabled}
               />
             </Field>
@@ -229,7 +247,10 @@ export function ApplicationForm() {
                   disabled={disabled}
                 />
               </Field>
-              <Field label="How long have you worked together?" htmlFor="worked">
+              <Field
+                label="How long have you worked together?"
+                htmlFor="worked"
+              >
                 <TextInput
                   id="worked"
                   name="worked"
@@ -245,6 +266,7 @@ export function ApplicationForm() {
 
       {/* ───────────────────────────── 03 · Company */}
       <FormSection
+        id="company"
         index={3}
         label="Company"
         title="What are you calling it?"
@@ -260,7 +282,11 @@ export function ApplicationForm() {
               disabled={disabled}
             />
           </Field>
-          <Field label="Website / URL" htmlFor="url" hint="If you have one yet.">
+          <Field
+            label="Website / URL"
+            htmlFor="url"
+            hint="If you have one yet"
+          >
             <TextInput
               id="url"
               name="url"
@@ -302,42 +328,45 @@ export function ApplicationForm() {
           label="One-line description"
           required
           htmlFor="oneliner"
-          hint="The shortest version you can write. Imagine telling a stranger in an elevator."
-          counter="max 140"
+          hint="The shortest version you can write — imagine telling a stranger in an elevator"
+          counter={<CharCounter current={counts.oneliner} max={MAX.oneliner} />}
         >
           <TextInput
             id="oneliner"
             name="oneliner"
             type="text"
             required
-            maxLength={140}
+            maxLength={MAX.oneliner}
             placeholder="We’re building …"
             disabled={disabled}
+            onChange={track("oneliner")}
           />
         </Field>
       </FormSection>
 
       {/* ───────────────────────────── 04 · What & why */}
       <FormSection
+        id="what-why"
         index={4}
         label="What & why"
-        title="Walk us through what you’re building."
-        lede="Write like you’re explaining it to a smart friend. No jargon, no deck voice."
+        title="Walk us through what you’re building"
+        lede="Write like you’re explaining it to a smart friend. No jargon, no deck voice"
       >
         <Field
           label="What are you building?"
           required
           htmlFor="what"
-          counter="aim ~ 500 chars"
+          counter={<CharCounter current={counts.what} max={MAX.what} />}
         >
           <TextArea
             id="what"
             name="what"
             rows={5}
             required
-            maxLength={1200}
-            placeholder="The product, roughly how it works, and who uses it."
+            maxLength={MAX.what}
+            placeholder="The product, roughly how it works, and who uses it"
             disabled={disabled}
+            onChange={track("what")}
           />
         </Field>
 
@@ -345,42 +374,29 @@ export function ApplicationForm() {
           label="What problem does it solve, and for whom?"
           required
           htmlFor="problem"
-          counter="aim ~ 500 chars"
+          counter={<CharCounter current={counts.problem} max={MAX.problem} />}
         >
           <TextArea
             id="problem"
             name="problem"
             rows={5}
             required
-            maxLength={1200}
-            placeholder="Who feels this problem, how they solve it today, and why that’s bad."
+            maxLength={MAX.problem}
+            placeholder="Who feels this problem, how they solve it today, and why that’s bad"
             disabled={disabled}
+            onChange={track("problem")}
           />
         </Field>
 
-        <Field
-          label="Why now?"
-          htmlFor="why_now"
-          hint="What has changed in the world that makes this the right time."
-          counter="aim ~ 300 chars"
-        >
-          <TextArea
-            id="why_now"
-            name="why_now"
-            rows={4}
-            maxLength={800}
-            placeholder="A technology, behavior, regulation, cost curve — something that recently shifted."
-            disabled={disabled}
-          />
-        </Field>
       </FormSection>
 
       {/* ───────────────────────────── 05 · Progress */}
       <FormSection
+        id="progress"
         index={5}
         label="Progress"
         title="Where is it today?"
-        lede="Be honest. ‘Idea on paper’ is a perfectly valid answer for a first cohort."
+        lede="Be honest — ‘idea on paper’ is a perfectly valid answer for a first cohort"
       >
         <FieldGrid cols={2}>
           <Field label="Stage" required htmlFor="stage">
@@ -433,210 +449,107 @@ export function ApplicationForm() {
         <Field
           label="What have you already built or shipped?"
           htmlFor="built"
-          counter="aim ~ 300 chars"
+          counter={<CharCounter current={counts.built} max={MAX.built} />}
         >
           <TextArea
             id="built"
             name="built"
             rows={4}
-            maxLength={800}
-            placeholder="Prototypes, demos, landing pages, research, pilot conversations."
+            maxLength={MAX.built}
+            placeholder="Prototypes, demos, landing pages, research, pilot conversations"
             disabled={disabled}
+            onChange={track("built")}
           />
         </Field>
       </FormSection>
 
-      {/* ───────────────────────────── 06 · Why you */}
+      {/* ───────────────────────────── 06 · Video */}
       <FormSection
+        id="video"
         index={6}
-        label="Why you"
-        title="Why are you the right person/team for this?"
-      >
-        <Field
-          label="Why you?"
-          required
-          htmlFor="why_you"
-          counter="aim ~ 500 chars"
-        >
-          <TextArea
-            id="why_you"
-            name="why_you"
-            rows={5}
-            required
-            maxLength={1200}
-            placeholder="Background, obsessions, past projects, unfair advantages."
-            disabled={disabled}
-          />
-        </Field>
-
-        <Field
-          label="Time commitment"
-          required
-          htmlFor="hours"
-          hint="Hours per week you can commit to NorthStar during the program."
-        >
-          <TextInput
-            id="hours"
-            name="hours"
-            type="text"
-            required
-            placeholder="e.g. 25 hrs/week, full-time outside class"
-            disabled={disabled}
-          />
-        </Field>
-
-        <Field
-          label="Are you currently enrolled at UATX?"
-          required
-          htmlFor="enrolled"
-          hint="Admission requires active UATX enrollment for the duration of the program."
-        >
-          <RadioGroup
-            name="enrolled"
-            required
-            options={[
-              { value: "yes", label: "Yes, currently enrolled" },
-              { value: "incoming", label: "Admitted, starting next term" },
-              { value: "no", label: "Not enrolled" },
-            ]}
-          />
-        </Field>
-      </FormSection>
-
-      {/* ───────────────────────────── 07 · Ask */}
-      <FormSection
-        index={7}
-        label="Ask"
-        title="What are you asking NorthStar for?"
-        lede="Grants are non-equity, up to $50,000 per company per year. The initial amount is set by the Executive Director based on stage, scope, and need."
-      >
-        <FieldGrid cols={2}>
-          <Field label="Requested grant range" required htmlFor="ask_amount">
-            <Select
-              id="ask_amount"
-              name="ask_amount"
-              required
-              defaultValue=""
-              disabled={disabled}
-            >
-              <option value="" disabled>
-                Select…
-              </option>
-              {GRANT_ASK.map((g) => (
-                <option key={g} value={g}>
-                  {g}
-                </option>
-              ))}
-            </Select>
-          </Field>
-          <Field label="Earliest start" htmlFor="start_date">
-            <TextInput
-              id="start_date"
-              name="start_date"
-              type="text"
-              placeholder="e.g. next cycle, Fall 2026"
-              disabled={disabled}
-            />
-          </Field>
-        </FieldGrid>
-
-        <Field
-          label="How would you deploy the capital?"
-          required
-          htmlFor="use_of_funds"
-          counter="aim ~ 400 chars"
-        >
-          <TextArea
-            id="use_of_funds"
-            name="use_of_funds"
-            rows={4}
-            required
-            maxLength={1000}
-            placeholder="Roughly how the money gets spent — compute, tools, components, contractors, pilots."
-            disabled={disabled}
-          />
-        </Field>
-
-        <Field
-          label="Milestones you commit to in 6 months"
-          required
-          htmlFor="milestones"
-          hint="These will become your personalized milestones, reviewed monthly with the Executive Director."
-          counter="aim ~ 500 chars"
-        >
-          <TextArea
-            id="milestones"
-            name="milestones"
-            rows={5}
-            required
-            maxLength={1200}
-            placeholder="Be specific. Users, revenue, shipped features, design partners, etc."
-            disabled={disabled}
-          />
-        </Field>
-      </FormSection>
-
-      {/* ───────────────────────────── 08 · Video */}
-      <FormSection
-        index={8}
         label="Video"
-        title="A one-minute introduction."
-        lede="Record a short Loom or YouTube unlisted link of you (and any co-founders) explaining what you’re building. Phone camera is fine."
+        title="A one-minute introduction"
+        lede="Record a short Loom or YouTube unlisted video of you (and any co-founders) explaining what you’re building. Phone camera is fine"
       >
-        <Field label="Video URL" htmlFor="video_url" hint="Loom, YouTube unlisted, or Google Drive.">
+        <Field
+          label="Video URL"
+          required
+          htmlFor="video_url"
+          hint="Loom, YouTube unlisted, or Google Drive"
+        >
           <TextInput
             id="video_url"
             name="video_url"
             type="url"
+            required
             placeholder="https://www.loom.com/share/…"
             disabled={disabled}
           />
         </Field>
       </FormSection>
 
-      {/* ───────────────────────────── 09 · Anything else */}
+      {/* ───────────────────────────── 07 · Anything else */}
       <FormSection
-        index={9}
+        id="else"
+        index={7}
         label="Anything else"
         title="Anything we should know that we haven’t asked?"
       >
-        <Field label="Notes" htmlFor="extra" counter="max 800 chars">
+        <Field
+          label="Notes"
+          required
+          htmlFor="extra"
+          counter={<CharCounter current={counts.extra} max={MAX.extra} />}
+        >
           <TextArea
             id="extra"
             name="extra"
             rows={5}
-            maxLength={800}
-            placeholder="Context, concerns, questions, clarifications — whatever is on your mind."
+            required
+            maxLength={MAX.extra}
+            placeholder="Context, concerns, questions, clarifications — whatever is on your mind"
             disabled={disabled}
+            onChange={track("extra")}
           />
         </Field>
       </FormSection>
 
       {/* ───────────────────────────── Submit */}
-      <div className="border-t border-hair py-16 md:py-24">
-        <div className="shell mx-auto flex max-w-3xl flex-col items-center gap-6 text-center">
-          <p className="eyebrow">Ready</p>
-          <h2 className="display-md text-balance">
-            Submit your application.
-          </h2>
-          <p className="body max-w-[52ch] text-balance">
-            Applications are reviewed on a rolling basis by the Executive
-            Director of the Innovation Labs. You’ll hear back within two
-            weeks.
+      <div className="border-t border-hair py-20 md:py-28">
+        <div className="mx-auto flex max-w-xl flex-col items-center gap-5 text-center">
+          <p className="text-[12px] italic tracking-[0.18em] text-white/55">
+            Ready
           </p>
+          <h2 className="text-[clamp(32px,3.8vw,52px)] font-normal italic leading-[1.05] tracking-[-0.005em] text-white text-balance">
+            Submit your application
+          </h2>
+          <p className="max-w-[48ch] text-[17px] leading-[1.55] text-white/60 text-balance">
+            Applications are reviewed on a rolling basis by the Executive
+            Director of the Innovation Labs. You’ll hear back within two weeks
+          </p>
+
+          <div
+            aria-hidden
+            className="my-2 h-px w-16 bg-gradient-to-r from-transparent via-white/40 to-transparent"
+          />
 
           <button
             type="submit"
             disabled={disabled}
-            className="mt-4 inline-flex h-12 items-center rounded-full bg-white px-7 text-[14px] font-medium tracking-tight text-navy transition-colors hover:bg-white/90 disabled:opacity-60"
+            className="mt-2 inline-flex h-12 items-center rounded-full bg-white px-8 text-[15px] italic tracking-tight text-navy transition-[transform,opacity,background-color] hover:bg-white/90 active:scale-[0.98] disabled:opacity-60"
           >
             {status === "submitting" ? "Submitting…" : "Submit application"}
           </button>
 
+          <p className="max-w-[44ch] text-[13px] italic text-white/40 text-balance">
+            By submitting, you confirm the information above is accurate to the
+            best of your knowledge
+          </p>
+
           <p
-            className={`h-4 text-[12px] transition-opacity ${
+            className={`h-4 text-[13px] italic transition-opacity ${
               message ? "opacity-100" : "opacity-0"
-            } ${status === "error" ? "text-red-300" : "text-mute"}`}
+            } ${status === "error" ? "text-red-300" : "text-white/55"}`}
             role={status === "error" ? "alert" : "status"}
             aria-live="polite"
           >
@@ -645,5 +558,58 @@ export function ApplicationForm() {
         </div>
       </div>
     </form>
+  );
+}
+
+function SuccessState() {
+  const steps = [
+    {
+      marker: "T + 0",
+      title: "Application received",
+      body: "Your submission is logged and acknowledged",
+    },
+    {
+      marker: "Week 1",
+      title: "First-pass review",
+      body: "The Innovation Labs team reads every application personally",
+    },
+    {
+      marker: "Week 2",
+      title: "Response",
+      body: "You hear back either way — with a decision or an invitation to a follow-up conversation",
+    },
+  ];
+  return (
+    <div className="mx-auto flex max-w-2xl flex-col items-center py-24 text-center md:py-40">
+      <p className="text-[12px] italic tracking-[0.18em] text-white/55">
+        Application received
+      </p>
+      <h2 className="mt-6 text-[clamp(40px,5.4vw,72px)] font-normal italic leading-[1] tracking-[-0.005em] text-white text-balance">
+        Thank you — we have your submission
+      </h2>
+      <p className="mx-auto mt-6 max-w-[48ch] text-[18px] leading-[1.55] text-white/60 text-balance">
+        A member of the Innovation Labs team will review your application and
+        reach out within two weeks. Keep building in the meantime
+      </p>
+
+      <div
+        aria-hidden
+        className="my-14 h-px w-24 bg-gradient-to-r from-transparent via-white/40 to-transparent"
+      />
+
+      <ol className="flex flex-col items-center gap-10">
+        {steps.map((s) => (
+          <li key={s.marker} className="flex flex-col items-center gap-1.5">
+            <span className="text-[12px] italic tracking-[0.18em] text-white/50">
+              {s.marker}
+            </span>
+            <p className="text-[20px] italic text-white">{s.title}</p>
+            <p className="max-w-[44ch] text-[15.5px] leading-[1.55] text-white/55 text-balance">
+              {s.body}
+            </p>
+          </li>
+        ))}
+      </ol>
+    </div>
   );
 }

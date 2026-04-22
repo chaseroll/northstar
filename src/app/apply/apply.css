@@ -1,0 +1,31 @@
+/* Scope every font inside the apply section to Cormorant Garamond, which is
+   loaded via next/font/google in page.tsx (exposes --font-cormorant). */
+.apply-fancy,
+.apply-fancy * {
+  font-family:
+    var(--font-cormorant),
+    "Cormorant Garamond",
+    "EB Garamond",
+    ui-serif,
+    Georgia,
+    "Times New Roman",
+    serif !important;
+  font-variation-settings: normal !important;
+  letter-spacing: 0;
+}
+
+/* A touch more air at the reading size so the serif breathes properly. */
+.apply-fancy p,
+.apply-fancy label,
+.apply-fancy input,
+.apply-fancy textarea,
+.apply-fancy select,
+.apply-fancy option,
+.apply-fancy button {
+  font-size: calc(1em + 1px);
+}
+
+/* Section anchor offset so the sticky nav doesn't cover jumped-to sections. */
+.apply-fancy [data-apply-section] {
+  scroll-margin-top: 6.5rem;
+}
