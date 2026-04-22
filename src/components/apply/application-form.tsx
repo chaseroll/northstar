@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import {
+  CharCounter,
   Field,
   FieldGrid,
   FormSection,
@@ -55,10 +56,53 @@ const GRANT_ASK = [
   "I don't know yet",
 ];
 
+type CountedName =
+  | "oneliner"
+  | "what"
+  | "problem"
+  | "why_now"
+  | "built"
+  | "why_you"
+  | "use_of_funds"
+  | "milestones"
+  | "extra";
+
+const MAX: Record<CountedName, number> = {
+  oneliner: 140,
+  what: 1200,
+  problem: 1200,
+  why_now: 800,
+  built: 800,
+  why_you: 1200,
+  use_of_funds: 1000,
+  milestones: 1200,
+  extra: 800,
+};
+
 export function ApplicationForm() {
   const [status, setStatus] = useState<Status>("idle");
   const [message, setMessage] = useState<string>("");
   const [structure, setStructure] = useState<string>("solo");
+  const [counts, setCounts] = useState<Record<CountedName, number>>({
+    oneliner: 0,
+    what: 0,
+    problem: 0,
+    why_now: 0,
+    built: 0,
+    why_you: 0,
+    use_of_funds: 0,
+    milestones: 0,
+    extra: 0,
+  });
+
+  const track =
+    (name: CountedName) =>
+    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      const length = e.currentTarget.value.length;
+      setCounts((prev) =>
+        prev[name] === length ? prev : { ...prev, [name]: length },
+      );
+    };
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -75,7 +119,7 @@ export function ApplicationForm() {
       });
       if (!res.ok) throw new Error(await res.text());
       setStatus("success");
-      setMessage("Application received — we’ll be in touch");
+      setMessage("");
       form.reset();
       window.scrollTo({ top: 0, behavior: "smooth" });
     } catch {
@@ -85,18 +129,7 @@ export function ApplicationForm() {
   }
 
   if (status === "success") {
-    return (
-      <div className="mx-auto max-w-2xl py-24 text-center md:py-40">
-        <p className="eyebrow mb-8">Application received</p>
-        <h2 className="display-lg text-balance">
-          Thank you — we have your submission
-        </h2>
-        <p className="body mx-auto mt-6 max-w-[52ch] text-balance">
-          A member of the Innovation Labs team will review your application
-          and reach out within two weeks. Keep building in the meantime
-        </p>
-      </div>
-    );
+    return <SuccessState />;
   }
 
   const disabled = status === "submitting";
@@ -105,10 +138,11 @@ export function ApplicationForm() {
     <form onSubmit={onSubmit} noValidate>
       {/* ───────────────────────────── 01 · Founder */}
       <FormSection
+        id="founder"
         index={1}
         label="Founder"
         title="Tell us who you are"
-        lede="You — the person (or lead founder) behind what you’re building. We review every application; answers here should be you, not a deck voice"
+        lede="You — the person (or lead founder) behind what you’re building. We read every application personally; answers here should sound like you, not a deck"
       >
         <FieldGrid cols={2}>
           <Field label="Full name" required htmlFor="name">
@@ -174,7 +208,7 @@ export function ApplicationForm() {
           <Field
             label="Links"
             htmlFor="links"
-            hint="LinkedIn, GitHub, X, personal site — one per line is fine"
+            hint="LinkedIn, GitHub, X, personal site — comma-separated is fine"
           >
             <TextInput
               id="links"
@@ -189,6 +223,7 @@ export function ApplicationForm() {
 
       {/* ───────────────────────────── 02 · Team */}
       <FormSection
+        id="team"
         index={2}
         label="Team"
         title="Are you building solo, or with co-founders?"
@@ -215,7 +250,9 @@ export function ApplicationForm() {
                 id="cofounders"
                 name="cofounders"
                 rows={4}
-                placeholder={"Ada Lovelace · ada@uaustin.org · Engineering\nCharles Babbage · charles@uaustin.org · Hardware"}
+                placeholder={
+                  "Ada Lovelace · ada@uaustin.org · Engineering\nCharles Babbage · charles@uaustin.org · Hardware"
+                }
                 disabled={disabled}
               />
             </Field>
@@ -229,7 +266,10 @@ export function ApplicationForm() {
                   disabled={disabled}
                 />
               </Field>
-              <Field label="How long have you worked together?" htmlFor="worked">
+              <Field
+                label="How long have you worked together?"
+                htmlFor="worked"
+              >
                 <TextInput
                   id="worked"
                   name="worked"
@@ -245,6 +285,7 @@ export function ApplicationForm() {
 
       {/* ───────────────────────────── 03 · Company */}
       <FormSection
+        id="company"
         index={3}
         label="Company"
         title="What are you calling it?"
@@ -260,7 +301,11 @@ export function ApplicationForm() {
               disabled={disabled}
             />
           </Field>
-          <Field label="Website / URL" htmlFor="url" hint="If you have one yet">
+          <Field
+            label="Website / URL"
+            htmlFor="url"
+            hint="If you have one yet"
+          >
             <TextInput
               id="url"
               name="url"
@@ -302,23 +347,25 @@ export function ApplicationForm() {
           label="One-line description"
           required
           htmlFor="oneliner"
-          hint="The shortest version you can write. Imagine telling a stranger in an elevator"
-          counter="max 140"
+          hint="The shortest version you can write — imagine telling a stranger in an elevator"
+          counter={<CharCounter current={counts.oneliner} max={MAX.oneliner} />}
         >
           <TextInput
             id="oneliner"
             name="oneliner"
             type="text"
             required
-            maxLength={140}
+            maxLength={MAX.oneliner}
             placeholder="We’re building …"
             disabled={disabled}
+            onChange={track("oneliner")}
           />
         </Field>
       </FormSection>
 
       {/* ───────────────────────────── 04 · What & why */}
       <FormSection
+        id="what-why"
         index={4}
         label="What & why"
         title="Walk us through what you’re building"
@@ -328,16 +375,17 @@ export function ApplicationForm() {
           label="What are you building?"
           required
           htmlFor="what"
-          counter="aim ~ 500 chars"
+          counter={<CharCounter current={counts.what} max={MAX.what} />}
         >
           <TextArea
             id="what"
             name="what"
             rows={5}
             required
-            maxLength={1200}
+            maxLength={MAX.what}
             placeholder="The product, roughly how it works, and who uses it"
             disabled={disabled}
+            onChange={track("what")}
           />
         </Field>
 
@@ -345,16 +393,17 @@ export function ApplicationForm() {
           label="What problem does it solve, and for whom?"
           required
           htmlFor="problem"
-          counter="aim ~ 500 chars"
+          counter={<CharCounter current={counts.problem} max={MAX.problem} />}
         >
           <TextArea
             id="problem"
             name="problem"
             rows={5}
             required
-            maxLength={1200}
+            maxLength={MAX.problem}
             placeholder="Who feels this problem, how they solve it today, and why that’s bad"
             disabled={disabled}
+            onChange={track("problem")}
           />
         </Field>
 
@@ -362,21 +411,23 @@ export function ApplicationForm() {
           label="Why now?"
           htmlFor="why_now"
           hint="What has changed in the world that makes this the right time"
-          counter="aim ~ 300 chars"
+          counter={<CharCounter current={counts.why_now} max={MAX.why_now} />}
         >
           <TextArea
             id="why_now"
             name="why_now"
             rows={4}
-            maxLength={800}
+            maxLength={MAX.why_now}
             placeholder="A technology, behavior, regulation, cost curve — something that recently shifted"
             disabled={disabled}
+            onChange={track("why_now")}
           />
         </Field>
       </FormSection>
 
       {/* ───────────────────────────── 05 · Progress */}
       <FormSection
+        id="progress"
         index={5}
         label="Progress"
         title="Where is it today?"
@@ -433,39 +484,42 @@ export function ApplicationForm() {
         <Field
           label="What have you already built or shipped?"
           htmlFor="built"
-          counter="aim ~ 300 chars"
+          counter={<CharCounter current={counts.built} max={MAX.built} />}
         >
           <TextArea
             id="built"
             name="built"
             rows={4}
-            maxLength={800}
+            maxLength={MAX.built}
             placeholder="Prototypes, demos, landing pages, research, pilot conversations"
             disabled={disabled}
+            onChange={track("built")}
           />
         </Field>
       </FormSection>
 
       {/* ───────────────────────────── 06 · Why you */}
       <FormSection
+        id="why-you"
         index={6}
         label="Why you"
-        title="Why are you the right person/team for this?"
+        title="Why are you the right person or team for this?"
       >
         <Field
           label="Why you?"
           required
           htmlFor="why_you"
-          counter="aim ~ 500 chars"
+          counter={<CharCounter current={counts.why_you} max={MAX.why_you} />}
         >
           <TextArea
             id="why_you"
             name="why_you"
             rows={5}
             required
-            maxLength={1200}
+            maxLength={MAX.why_you}
             placeholder="Background, obsessions, past projects, unfair advantages"
             disabled={disabled}
+            onChange={track("why_you")}
           />
         </Field>
 
@@ -505,6 +559,7 @@ export function ApplicationForm() {
 
       {/* ───────────────────────────── 07 · Ask */}
       <FormSection
+        id="ask"
         index={7}
         label="Ask"
         title="What are you asking NorthStar for?"
@@ -544,16 +599,19 @@ export function ApplicationForm() {
           label="How would you deploy the capital?"
           required
           htmlFor="use_of_funds"
-          counter="aim ~ 400 chars"
+          counter={
+            <CharCounter current={counts.use_of_funds} max={MAX.use_of_funds} />
+          }
         >
           <TextArea
             id="use_of_funds"
             name="use_of_funds"
             rows={4}
             required
-            maxLength={1000}
+            maxLength={MAX.use_of_funds}
             placeholder="Roughly how the money gets spent — compute, tools, components, contractors, pilots"
             disabled={disabled}
+            onChange={track("use_of_funds")}
           />
         </Field>
 
@@ -561,29 +619,37 @@ export function ApplicationForm() {
           label="Milestones you commit to in 6 months"
           required
           htmlFor="milestones"
-          hint="These will become your personalized milestones, reviewed monthly with the Executive Director"
-          counter="aim ~ 500 chars"
+          hint="These become your personalized milestones, reviewed monthly with the Executive Director"
+          counter={
+            <CharCounter current={counts.milestones} max={MAX.milestones} />
+          }
         >
           <TextArea
             id="milestones"
             name="milestones"
             rows={5}
             required
-            maxLength={1200}
-            placeholder="Be specific — users, revenue, shipped features, design partners, etc"
+            maxLength={MAX.milestones}
+            placeholder="Be specific — users, revenue, shipped features, design partners"
             disabled={disabled}
+            onChange={track("milestones")}
           />
         </Field>
       </FormSection>
 
       {/* ───────────────────────────── 08 · Video */}
       <FormSection
+        id="video"
         index={8}
         label="Video"
         title="A one-minute introduction"
-        lede="Record a short Loom or YouTube unlisted link of you (and any co-founders) explaining what you’re building. Phone camera is fine"
+        lede="Record a short Loom or YouTube unlisted video of you (and any co-founders) explaining what you’re building. Phone camera is fine"
       >
-        <Field label="Video URL" htmlFor="video_url" hint="Loom, YouTube unlisted, or Google Drive">
+        <Field
+          label="Video URL"
+          htmlFor="video_url"
+          hint="Loom, YouTube unlisted, or Google Drive"
+        >
           <TextInput
             id="video_url"
             name="video_url"
@@ -596,47 +662,59 @@ export function ApplicationForm() {
 
       {/* ───────────────────────────── 09 · Anything else */}
       <FormSection
+        id="else"
         index={9}
         label="Anything else"
         title="Anything we should know that we haven’t asked?"
       >
-        <Field label="Notes" htmlFor="extra" counter="max 800 chars">
+        <Field
+          label="Notes"
+          htmlFor="extra"
+          counter={<CharCounter current={counts.extra} max={MAX.extra} />}
+        >
           <TextArea
             id="extra"
             name="extra"
             rows={5}
-            maxLength={800}
+            maxLength={MAX.extra}
             placeholder="Context, concerns, questions, clarifications — whatever is on your mind"
             disabled={disabled}
+            onChange={track("extra")}
           />
         </Field>
       </FormSection>
 
       {/* ───────────────────────────── Submit */}
-      <div className="border-t border-hair py-16 md:py-24">
-        <div className="shell mx-auto flex max-w-3xl flex-col items-center gap-6 text-center">
-          <p className="eyebrow">Ready</p>
-          <h2 className="display-md text-balance">
+      <div className="border-t border-white/10 py-20 md:py-28">
+        <div className="mx-auto flex max-w-2xl flex-col items-center gap-6 text-center">
+          <p className="text-[11px] uppercase tracking-[0.18em] text-white/45">
+            Ready
+          </p>
+          <h2 className="text-[clamp(30px,3.4vw,44px)] font-medium leading-[1.05] tracking-[-0.02em] text-white text-balance">
             Submit your application
           </h2>
-          <p className="body max-w-[52ch] text-balance">
+          <p className="max-w-[52ch] text-[15px] leading-[1.55] text-white/55 text-balance">
             Applications are reviewed on a rolling basis by the Executive
-            Director of the Innovation Labs. You’ll hear back within two
-            weeks
+            Director of the Innovation Labs. You’ll hear back within two weeks
           </p>
 
           <button
             type="submit"
             disabled={disabled}
-            className="mt-4 inline-flex h-12 items-center rounded-full bg-white px-7 text-[14px] font-medium tracking-tight text-navy transition-colors hover:bg-white/90 disabled:opacity-60"
+            className="mt-4 inline-flex h-12 items-center rounded-full bg-white px-8 text-[14px] font-medium tracking-tight text-navy transition-[transform,opacity,background-color] hover:bg-white/90 active:scale-[0.98] disabled:opacity-60"
           >
             {status === "submitting" ? "Submitting…" : "Submit application"}
           </button>
 
+          <p className="text-[12px] text-white/40">
+            By submitting, you confirm the information above is accurate to the
+            best of your knowledge
+          </p>
+
           <p
-            className={`h-4 text-[12px] transition-opacity ${
+            className={`h-4 text-[12.5px] transition-opacity ${
               message ? "opacity-100" : "opacity-0"
-            } ${status === "error" ? "text-red-300" : "text-mute"}`}
+            } ${status === "error" ? "text-red-300" : "text-white/55"}`}
             role={status === "error" ? "alert" : "status"}
             aria-live="polite"
           >
@@ -645,5 +723,60 @@ export function ApplicationForm() {
         </div>
       </div>
     </form>
+  );
+}
+
+function SuccessState() {
+  const steps = [
+    {
+      marker: "T + 0",
+      title: "Application received",
+      body: "Your submission is logged and acknowledged",
+    },
+    {
+      marker: "Week 1",
+      title: "First-pass review",
+      body: "The Innovation Labs team reads every application personally",
+    },
+    {
+      marker: "Week 2",
+      title: "Response",
+      body: "You hear back either way — with a decision or an invitation to a follow-up conversation",
+    },
+  ];
+  return (
+    <div className="mx-auto max-w-2xl py-24 md:py-40">
+      <div className="text-center">
+        <p className="text-[11px] uppercase tracking-[0.18em] text-white/45">
+          Application received
+        </p>
+        <h2 className="mt-6 text-[clamp(36px,5vw,60px)] font-medium leading-[1] tracking-[-0.025em] text-white text-balance">
+          Thank you — we have your submission
+        </h2>
+        <p className="mx-auto mt-6 max-w-[52ch] text-[15.5px] leading-[1.55] text-white/60 text-balance">
+          A member of the Innovation Labs team will review your application and
+          reach out within two weeks. Keep building in the meantime
+        </p>
+      </div>
+
+      <ol className="mt-16 border-t border-white/10">
+        {steps.map((s) => (
+          <li
+            key={s.marker}
+            className="grid grid-cols-12 gap-x-6 border-b border-white/10 py-6"
+          >
+            <span className="col-span-3 text-[11px] uppercase tracking-[0.16em] text-white/45 md:col-span-2">
+              {s.marker}
+            </span>
+            <div className="col-span-9 md:col-span-10">
+              <p className="text-[15px] font-medium text-white">{s.title}</p>
+              <p className="mt-1 text-[14px] leading-[1.55] text-white/55">
+                {s.body}
+              </p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
   );
 }

@@ -1,0 +1,20 @@
+@import url("https://api.fontshare.com/v2/css?f[]=general-sans@300,400,500,600,700&display=swap");
+
+/* Scope every font inside the apply section to General Sans — override the
+   Geist Sans / Mono / Fraunces serif fallbacks defined in globals.css. */
+.font-general-sans,
+.font-general-sans * {
+  font-family:
+    "General Sans",
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    "Segoe UI",
+    sans-serif !important;
+  font-variation-settings: normal !important;
+}
+
+/* Section anchor offset so the sticky nav doesn't cover jumped-to sections. */
+.font-general-sans [data-apply-section] {
+  scroll-margin-top: 6.5rem;
+}
