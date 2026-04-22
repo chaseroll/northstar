@@ -75,12 +75,12 @@ export function ApplicationForm() {
       });
       if (!res.ok) throw new Error(await res.text());
       setStatus("success");
-      setMessage("Application received. We’ll be in touch.");
+      setMessage("Application received — we’ll be in touch");
       form.reset();
       window.scrollTo({ top: 0, behavior: "smooth" });
     } catch {
       setStatus("error");
-      setMessage("Something went wrong. Try again.");
+      setMessage("Something went wrong — try again");
     }
   }
 
@@ -89,11 +89,11 @@ export function ApplicationForm() {
       <div className="mx-auto max-w-2xl py-24 text-center md:py-40">
         <p className="eyebrow mb-8">Application received</p>
         <h2 className="display-lg text-balance">
-          Thank you. We have your submission.
+          Thank you — we have your submission
         </h2>
         <p className="body mx-auto mt-6 max-w-[52ch] text-balance">
           A member of the Innovation Labs team will review your application
-          and reach out within two weeks. Keep building in the meantime.
+          and reach out within two weeks. Keep building in the meantime
         </p>
       </div>
     );
@@ -107,8 +107,8 @@ export function ApplicationForm() {
       <FormSection
         index={1}
         label="Founder"
-        title="Tell us who you are."
-        lede="You — the person (or lead founder) behind what you’re building. We review every application; answers here should be you, not a deck voice."
+        title="Tell us who you are"
+        lede="You — the person (or lead founder) behind what you’re building. We review every application; answers here should be you, not a deck voice"
       >
         <FieldGrid cols={2}>
           <Field label="Full name" required htmlFor="name">
@@ -133,7 +133,7 @@ export function ApplicationForm() {
               disabled={disabled}
             />
           </Field>
-          <Field label="Phone" htmlFor="phone" hint="Optional, but helpful.">
+          <Field label="Phone" htmlFor="phone" hint="Optional, but helpful">
             <TextInput
               id="phone"
               name="phone"
@@ -174,7 +174,7 @@ export function ApplicationForm() {
           <Field
             label="Links"
             htmlFor="links"
-            hint="LinkedIn, GitHub, X, personal site — one per line is fine."
+            hint="LinkedIn, GitHub, X, personal site — one per line is fine"
           >
             <TextInput
               id="links"
@@ -192,7 +192,7 @@ export function ApplicationForm() {
         index={2}
         label="Team"
         title="Are you building solo, or with co-founders?"
-        lede="Solo is fine. Teams are also fine. If you have co-founders, list them below so we can review the whole team."
+        lede="Solo is fine. Teams are also fine. If you have co-founders, list them below so we can review the whole team"
       >
         <Field label="Team structure" required>
           <RadioGroup
@@ -209,7 +209,7 @@ export function ApplicationForm() {
             <Field
               label="Co-founders"
               htmlFor="cofounders"
-              hint="One per line. Name · email · role (e.g. Ada Lovelace · ada@uaustin.org · Engineering)."
+              hint="One per line. Name · email · role (e.g. Ada Lovelace · ada@uaustin.org · Engineering)"
             >
               <TextArea
                 id="cofounders"
@@ -260,7 +260,7 @@ export function ApplicationForm() {
               disabled={disabled}
             />
           </Field>
-          <Field label="Website / URL" htmlFor="url" hint="If you have one yet.">
+          <Field label="Website / URL" htmlFor="url" hint="If you have one yet">
             <TextInput
               id="url"
               name="url"
@@ -302,7 +302,7 @@ export function ApplicationForm() {
           label="One-line description"
           required
           htmlFor="oneliner"
-          hint="The shortest version you can write. Imagine telling a stranger in an elevator."
+          hint="The shortest version you can write. Imagine telling a stranger in an elevator"
           counter="max 140"
         >
           <TextInput
@@ -321,8 +321,8 @@ export function ApplicationForm() {
       <FormSection
         index={4}
         label="What & why"
-        title="Walk us through what you’re building."
-        lede="Write like you’re explaining it to a smart friend. No jargon, no deck voice."
+        title="Walk us through what you’re building"
+        lede="Write like you’re explaining it to a smart friend. No jargon, no deck voice"
       >
         <Field
           label="What are you building?"
@@ -336,7 +336,7 @@ export function ApplicationForm() {
             rows={5}
             required
             maxLength={1200}
-            placeholder="The product, roughly how it works, and who uses it."
+            placeholder="The product, roughly how it works, and who uses it"
             disabled={disabled}
           />
         </Field>
@@ -353,7 +353,7 @@ export function ApplicationForm() {
             rows={5}
             required
             maxLength={1200}
-            placeholder="Who feels this problem, how they solve it today, and why that’s bad."
+            placeholder="Who feels this problem, how they solve it today, and why that’s bad"
             disabled={disabled}
           />
         </Field>
@@ -361,7 +361,7 @@ export function ApplicationForm() {
         <Field
           label="Why now?"
           htmlFor="why_now"
-          hint="What has changed in the world that makes this the right time."
+          hint="What has changed in the world that makes this the right time"
           counter="aim ~ 300 chars"
         >
           <TextArea
@@ -369,7 +369,7 @@ export function ApplicationForm() {
             name="why_now"
             rows={4}
             maxLength={800}
-            placeholder="A technology, behavior, regulation, cost curve — something that recently shifted."
+            placeholder="A technology, behavior, regulation, cost curve — something that recently shifted"
             disabled={disabled}
           />
         </Field>
@@ -380,7 +380,7 @@ export function ApplicationForm() {
         index={5}
         label="Progress"
         title="Where is it today?"
-        lede="Be honest. ‘Idea on paper’ is a perfectly valid answer for a first cohort."
+        lede="Be honest — ‘idea on paper’ is a perfectly valid answer for a first cohort"
       >
         <FieldGrid cols={2}>
           <Field label="Stage" required htmlFor="stage">
@@ -440,7 +440,7 @@ export function ApplicationForm() {
             name="built"
             rows={4}
             maxLength={800}
-            placeholder="Prototypes, demos, landing pages, research, pilot conversations."
+            placeholder="Prototypes, demos, landing pages, research, pilot conversations"
             disabled={disabled}
           />
         </Field>
@@ -464,7 +464,7 @@ export function ApplicationForm() {
             rows={5}
             required
             maxLength={1200}
-            placeholder="Background, obsessions, past projects, unfair advantages."
+            placeholder="Background, obsessions, past projects, unfair advantages"
             disabled={disabled}
           />
         </Field>
@@ -473,7 +473,7 @@ export function ApplicationForm() {
           label="Time commitment"
           required
           htmlFor="hours"
-          hint="Hours per week you can commit to NorthStar during the program."
+          hint="Hours per week you can commit to NorthStar during the program"
         >
           <TextInput
             id="hours"
@@ -489,7 +489,7 @@ export function ApplicationForm() {
           label="Are you currently enrolled at UATX?"
           required
           htmlFor="enrolled"
-          hint="Admission requires active UATX enrollment for the duration of the program."
+          hint="Admission requires active UATX enrollment for the duration of the program"
         >
           <RadioGroup
             name="enrolled"
@@ -508,7 +508,7 @@ export function ApplicationForm() {
         index={7}
         label="Ask"
         title="What are you asking NorthStar for?"
-        lede="Grants are non-equity, up to $50,000 per company per year. The initial amount is set by the Executive Director based on stage, scope, and need."
+        lede="Grants are non-equity, up to $50,000 per company per year. The initial amount is set by the Executive Director based on stage, scope, and need"
       >
         <FieldGrid cols={2}>
           <Field label="Requested grant range" required htmlFor="ask_amount">
@@ -552,7 +552,7 @@ export function ApplicationForm() {
             rows={4}
             required
             maxLength={1000}
-            placeholder="Roughly how the money gets spent — compute, tools, components, contractors, pilots."
+            placeholder="Roughly how the money gets spent — compute, tools, components, contractors, pilots"
             disabled={disabled}
           />
         </Field>
@@ -561,7 +561,7 @@ export function ApplicationForm() {
           label="Milestones you commit to in 6 months"
           required
           htmlFor="milestones"
-          hint="These will become your personalized milestones, reviewed monthly with the Executive Director."
+          hint="These will become your personalized milestones, reviewed monthly with the Executive Director"
           counter="aim ~ 500 chars"
         >
           <TextArea
@@ -570,7 +570,7 @@ export function ApplicationForm() {
             rows={5}
             required
             maxLength={1200}
-            placeholder="Be specific. Users, revenue, shipped features, design partners, etc."
+            placeholder="Be specific — users, revenue, shipped features, design partners, etc"
             disabled={disabled}
           />
         </Field>
@@ -580,10 +580,10 @@ export function ApplicationForm() {
       <FormSection
         index={8}
         label="Video"
-        title="A one-minute introduction."
-        lede="Record a short Loom or YouTube unlisted link of you (and any co-founders) explaining what you’re building. Phone camera is fine."
+        title="A one-minute introduction"
+        lede="Record a short Loom or YouTube unlisted link of you (and any co-founders) explaining what you’re building. Phone camera is fine"
       >
-        <Field label="Video URL" htmlFor="video_url" hint="Loom, YouTube unlisted, or Google Drive.">
+        <Field label="Video URL" htmlFor="video_url" hint="Loom, YouTube unlisted, or Google Drive">
           <TextInput
             id="video_url"
             name="video_url"
@@ -606,7 +606,7 @@ export function ApplicationForm() {
             name="extra"
             rows={5}
             maxLength={800}
-            placeholder="Context, concerns, questions, clarifications — whatever is on your mind."
+            placeholder="Context, concerns, questions, clarifications — whatever is on your mind"
             disabled={disabled}
           />
         </Field>
@@ -617,12 +617,12 @@ export function ApplicationForm() {
         <div className="shell mx-auto flex max-w-3xl flex-col items-center gap-6 text-center">
           <p className="eyebrow">Ready</p>
           <h2 className="display-md text-balance">
-            Submit your application.
+            Submit your application
           </h2>
           <p className="body max-w-[52ch] text-balance">
             Applications are reviewed on a rolling basis by the Executive
             Director of the Innovation Labs. You’ll hear back within two
-            weeks.
+            weeks
           </p>
 
           <button
