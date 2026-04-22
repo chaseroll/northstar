@@ -3,7 +3,7 @@ import { StarMark } from "./star-mark";
 
 export function Nav() {
   return (
-    <header className="fixed inset-x-0 top-0 z-40 bg-navy/70 backdrop-blur-md">
+    <header className="fixed inset-x-0 top-0 z-40 border-b border-white/[0.06] bg-white/[0.04] backdrop-blur-xl backdrop-saturate-150">
       <div className="shell flex h-20 items-center justify-between">
         <Link
           href="/"

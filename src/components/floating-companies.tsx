@@ -74,13 +74,12 @@ export function FloatingCompanies() {
             target="_blank"
             rel="noreferrer noopener"
             aria-label={`Visit ${company.name}`}
-            className={`group pointer-events-auto absolute -translate-x-1/2 -translate-y-1/2 whitespace-nowrap font-mono uppercase tracking-[0.16em] text-white opacity-[0.1] transition-[opacity,letter-spacing,text-shadow] duration-300 ease-out hover:opacity-100 hover:tracking-[0.22em] hover:[text-shadow:0_0_18px_rgba(255,255,255,0.7),0_0_44px_rgba(255,255,255,0.25)] ${
-              pos.mobile ? "" : "hidden md:inline-block"
+            className={`group pointer-events-auto absolute flex -translate-x-1/2 -translate-y-1/2 items-center justify-center whitespace-nowrap ${
+              pos.mobile ? "" : "hidden md:flex"
             }`}
             style={{
               left: `${pos.x}%`,
               top: `${pos.y}%`,
-              fontSize: `${pos.size}px`,
             }}
             animate={
               reduce
@@ -101,12 +100,37 @@ export function FloatingCompanies() {
               transition: { duration: 0.25, ease: "easeOut" },
             }}
           >
-            {company.name}
+            {/* Outer soft halo */}
             <span
               aria-hidden
-              className="ml-1.5 opacity-0 transition-opacity duration-200 group-hover:opacity-80"
+              className="absolute size-40 opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100"
+              style={{
+                background:
+                  "radial-gradient(closest-side, rgba(255,255,255,0.22), rgba(255,255,255,0) 70%)",
+              }}
+            />
+            {/* Inner bright halo */}
+            <span
+              aria-hidden
+              className="absolute size-20 opacity-0 transition-opacity duration-300 ease-out group-hover:opacity-100"
+              style={{
+                background:
+                  "radial-gradient(closest-side, rgba(255,255,255,0.5), rgba(255,255,255,0) 72%)",
+              }}
+            />
+
+            {/* Text — faded by default, ignites on hover */}
+            <span
+              className="relative font-mono uppercase tracking-[0.16em] text-white opacity-[0.1] transition-[opacity,letter-spacing,text-shadow] duration-300 ease-out group-hover:opacity-100 group-hover:tracking-[0.22em] group-hover:[text-shadow:0_0_14px_rgba(255,255,255,0.6),0_0_32px_rgba(255,255,255,0.3)]"
+              style={{ fontSize: `${pos.size}px` }}
             >
-              ↗
+              {company.name}
+              <span
+                aria-hidden
+                className="ml-1.5 opacity-0 transition-opacity duration-200 group-hover:opacity-80"
+              >
+                ↗
+              </span>
             </span>
           </motion.a>
         );
