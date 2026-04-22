@@ -55,7 +55,7 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} ${fraunces.variable} h-full antialiased`}
     >
       <body className="min-h-full bg-navy text-white font-sans selection:bg-white/20 selection:text-white">
-        <StarField />
+        <StarField density={0.00011} baseOpacity={0.9} maxStars={260} />
         <FloatingStars />
         <FloatingCompanies />
         {children}

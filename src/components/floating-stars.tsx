@@ -20,20 +20,20 @@ type Star = {
 };
 
 const STARS: Star[] = [
-  { x: 10, y: 35, size: 9, opacity: 0.4 },
-  { x: 35, y: 25, size: 8, opacity: 0.35 },
-  { x: 58, y: 30, size: 11, opacity: 0.5 },
-  { x: 80, y: 38, size: 9, opacity: 0.4 },
-  { x: 18, y: 58, size: 10, opacity: 0.45 },
-  { x: 50, y: 60, size: 12, opacity: 0.55 },
-  { x: 67, y: 50, size: 9, opacity: 0.4 },
-  { x: 95, y: 48, size: 10, opacity: 0.45 },
-  { x: 8, y: 88, size: 8, opacity: 0.35 },
-  { x: 45, y: 82, size: 11, opacity: 0.5 },
-  { x: 66, y: 88, size: 9, opacity: 0.4 },
-  { x: 88, y: 92, size: 10, opacity: 0.45 },
-  { x: 24, y: 42, size: 8, opacity: 0.35 },
-  { x: 74, y: 72, size: 9, opacity: 0.4 },
+  { x: 10, y: 35, size: 12, opacity: 0.7 },
+  { x: 35, y: 25, size: 10, opacity: 0.55 },
+  { x: 58, y: 30, size: 15, opacity: 0.85 },
+  { x: 80, y: 38, size: 12, opacity: 0.65 },
+  { x: 18, y: 58, size: 13, opacity: 0.75 },
+  { x: 50, y: 60, size: 17, opacity: 0.9 },
+  { x: 67, y: 50, size: 11, opacity: 0.6 },
+  { x: 95, y: 48, size: 13, opacity: 0.75 },
+  { x: 8, y: 88, size: 10, opacity: 0.55 },
+  { x: 45, y: 82, size: 14, opacity: 0.8 },
+  { x: 66, y: 88, size: 11, opacity: 0.65 },
+  { x: 88, y: 92, size: 13, opacity: 0.75 },
+  { x: 24, y: 42, size: 10, opacity: 0.55 },
+  { x: 74, y: 72, size: 12, opacity: 0.7 },
 ];
 
 export function FloatingStars() {
