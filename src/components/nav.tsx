@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { motion, useAnimationControls } from "framer-motion";
 import { useCallback, useEffect, useState } from "react";
 import { StarMark } from "./star-mark";
 
@@ -31,6 +32,27 @@ export function Nav() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [isDark, setIsDark] = useState(true);
+
+  // Wordmark "comet" underline — a glowing gradient hairline that sweeps
+  // open from the left on hover and clips out to the right on leave,
+  // driven by framer-motion clip-path animation.
+  const wordmarkLineControls = useAnimationControls();
+
+  const handleWordmarkEnter = useCallback(() => {
+    wordmarkLineControls.start({
+      clipPath: ["inset(0 100% 0 0)", "inset(0 0% 0 0)"],
+      opacity: [0.85, 1],
+      transition: { duration: 0.42, ease: "easeOut" },
+    });
+  }, [wordmarkLineControls]);
+
+  const handleWordmarkLeave = useCallback(() => {
+    wordmarkLineControls.start({
+      clipPath: ["inset(0 0% 0 0)", "inset(0 0% 0 100%)"],
+      opacity: [1, 0],
+      transition: { duration: 0.4, ease: "easeInOut" },
+    });
+  }, [wordmarkLineControls]);
 
   // Theme-of-what's-under-the-nav detection. Light sections opt in via
   // `data-theme="light"` on their outer element; we check whether any
@@ -145,7 +167,9 @@ export function Nav() {
           <Link
             href="/"
             aria-label="North Star — home"
-            className="group flex items-center gap-2.5 transition-opacity duration-300 hover:opacity-75"
+            onMouseEnter={handleWordmarkEnter}
+            onMouseLeave={handleWordmarkLeave}
+            className="group relative flex items-center gap-2.5 pb-1.5"
           >
             <StarMark
               className={`size-[22px] shrink-0 transition-colors duration-500 ${
@@ -159,6 +183,21 @@ export function Nav() {
             >
               North Star
             </span>
+            <motion.span
+              aria-hidden
+              className={`pointer-events-none absolute bottom-0 left-0 h-px w-full ${
+                isDark
+                  ? "bg-gradient-to-r from-white/10 via-white/40 to-white"
+                  : "bg-gradient-to-r from-ink/10 via-ink/40 to-ink"
+              }`}
+              initial={{ clipPath: "inset(0 100% 0 0)", opacity: 0 }}
+              animate={wordmarkLineControls}
+              style={{
+                boxShadow: isDark
+                  ? "0 0 8px rgba(255,255,255,0.35)"
+                  : "0 0 6px rgba(10,15,34,0.18)",
+              }}
+            />
           </Link>
 
           <div className="hidden items-center gap-8 sm:flex">
