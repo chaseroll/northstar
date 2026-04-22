@@ -7,16 +7,16 @@ import { useId } from "react";
  * NorthStar — anamorphic lens-flare guide star.
  *
  * Composition (bottom → top):
- *   1. Outer corona bloom (wide, soft, low-opacity)
- *   2. Secondary 45° rays (very faint — gives it 8-point presence)
+ *   1. Outer corona bloom (wide, soft, gently pulsing opacity)
+ *   2. Secondary 45° rays (very faint — gives 8-point presence)
  *   3. Long tapered vertical beam (soft glow + sharp inner highlight)
  *   4. Shorter tapered horizontal beam
- *   5. Diffraction hairlines beyond beam tips (camera flare feel)
+ *   5. Diffraction hairlines beyond beam tips
  *   6. Hot white core with radial bloom
  *   7. Tiny specular pinprick
  *
- * Motion: only a slow breath on the core. The star is a fixed point of
- * reference — it does not follow the cursor.
+ * All colors are pure white. No blue tint. No expanding ring pulse —
+ * the "pulse" is just the bloom's opacity breathing in sync with the core.
  */
 export function NorthStar({
   size = 720,
@@ -52,14 +52,14 @@ export function NorthStar({
           <radialGradient id={id.core} cx="50%" cy="50%" r="50%">
             <stop offset="0%" stopColor="#ffffff" stopOpacity="1" />
             <stop offset="18%" stopColor="#ffffff" stopOpacity="0.95" />
-            <stop offset="45%" stopColor="#dfe6ff" stopOpacity="0.35" />
-            <stop offset="100%" stopColor="#dfe6ff" stopOpacity="0" />
+            <stop offset="45%" stopColor="#ffffff" stopOpacity="0.35" />
+            <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
           </radialGradient>
 
           <radialGradient id={id.bloom} cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="#ffffff" stopOpacity="0.38" />
-            <stop offset="35%" stopColor="#c7d3ff" stopOpacity="0.10" />
-            <stop offset="100%" stopColor="#c7d3ff" stopOpacity="0" />
+            <stop offset="0%" stopColor="#ffffff" stopOpacity="0.34" />
+            <stop offset="35%" stopColor="#ffffff" stopOpacity="0.10" />
+            <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
           </radialGradient>
 
           <linearGradient id={id.vbeam} x1="0" y1="0" x2="0" y2="1">
@@ -99,13 +99,19 @@ export function NorthStar({
           </filter>
         </defs>
 
-        {/* 1 · Outer atmospheric bloom */}
-        <circle
+        {/* 1 · Outer atmospheric bloom — breathes gently for a soft pulse */}
+        <motion.circle
           cx="0"
           cy="0"
           r="170"
           fill={`url(#${id.bloom})`}
           filter={`url(#${id.bigBlur})`}
+          animate={{ opacity: [0.85, 1, 0.85] }}
+          transition={{
+            duration: 6.5,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
         />
 
         {/* 2 · Secondary 45° rays */}

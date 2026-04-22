@@ -1,16 +1,20 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import {
+  motion,
+  useMotionValue,
+  useReducedMotion,
+  useTransform,
+  type MotionValue,
+} from "framer-motion";
+import { useEffect, useRef } from "react";
 
 /**
- * FloatingCompanies — company names scattered across the full viewport,
- * drifting among the ambient starfield. Default state is near-invisible;
- * hovering makes the name ignite with a soft text-glow and reveal an arrow.
- * Clicking opens the company in a new tab.
- *
- * Positions are hand-picked to be deliberately non-patterned (no ring, no
- * grid) and avoid the very top (nav) and bottom (footer) of the viewport.
+ * FloatingCompanies — company names scattered across the hero. Each name
+ * brightens based on cursor **proximity**, not direct hover. Clicking opens
+ * the company in a new tab.
  */
+
 const COMPANIES: Array<{ name: string; url: string }> = [
   { name: "Anduril", url: "https://www.anduril.com" },
   { name: "Palantir", url: "https://www.palantir.com" },
@@ -27,88 +31,194 @@ const COMPANIES: Array<{ name: string; url: string }> = [
 ];
 
 type Position = {
-  x: number; // % viewport width
-  y: number; // % viewport height
+  x: number;
+  y: number;
   size: 10 | 11 | 12 | 13;
   mobile: boolean;
 };
 
-/** Intentionally irregular — no ring, no grid, no symmetry. */
+/** Intentionally irregular — clusters, loners, no grid. */
 const POSITIONS: Position[] = [
-  { x: 7, y: 22, size: 12, mobile: true },
-  { x: 24, y: 13, size: 11, mobile: false },
-  { x: 48, y: 9, size: 13, mobile: true },
-  { x: 71, y: 17, size: 11, mobile: false },
-  { x: 92, y: 28, size: 12, mobile: true },
-  { x: 4, y: 52, size: 11, mobile: false },
-  { x: 38, y: 44, size: 13, mobile: false },
-  { x: 87, y: 55, size: 12, mobile: false },
-  { x: 16, y: 74, size: 11, mobile: false },
-  { x: 54, y: 67, size: 12, mobile: true },
-  { x: 78, y: 80, size: 11, mobile: false },
-  { x: 32, y: 86, size: 12, mobile: true },
+  { x: 4, y: 18, size: 11, mobile: true },
+  { x: 19, y: 11, size: 13, mobile: false },
+  { x: 38, y: 7, size: 10, mobile: false },
+  { x: 66, y: 14, size: 12, mobile: false },
+  { x: 93, y: 9, size: 11, mobile: true },
+  { x: 8, y: 43, size: 12, mobile: false },
+  { x: 47, y: 38, size: 11, mobile: false },
+  { x: 88, y: 46, size: 13, mobile: true },
+  { x: 22, y: 63, size: 11, mobile: false },
+  { x: 71, y: 71, size: 12, mobile: false },
+  { x: 12, y: 89, size: 10, mobile: true },
+  { x: 56, y: 93, size: 12, mobile: false },
 ];
 
-export function FloatingCompanies() {
-  const reduce = useReducedMotion();
+const PROX_RADIUS = 220;
+
+function CompanyLink({
+  company,
+  pos,
+  index,
+  mouseX,
+  mouseY,
+  rectRef,
+  reduce,
+}: {
+  company: { name: string; url: string };
+  pos: Position;
+  index: number;
+  mouseX: MotionValue<number>;
+  mouseY: MotionValue<number>;
+  rectRef: React.MutableRefObject<DOMRect | null>;
+  reduce: boolean;
+}) {
+  // Explicit subscription pattern: one motion value per link, updated
+  // whenever the shared mouse motion values change.
+  const proximity = useMotionValue(0);
+
+  useEffect(() => {
+    const update = () => {
+      const rect = rectRef.current;
+      if (!rect) {
+        proximity.set(0);
+        return;
+      }
+      const mx = mouseX.get();
+      const my = mouseY.get();
+      const cx = rect.left + (pos.x / 100) * rect.width;
+      const cy = rect.top + (pos.y / 100) * rect.height;
+      const dist = Math.hypot(mx - cx, my - cy);
+      const raw = Math.max(0, Math.min(1, 1 - dist / PROX_RADIUS));
+      proximity.set(raw * raw);
+    };
+    update();
+    const unsubX = mouseX.on("change", update);
+    const unsubY = mouseY.on("change", update);
+    return () => {
+      unsubX();
+      unsubY();
+    };
+  }, [mouseX, mouseY, pos.x, pos.y, proximity, rectRef]);
+
+  const opacity = useTransform(proximity, (p) => 0.1 + p * 0.9);
+  const scale = useTransform(proximity, (p) => 1 + p * 0.08);
+  const letterSpacing = useTransform(
+    proximity,
+    (p) => `${0.16 + p * 0.06}em`,
+  );
+  const textShadow = useTransform(proximity, (p) =>
+    p > 0.02
+      ? `0 0 ${12 * p}px rgba(255,255,255,${0.55 * p}), 0 0 ${24 * p}px rgba(255,255,255,${0.25 * p})`
+      : "none",
+  );
+  const arrowOpacity = useTransform(proximity, (p) => p * 0.8);
+
+  const driftX = 5 - ((index * 7) % 11);
+  const driftY = 4 - ((index * 3) % 9);
+  const duration = 12 + (index % 6) * 2.4;
+  const delay = (index * 0.43) % 4;
 
   return (
     <div
+      className={`pointer-events-none absolute -translate-x-1/2 -translate-y-1/2 ${
+        pos.mobile ? "" : "hidden md:block"
+      }`}
+      style={{ left: `${pos.x}%`, top: `${pos.y}%` }}
+    >
+      <motion.a
+        href={company.url}
+        target="_blank"
+        rel="noreferrer noopener"
+        aria-label={`Visit ${company.name}`}
+        className="pointer-events-auto inline-flex items-center whitespace-nowrap font-mono uppercase text-white"
+        style={{
+          fontSize: `${pos.size}px`,
+          opacity,
+          scale,
+          letterSpacing,
+          textShadow,
+        }}
+        animate={
+          reduce
+            ? undefined
+            : { x: [0, driftX, 0], y: [0, driftY, 0] }
+        }
+        transition={{
+          duration,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay,
+        }}
+      >
+        {company.name}
+        <motion.span
+          aria-hidden
+          className="ml-1.5 inline-block"
+          style={{ opacity: arrowOpacity }}
+        >
+          ↗
+        </motion.span>
+      </motion.a>
+    </div>
+  );
+}
+
+export function FloatingCompanies() {
+  const reduce = useReducedMotion() ?? false;
+  const parentRef = useRef<HTMLDivElement>(null);
+  const rectRef = useRef<DOMRect | null>(null);
+  const mouseX = useMotionValue(-99999);
+  const mouseY = useMotionValue(-99999);
+
+  useEffect(() => {
+    const updateRect = () => {
+      rectRef.current = parentRef.current?.getBoundingClientRect() ?? null;
+    };
+    updateRect();
+
+    const onMove = (e: MouseEvent) => {
+      mouseX.set(e.clientX);
+      mouseY.set(e.clientY);
+    };
+    const onLeave = () => {
+      mouseX.set(-99999);
+      mouseY.set(-99999);
+    };
+
+    window.addEventListener("mousemove", onMove, { passive: true });
+    window.addEventListener("mouseleave", onLeave);
+    window.addEventListener("scroll", updateRect, { passive: true });
+    window.addEventListener("resize", updateRect);
+
+    return () => {
+      window.removeEventListener("mousemove", onMove);
+      window.removeEventListener("mouseleave", onLeave);
+      window.removeEventListener("scroll", updateRect);
+      window.removeEventListener("resize", updateRect);
+    };
+  }, [mouseX, mouseY]);
+
+  return (
+    <div
+      ref={parentRef}
       aria-label="Aspirational companies"
-      className="pointer-events-none fixed inset-0"
+      className="pointer-events-none absolute inset-0"
       style={{ zIndex: 1 }}
     >
       {COMPANIES.map((company, i) => {
         const pos = POSITIONS[i];
         if (!pos) return null;
-
-        const driftX = 5 - ((i * 7) % 11);
-        const driftY = 4 - ((i * 3) % 9);
-        const duration = 12 + (i % 6) * 2.4;
-        const delay = (i * 0.43) % 4;
-
         return (
-          <motion.a
+          <CompanyLink
             key={company.name}
-            href={company.url}
-            target="_blank"
-            rel="noreferrer noopener"
-            aria-label={`Visit ${company.name}`}
-            className={`group pointer-events-auto absolute -translate-x-1/2 -translate-y-1/2 whitespace-nowrap font-mono uppercase tracking-[0.16em] text-white opacity-[0.1] transition-[opacity,letter-spacing,text-shadow] duration-300 ease-out hover:opacity-100 hover:tracking-[0.22em] hover:[text-shadow:0_0_18px_rgba(255,255,255,0.7),0_0_44px_rgba(255,255,255,0.25)] ${
-              pos.mobile ? "" : "hidden md:inline-block"
-            }`}
-            style={{
-              left: `${pos.x}%`,
-              top: `${pos.y}%`,
-              fontSize: `${pos.size}px`,
-            }}
-            animate={
-              reduce
-                ? undefined
-                : {
-                    x: [0, driftX, 0],
-                    y: [0, driftY, 0],
-                  }
-            }
-            transition={{
-              duration,
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay,
-            }}
-            whileHover={{
-              scale: 1.08,
-              transition: { duration: 0.25, ease: "easeOut" },
-            }}
-          >
-            {company.name}
-            <span
-              aria-hidden
-              className="ml-1.5 opacity-0 transition-opacity duration-200 group-hover:opacity-80"
-            >
-              ↗
-            </span>
-          </motion.a>
+            company={company}
+            pos={pos}
+            index={i}
+            mouseX={mouseX}
+            mouseY={mouseY}
+            rectRef={rectRef}
+            reduce={reduce}
+          />
         );
       })}
     </div>

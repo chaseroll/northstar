@@ -1,10 +1,20 @@
+import { Comets } from "./comets";
+import { FloatingCompanies } from "./floating-companies";
+import { FloatingStars } from "./floating-stars";
 import { NorthStar } from "./north-star";
+import { StarField } from "./star-field";
 
 export function Hero() {
   return (
     <section className="relative flex min-h-[100svh] items-center justify-center overflow-hidden">
-      <div className="pointer-events-none absolute inset-0 z-0 flex items-center justify-center">
-        <NorthStar size={780} className="-translate-y-4 opacity-70" />
+      {/* Stars, companies, comets, and glow — scoped to the hero's bounding box */}
+      <StarField density={0.00011} baseOpacity={0.9} maxStars={260} />
+      <FloatingStars />
+      <FloatingCompanies />
+      <Comets />
+
+      <div className="pointer-events-none absolute inset-0 z-[2] flex items-center justify-center">
+        <NorthStar size={780} className="-translate-y-4 opacity-95" />
       </div>
 
       <div className="shell relative z-10 mx-auto flex w-full max-w-3xl flex-col items-center text-center">

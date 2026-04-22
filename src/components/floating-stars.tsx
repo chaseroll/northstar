@@ -5,8 +5,8 @@ import { StarMark } from "./star-mark";
 
 /**
  * FloatingStars — decorative four-point stars scattered across the viewport.
- * Not links, not labels — just stars. Each one catches a layered radial
- * shine on hover and scales up slightly.
+ * Not links, not labels — just stars. Each one brightens to full white and
+ * scales up slightly on hover. No radial halo.
  *
  * Lives at the same z-layer as FloatingCompanies so the two interleave into
  * one mixed constellation. Positions are chosen to sit between the company
@@ -42,7 +42,7 @@ export function FloatingStars() {
   return (
     <div
       aria-hidden
-      className="pointer-events-none fixed inset-0"
+      className="pointer-events-none absolute inset-0"
       style={{ zIndex: 1 }}
     >
       {STARS.map((star, i) => {
@@ -76,26 +76,10 @@ export function FloatingStars() {
               delay,
             }}
             whileHover={{
-              scale: 1.5,
-              transition: { duration: 0.28, ease: "easeOut" },
+              scale: 1.4,
+              transition: { duration: 0.24, ease: "easeOut" },
             }}
           >
-            {/* Outer soft halo */}
-            <span
-              className="absolute size-16 opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100"
-              style={{
-                background:
-                  "radial-gradient(closest-side, rgba(255,255,255,0.2), rgba(255,255,255,0) 70%)",
-              }}
-            />
-            {/* Inner bright halo */}
-            <span
-              className="absolute size-8 opacity-0 transition-opacity duration-300 ease-out group-hover:opacity-100"
-              style={{
-                background:
-                  "radial-gradient(closest-side, rgba(255,255,255,0.55), rgba(255,255,255,0) 72%)",
-              }}
-            />
             <div
               className="relative h-full w-full transition-opacity duration-300 group-hover:!opacity-100"
               style={{ opacity: star.opacity }}

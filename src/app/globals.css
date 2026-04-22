@@ -11,12 +11,17 @@
   --color-mute-2: rgba(255, 255, 255, 0.34);
 
   /* ─── Fonts ──────────────────────────────────────────── */
+  /*
+   * Font-family stacks. next/font/google registers "Geist", "Geist Mono",
+   * and "Fraunces" as real @font-face names — we reference them directly
+   * here so there's no circular var() resolution.
+   */
   --font-sans:
-    var(--font-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI",
-    sans-serif;
+    "Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono:
-    var(--font-mono), ui-monospace, "SF Mono", "JetBrains Mono", monospace;
-  --font-serif: var(--font-serif), ui-serif, Georgia, "Times New Roman", serif;
+    "Geist Mono", ui-monospace, "SF Mono", "JetBrains Mono", monospace;
+  --font-serif:
+    "Fraunces", ui-serif, Georgia, "Times New Roman", serif;
 
   /* ─── Spacing scale (section rhythm) ─────────────────── */
   --section-y: 112px;
@@ -44,6 +49,7 @@ html,
 body {
   background-color: var(--color-navy);
   color: var(--color-white);
+  font-family: var(--font-sans);
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

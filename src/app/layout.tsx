@@ -52,7 +52,7 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} ${fraunces.variable} h-full antialiased`}
     >
       <body className="min-h-full bg-navy text-white font-sans selection:bg-white/20 selection:text-white">
-        <div className="relative z-10">{children}</div>
+        {children}
       </body>
     </html>
   );
