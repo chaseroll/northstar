@@ -20,7 +20,7 @@ export function CtaSection() {
             Admission into the program is determined by an application and
             selection process managed by the Executive Director of the
             Innovation Labs. Companies must be incorporated to receive
-            capital.
+            capital; NorthStar covers the cost upon acceptance.
           </p>
         </Reveal>
 
