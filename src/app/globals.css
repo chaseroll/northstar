@@ -1,0 +1,202 @@
+@import "tailwindcss";
+
+@theme {
+  /* ─── Color ──────────────────────────────────────────── */
+  --color-navy: #05091a;
+  --color-navy-2: #070c22;
+  --color-white: #ffffff;
+  --color-hair: rgba(255, 255, 255, 0.08);
+  --color-hair-strong: rgba(255, 255, 255, 0.16);
+  --color-mute: rgba(255, 255, 255, 0.58);
+  --color-mute-2: rgba(255, 255, 255, 0.34);
+
+  /* ─── Fonts ──────────────────────────────────────────── */
+  --font-sans:
+    var(--font-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    sans-serif;
+  --font-mono:
+    var(--font-mono), ui-monospace, "SF Mono", "JetBrains Mono", monospace;
+  --font-serif: var(--font-serif), ui-serif, Georgia, "Times New Roman", serif;
+
+  /* ─── Spacing scale (section rhythm) ─────────────────── */
+  --section-y: 112px;
+  --section-y-lg: 160px;
+
+  /* ─── Fluid type scale (clamp-based) ─────────────────── */
+  /* Hero display */
+  --fs-display-xl: clamp(60px, 9.4vw, 132px);
+  /* Section display */
+  --fs-display-lg: clamp(40px, 5.6vw, 68px);
+  /* Sub-display (manifesto opener) */
+  --fs-display-md: clamp(28px, 2.8vw, 36px);
+  /* Small display (pillar titles) */
+  --fs-display-sm: clamp(24px, 2.2vw, 28px);
+  /* Wordmark (nav / footer) */
+  --fs-wordmark: 22px;
+  /* Body */
+  --fs-body: clamp(16px, 1.25vw, 17px);
+  --fs-body-lg: clamp(17px, 1.35vw, 18px);
+  /* Eyebrow */
+  --fs-eyebrow: 12px;
+}
+
+html,
+body {
+  background: var(--color-navy);
+  color: var(--color-white);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* One restrained top glow. */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  background: radial-gradient(
+    900px 560px at 50% -8%,
+    rgba(255, 255, 255, 0.05),
+    transparent 65%
+  );
+}
+
+/* ─── Text wrapping ─────────────────────────────────────── */
+@utility text-balance {
+  text-wrap: balance;
+}
+@utility text-pretty {
+  text-wrap: pretty;
+}
+
+/* ─── Container ─────────────────────────────────────────── */
+@utility shell {
+  width: 100%;
+  max-width: 1120px;
+  margin-inline: auto;
+  padding-inline: 24px;
+}
+@media (min-width: 768px) {
+  .shell {
+    padding-inline: 40px;
+  }
+}
+@media (min-width: 1280px) {
+  .shell {
+    padding-inline: 56px;
+  }
+}
+
+/* ─── Typography tokens ─────────────────────────────────── */
+@utility eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--fs-eyebrow);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-mute);
+  font-weight: 400;
+}
+
+/* Wordmark — the word "NorthStar", set in the display serif so the nav,
+   footer, and hero all share one typographic identity. */
+@utility wordmark {
+  font-family: var(--font-serif);
+  font-variation-settings: "opsz" 36;
+  font-size: var(--fs-wordmark);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--color-white);
+}
+
+@utility display-xl {
+  font-family: var(--font-serif);
+  font-variation-settings: "opsz" 144;
+  font-size: var(--fs-display-xl);
+  font-weight: 400;
+  line-height: 0.94;
+  letter-spacing: -0.028em;
+  color: var(--color-white);
+}
+
+@utility display-lg {
+  font-family: var(--font-serif);
+  font-variation-settings: "opsz" 96;
+  font-size: var(--fs-display-lg);
+  font-weight: 400;
+  line-height: 1.04;
+  letter-spacing: -0.024em;
+  color: var(--color-white);
+}
+
+@utility display-md {
+  font-family: var(--font-serif);
+  font-variation-settings: "opsz" 48;
+  font-size: var(--fs-display-md);
+  font-weight: 400;
+  line-height: 1.18;
+  letter-spacing: -0.018em;
+  color: var(--color-white);
+}
+
+@utility display-sm {
+  font-family: var(--font-serif);
+  font-variation-settings: "opsz" 36;
+  font-size: var(--fs-display-sm);
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.014em;
+  color: var(--color-white);
+}
+
+@utility body {
+  font-size: var(--fs-body);
+  line-height: 1.6;
+  color: var(--color-mute);
+}
+
+@utility body-lg {
+  font-size: var(--fs-body-lg);
+  line-height: 1.55;
+  color: var(--color-mute);
+}
+
+/* ─── Section rhythm ────────────────────────────────────── */
+@utility section-y {
+  padding-top: var(--section-y);
+  padding-bottom: var(--section-y);
+}
+@media (min-width: 768px) {
+  .section-y {
+    padding-top: var(--section-y-lg);
+    padding-bottom: var(--section-y-lg);
+  }
+}
+
+/* ─── Motion ────────────────────────────────────────────── */
+@keyframes breathe {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.72;
+  }
+}
+.animate-breathe {
+  animation: breathe 6s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-breathe {
+    animation: none !important;
+  }
+}
+
+/* ─── Focus ─────────────────────────────────────────────── */
+:where(a, button, input):focus-visible {
+  outline: 1px solid var(--color-white);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
