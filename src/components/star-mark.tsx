@@ -1,10 +1,11 @@
 /**
- * StarMark — small four-point guide star, used as the brand lockup next to
- * the "NorthStar" wordmark in the nav and footer.
+ * StarMark — four-point sparkle with concave waist, used as the brand lockup
+ * next to the "NorthStar" wordmark in the nav and footer.
  *
- * This is the reduced-form of the hero visual: same asymmetric geometry
- * (longer vertical beam, shorter horizontal), but flat-filled so it reads
- * cleanly at 16–24px where gradients and blurs wouldn't render.
+ * Geometry: an asymmetric sparkle (longer vertical axis than horizontal) so
+ * it reads as a guide star, not a compass rose. The concave inner waist at
+ * ±1.6 units gives the points that "pinched" look that makes the shape feel
+ * crafted rather than drawn with a ruler.
  */
 export function StarMark({
   className = "",
@@ -20,9 +21,7 @@ export function StarMark({
       aria-hidden={ariaHidden}
       fill="currentColor"
     >
-      <polygon points="0,-9.2 0.7,0 0,9.2 -0.7,0" />
-      <polygon points="-6.2,0 0,0.5 6.2,0 0,-0.5" />
-      <circle cx="0" cy="0" r="0.95" />
+      <path d="M 0 -9 L 1.6 -1.6 L 7 0 L 1.6 1.6 L 0 9 L -1.6 1.6 L -7 0 L -1.6 -1.6 Z" />
     </svg>
   );
 }

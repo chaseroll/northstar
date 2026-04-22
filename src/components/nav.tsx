@@ -10,7 +10,7 @@ export function Nav() {
           aria-label="NorthStar — home"
           className="group flex items-center gap-2.5"
         >
-          <StarMark className="size-[18px] text-white transition-opacity group-hover:opacity-90" />
+          <StarMark className="size-[22px] translate-y-[0.5px] text-white transition-opacity group-hover:opacity-90" />
           <span className="wordmark">NorthStar</span>
         </Link>
 
