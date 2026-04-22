@@ -71,14 +71,11 @@ export function ApplicationForm() {
 
   if (status === "success") {
     return (
-      <div className="mx-auto max-w-3xl py-28 text-center md:py-40">
-        <p className="eyebrow mb-8">Application received</p>
-        <h2 className="display-lg text-balance">
-          Thank you. We have your submission
-        </h2>
-        <p className="body-lg mx-auto mt-10 max-w-[58ch] text-balance">
-          A member of the Innovation Labs team will review your application
-          and reach out within two weeks. Keep building in the meantime.
+      <div className="mx-auto max-w-2xl py-16 text-center md:py-24">
+        <h2 className="display-lg text-balance text-ink">Received.</h2>
+        <p className="body-lg mx-auto mt-6 max-w-[62ch] text-balance text-ink-mute">
+          Reviewed by the Executive Director of the Innovation Labs. You’ll
+          hear back within two weeks.
         </p>
       </div>
     );
@@ -88,374 +85,350 @@ export function ApplicationForm() {
 
   return (
     <form onSubmit={onSubmit} noValidate>
-      {/* ───────────────────────────── 01 · Founder */}
-      <FormSection
-        index={1}
-        label="Founder"
-        title="Tell us who you are."
-        lede="You — the person (or lead founder) behind what you’re building. We review every application; answers here should be you, not a deck voice."
-      >
-        <FieldGrid cols={2}>
-          <Field label="Full name" required htmlFor="name">
-            <TextInput
-              id="name"
-              name="name"
-              type="text"
-              required
-              autoComplete="name"
-              placeholder="Ada Lovelace"
-              disabled={disabled}
-            />
-          </Field>
-          <Field label="UATX email" required htmlFor="email">
-            <TextInput
-              id="email"
-              name="email"
-              type="email"
-              required
-              autoComplete="email"
-              placeholder="you@uaustin.org"
-              disabled={disabled}
-            />
-          </Field>
-          <Field label="Phone" htmlFor="phone" hint="Optional, but helpful.">
-            <TextInput
-              id="phone"
-              name="phone"
-              type="tel"
-              autoComplete="tel"
-              placeholder="(512) 555-0100"
-              disabled={disabled}
-            />
-          </Field>
-          <Field label="Class year" required htmlFor="class_year">
-            <Select
-              id="class_year"
-              name="class_year"
-              required
-              defaultValue=""
-              disabled={disabled}
-            >
-              <option value="" disabled>
-                Select…
-              </option>
-              {CLASS_YEARS.map((y) => (
-                <option key={y} value={y}>
-                  {y}
-                </option>
-              ))}
-            </Select>
-          </Field>
-          <Field label="Major / concentration" required htmlFor="major">
-            <TextInput
-              id="major"
-              name="major"
-              type="text"
-              required
-              placeholder="e.g. Computer Science, Economics"
-              disabled={disabled}
-            />
-          </Field>
-          <Field
-            label="Links"
-            htmlFor="links"
-            hint="LinkedIn, GitHub, X, personal site — one per line is fine."
-          >
-            <TextInput
-              id="links"
-              name="links"
-              type="text"
-              placeholder="github.com/you, linkedin.com/in/you"
-              disabled={disabled}
-            />
-          </Field>
-        </FieldGrid>
-      </FormSection>
-
-      {/* ───────────────────────────── 02 · Team */}
-      <FormSection
-        index={2}
-        label="Team"
-        title="Are you building solo, or with co-founders?"
-        lede="Solo is fine. Teams are also fine. If you have co-founders, list them below so we can review the whole team."
-      >
-        <Field label="Team structure" required>
-          <RadioGroup
-            name="team_structure"
-            options={TEAM_STRUCTURE}
-            value={structure}
-            onChange={setStructure}
-            required
-          />
-        </Field>
-
-        {structure === "team" ? (
-          <>
-            <Field
-              label="Co-founders"
-              htmlFor="cofounders"
-              hint="One per line. Name · email · role (e.g. Ada Lovelace · ada@uaustin.org · Engineering)."
-            >
-              <TextArea
-                id="cofounders"
-                name="cofounders"
-                rows={4}
-                placeholder={"Ada Lovelace · ada@uaustin.org · Engineering\nCharles Babbage · charles@uaustin.org · Hardware"}
+      <div className="mx-auto flex max-w-2xl flex-col">
+        <FormSection
+          title="Tell us who you are."
+          lede="The person (or lead founder) behind what you’re building."
+        >
+          <FieldGrid cols={2}>
+            <Field label="Full name" required htmlFor="name">
+              <TextInput
+                id="name"
+                name="name"
+                type="text"
+                required
+                autoComplete="name"
+                placeholder="Ada Lovelace"
                 disabled={disabled}
               />
             </Field>
-            <FieldGrid cols={2}>
-              <Field label="How did you meet?" htmlFor="met">
-                <TextInput
-                  id="met"
-                  name="met"
-                  type="text"
-                  placeholder="Class, club, hackathon, high school…"
-                  disabled={disabled}
-                />
-              </Field>
-              <Field label="How long have you worked together?" htmlFor="worked">
-                <TextInput
-                  id="worked"
-                  name="worked"
-                  type="text"
-                  placeholder="e.g. 6 months, 2 years"
-                  disabled={disabled}
-                />
-              </Field>
-            </FieldGrid>
-          </>
-        ) : null}
-      </FormSection>
-
-      {/* ───────────────────────────── 03 · Company */}
-      <FormSection
-        index={3}
-        label="Company"
-        title="What are you calling it?"
-      >
-        <FieldGrid cols={2}>
-          <Field label="Company name" required htmlFor="company">
-            <TextInput
-              id="company"
-              name="company"
-              type="text"
-              required
-              placeholder="Working title is fine"
-              disabled={disabled}
-            />
-          </Field>
-          <Field label="Website / URL" htmlFor="url" hint="If you have one yet.">
-            <TextInput
-              id="url"
-              name="url"
-              type="url"
-              placeholder="https://"
-              disabled={disabled}
-            />
-          </Field>
-          <Field label="Category" required htmlFor="category">
-            <Select
-              id="category"
-              name="category"
-              required
-              defaultValue=""
-              disabled={disabled}
-            >
-              <option value="" disabled>
-                Select…
-              </option>
-              {CATEGORIES.map((c) => (
-                <option key={c} value={c}>
-                  {c}
+            <Field label="UATX email" required htmlFor="email">
+              <TextInput
+                id="email"
+                name="email"
+                type="email"
+                required
+                autoComplete="email"
+                placeholder="you@uaustin.org"
+                disabled={disabled}
+              />
+            </Field>
+            <Field label="Phone" htmlFor="phone" hint="Optional, but helpful.">
+              <TextInput
+                id="phone"
+                name="phone"
+                type="tel"
+                autoComplete="tel"
+                placeholder="(512) 555-0100"
+                disabled={disabled}
+              />
+            </Field>
+            <Field label="Class year" required htmlFor="class_year">
+              <Select
+                id="class_year"
+                name="class_year"
+                required
+                defaultValue=""
+                disabled={disabled}
+              >
+                <option value="" disabled>
+                  Select…
                 </option>
-              ))}
-            </Select>
-          </Field>
-          <Field label="Location" htmlFor="location">
-            <TextInput
-              id="location"
-              name="location"
-              type="text"
-              defaultValue="Austin, TX"
-              disabled={disabled}
+                {CLASS_YEARS.map((y) => (
+                  <option key={y} value={y}>
+                    {y}
+                  </option>
+                ))}
+              </Select>
+            </Field>
+            <Field label="Major / concentration" required htmlFor="major">
+              <TextInput
+                id="major"
+                name="major"
+                type="text"
+                required
+                placeholder="e.g. Computer Science, Economics"
+                disabled={disabled}
+              />
+            </Field>
+            <Field
+              label="Links"
+              htmlFor="links"
+              hint="LinkedIn, GitHub, X, personal site — one per line is fine."
+            >
+              <TextInput
+                id="links"
+                name="links"
+                type="text"
+                placeholder="github.com/you, linkedin.com/in/you"
+                disabled={disabled}
+              />
+            </Field>
+          </FieldGrid>
+        </FormSection>
+
+        <FormSection
+          title="Are you building solo, or with co-founders?"
+          lede="Solo is fine. If you have co-founders, list them below."
+        >
+          <Field label="Team structure" required>
+            <RadioGroup
+              name="team_structure"
+              options={TEAM_STRUCTURE}
+              value={structure}
+              onChange={setStructure}
+              required
             />
           </Field>
-        </FieldGrid>
 
-        <Field
-          label="One-line description"
-          required
-          htmlFor="oneliner"
-          hint="The shortest version you can write. Imagine telling a stranger in an elevator."
-          counter="max 140"
-        >
-          <TextInput
-            id="oneliner"
-            name="oneliner"
-            type="text"
+          {structure === "team" ? (
+            <>
+              <Field
+                label="Co-founders"
+                htmlFor="cofounders"
+                hint="One per line. Name · email · role (e.g. Ada Lovelace · ada@uaustin.org · Engineering)."
+              >
+                <TextArea
+                  id="cofounders"
+                  name="cofounders"
+                  rows={4}
+                  placeholder={"Ada Lovelace · ada@uaustin.org · Engineering\nCharles Babbage · charles@uaustin.org · Hardware"}
+                  disabled={disabled}
+                />
+              </Field>
+              <FieldGrid cols={2}>
+                <Field label="How did you meet?" htmlFor="met">
+                  <TextInput
+                    id="met"
+                    name="met"
+                    type="text"
+                    placeholder="Class, club, hackathon, high school…"
+                    disabled={disabled}
+                  />
+                </Field>
+                <Field label="How long have you worked together?" htmlFor="worked">
+                  <TextInput
+                    id="worked"
+                    name="worked"
+                    type="text"
+                    placeholder="e.g. 6 months, 2 years"
+                    disabled={disabled}
+                  />
+                </Field>
+              </FieldGrid>
+            </>
+          ) : null}
+        </FormSection>
+
+        <FormSection title="What are you calling it?">
+          <FieldGrid cols={2}>
+            <Field label="Company name" required htmlFor="company">
+              <TextInput
+                id="company"
+                name="company"
+                type="text"
+                required
+                placeholder="Working title is fine"
+                disabled={disabled}
+              />
+            </Field>
+            <Field label="Website / URL" htmlFor="url" hint="If you have one yet.">
+              <TextInput
+                id="url"
+                name="url"
+                type="url"
+                placeholder="https://"
+                disabled={disabled}
+              />
+            </Field>
+            <Field label="Category" required htmlFor="category">
+              <Select
+                id="category"
+                name="category"
+                required
+                defaultValue=""
+                disabled={disabled}
+              >
+                <option value="" disabled>
+                  Select…
+                </option>
+                {CATEGORIES.map((c) => (
+                  <option key={c} value={c}>
+                    {c}
+                  </option>
+                ))}
+              </Select>
+            </Field>
+            <Field label="Location" htmlFor="location">
+              <TextInput
+                id="location"
+                name="location"
+                type="text"
+                defaultValue="Austin, TX"
+                disabled={disabled}
+              />
+            </Field>
+          </FieldGrid>
+
+          <Field
+            label="One-line description"
             required
-            maxLength={140}
-            placeholder="We’re building …"
-            disabled={disabled}
-          />
-        </Field>
-      </FormSection>
-
-      {/* ───────────────────────────── 04 · What & why */}
-      <FormSection
-        index={4}
-        label="What & why"
-        title="Walk us through what you’re building."
-        lede="Write like you’re explaining it to a smart friend. No jargon, no deck voice."
-      >
-        <Field
-          label="What are you building?"
-          required
-          htmlFor="what"
-          counter="aim ~ 500 chars"
-        >
-          <TextArea
-            id="what"
-            name="what"
-            rows={5}
-            required
-            maxLength={1200}
-            placeholder="The product, roughly how it works, and who uses it."
-            disabled={disabled}
-          />
-        </Field>
-
-        <Field
-          label="What problem does it solve, and for whom?"
-          required
-          htmlFor="problem"
-          counter="aim ~ 500 chars"
-        >
-          <TextArea
-            id="problem"
-            name="problem"
-            rows={5}
-            required
-            maxLength={1200}
-            placeholder="Who feels this problem, how they solve it today, and why that’s bad."
-            disabled={disabled}
-          />
-        </Field>
-      </FormSection>
-
-      {/* ───────────────────────────── 05 · Progress */}
-      <FormSection
-        index={5}
-        label="Progress"
-        title="Where is it today?"
-        lede="Be honest. ‘Idea on paper’ is a perfectly valid answer for a first cohort."
-      >
-        <FieldGrid cols={2}>
-          <Field label="Stage" required htmlFor="stage">
+            htmlFor="oneliner"
+            hint="The shortest version you can write. Imagine telling a stranger in an elevator."
+            counter="max 140"
+          >
             <TextInput
-              id="stage"
-              name="stage"
+              id="oneliner"
+              name="oneliner"
               type="text"
               required
-              placeholder="e.g. Idea on paper, prototype, private beta, $4k ARR"
+              maxLength={140}
+              placeholder="We’re building …"
               disabled={disabled}
             />
           </Field>
-          <Field label="Users (if any)" htmlFor="users">
-            <TextInput
-              id="users"
-              name="users"
-              type="text"
-              placeholder="e.g. 12 pilot users, 0, 3,000 MAU"
-              disabled={disabled}
-            />
-          </Field>
-          <Field label="Revenue (if any)" htmlFor="revenue">
-            <TextInput
-              id="revenue"
-              name="revenue"
-              type="text"
-              placeholder="e.g. $0, $200/mo, $4k in LOIs"
-              disabled={disabled}
-            />
-          </Field>
-          <Field label="Prior funding" htmlFor="prior_funding">
-            <TextInput
-              id="prior_funding"
-              name="prior_funding"
-              type="text"
-              placeholder="e.g. None, $3k UATX micro-grant, $25k angel"
-              disabled={disabled}
-            />
-          </Field>
-        </FieldGrid>
+        </FormSection>
 
-        <Field
-          label="What have you already built or shipped?"
-          htmlFor="built"
-          counter="aim ~ 300 chars"
+        <FormSection
+          title="Walk us through what you’re building."
+          lede="Plain English. No deck voice."
         >
-          <TextArea
-            id="built"
-            name="built"
-            rows={4}
-            maxLength={800}
-            placeholder="Prototypes, demos, landing pages, research, pilot conversations."
-            disabled={disabled}
-          />
-        </Field>
-      </FormSection>
+          <Field
+            label="What are you building?"
+            required
+            htmlFor="what"
+            counter="aim ~ 500 chars"
+          >
+            <TextArea
+              id="what"
+              name="what"
+              rows={5}
+              required
+              maxLength={1200}
+              placeholder="The product, roughly how it works, and who uses it."
+              disabled={disabled}
+            />
+          </Field>
 
-      {/* ───────────────────────────── 06 · Anything else */}
-      <FormSection
-        index={6}
-        label="Anything else"
-        title="Anything we should know that we haven’t asked?"
-      >
-        <Field label="Notes" htmlFor="extra" counter="max 800 chars">
-          <TextArea
-            id="extra"
-            name="extra"
-            rows={5}
-            maxLength={800}
-            placeholder="Context, concerns, questions, clarifications — whatever is on your mind."
-            disabled={disabled}
-          />
-        </Field>
-      </FormSection>
+          <Field
+            label="What problem does it solve, and for whom?"
+            required
+            htmlFor="problem"
+            counter="aim ~ 500 chars"
+          >
+            <TextArea
+              id="problem"
+              name="problem"
+              rows={5}
+              required
+              maxLength={1200}
+              placeholder="Who feels this problem, how they solve it today, and why that’s bad."
+              disabled={disabled}
+            />
+          </Field>
+        </FormSection>
 
-      {/* ───────────────────────────── Submit */}
-      <div className="border-t border-hair py-20 md:py-28">
-        <div className="shell mx-auto flex max-w-3xl flex-col items-center gap-7 text-center">
-          <p className="eyebrow">Ready</p>
-          <h2 className="display-lg text-balance">
-            Submit your application
+        <FormSection
+          title="Where is it today?"
+          lede="Be honest. ‘Idea on paper’ is a valid answer."
+        >
+          <FieldGrid cols={2}>
+            <Field label="Stage" required htmlFor="stage">
+              <TextInput
+                id="stage"
+                name="stage"
+                type="text"
+                required
+                placeholder="e.g. Idea on paper, prototype, private beta, $4k ARR"
+                disabled={disabled}
+              />
+            </Field>
+            <Field label="Users (if any)" htmlFor="users">
+              <TextInput
+                id="users"
+                name="users"
+                type="text"
+                placeholder="e.g. 12 pilot users, 0, 3,000 MAU"
+                disabled={disabled}
+              />
+            </Field>
+            <Field label="Revenue (if any)" htmlFor="revenue">
+              <TextInput
+                id="revenue"
+                name="revenue"
+                type="text"
+                placeholder="e.g. $0, $200/mo, $4k in LOIs"
+                disabled={disabled}
+              />
+            </Field>
+            <Field label="Prior funding" htmlFor="prior_funding">
+              <TextInput
+                id="prior_funding"
+                name="prior_funding"
+                type="text"
+                placeholder="e.g. None, $3k UATX micro-grant, $25k angel"
+                disabled={disabled}
+              />
+            </Field>
+          </FieldGrid>
+
+          <Field
+            label="What have you already built or shipped?"
+            htmlFor="built"
+            counter="aim ~ 300 chars"
+          >
+            <TextArea
+              id="built"
+              name="built"
+              rows={4}
+              maxLength={800}
+              placeholder="Prototypes, demos, landing pages, research, pilot conversations."
+              disabled={disabled}
+            />
+          </Field>
+        </FormSection>
+
+        <FormSection title="Anything we should know that we haven’t asked?">
+          <Field label="Notes" htmlFor="extra" counter="max 800 chars">
+            <TextArea
+              id="extra"
+              name="extra"
+              rows={5}
+              maxLength={800}
+              placeholder="Context, concerns, questions, clarifications — whatever is on your mind."
+              disabled={disabled}
+            />
+          </Field>
+        </FormSection>
+
+        {/* Submit */}
+        <section className="border-t border-ink-hair pt-14 md:pt-20">
+          <h2 className="display-md text-balance text-ink">
+            Submit your application.
           </h2>
-          <p className="body-lg mx-auto max-w-[58ch] text-balance">
-            Applications are reviewed on a rolling basis by the Executive
-            Director of the Innovation Labs. You’ll hear back within two
-            weeks.
+          <p className="mt-3 max-w-[62ch] text-[16px] leading-[1.65] text-ink-mute md:text-[17px]">
+            Reviewed on a rolling basis. You’ll hear back within two weeks.
           </p>
 
           <button
             type="submit"
             disabled={disabled}
-            className="mt-4 inline-flex h-12 items-center rounded-full bg-white px-7 text-[14px] font-medium tracking-[-0.01em] text-navy transition-colors hover:bg-white/90 disabled:opacity-60"
+            className="mt-10 inline-flex h-12 items-center gap-3 rounded-full bg-ink px-7 text-[14px] font-medium tracking-[-0.005em] text-cream transition-colors hover:bg-ink/90 disabled:cursor-not-allowed disabled:opacity-60"
           >
             {status === "submitting" ? "Submitting…" : "Submit application"}
+            {status === "idle" ? <span aria-hidden>→</span> : null}
           </button>
 
           <p
-            className={`h-4 text-[12px] leading-snug transition-opacity ${
+            className={`mt-5 h-4 text-[12px] leading-snug transition-opacity ${
               message ? "opacity-100" : "opacity-0"
-            } ${status === "error" ? "text-red-300" : "text-mute"}`}
+            } ${status === "error" ? "text-red-600" : "text-ink-mute"}`}
             role={status === "error" ? "alert" : "status"}
             aria-live="polite"
           >
             {message || "·"}
           </p>
-        </div>
+        </section>
       </div>
     </form>
   );

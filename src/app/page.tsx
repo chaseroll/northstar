@@ -1,10 +1,7 @@
 import { Footer } from "@/components/footer";
 import { Hero } from "@/components/hero";
 import { Nav } from "@/components/nav";
-import { CtaSection } from "@/components/sections/cta";
-import { GapSection } from "@/components/sections/gap";
-import { ProgramSection } from "@/components/sections/program";
-import { TerminationSection } from "@/components/sections/termination";
+import { Prospectus } from "@/components/prospectus";
 
 export default function Home() {
   return (
@@ -12,10 +9,7 @@ export default function Home() {
       <Nav />
       <main>
         <Hero />
-        <GapSection />
-        <ProgramSection />
-        <TerminationSection />
-        <CtaSection />
+        <Prospectus />
       </main>
       <Footer />
     </>

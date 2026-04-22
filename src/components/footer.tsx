@@ -10,15 +10,10 @@ export function Footer() {
             <StarMark className="size-[22px] text-white" />
             <span className="wordmark">North Star</span>
           </div>
-          <span className="eyebrow">University of Austin</span>
+          <span className="eyebrow text-mute">University of Austin</span>
         </div>
 
-        <div className="flex flex-col items-center gap-2.5">
-          <p className="eyebrow">
-            Proposed by Chase&nbsp;Roll &amp; Joshua&nbsp;Strauss
-          </p>
-          <p className="eyebrow text-mute-2">© {year} · Austin,&nbsp;TX</p>
-        </div>
+        <p className="eyebrow text-mute-2">© {year} · Austin,&nbsp;TX</p>
       </div>
     </footer>
   );

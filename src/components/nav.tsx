@@ -1,17 +1,26 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { StarMark } from "./star-mark";
 
 /**
- * Nav — fixed editorial top bar with a mobile overlay menu.
+ * Nav — fixed editorial top bar with per-section theme detection.
  *
- *  - Brand lockup on the left, real Next.js routes on the right, plus a
- *    single accented "Apply" pill.
- *  - Below `sm`, links collapse into a hamburger that morphs into an X and
- *    opens a full-screen overlay. While the overlay is open we lock body
- *    scroll using the fixed-body trick so iOS Safari can't rubber-band.
+ * Behaviour (ported from the Austin Fund nav):
+ *   - No hard gradient band. A whisper-thin blur plate fades in only
+ *     after `scrolled > 20px`, tinted to match whichever surface is
+ *     currently under the nav.
+ *   - On every scroll, we query for `[data-theme='light']` sections
+ *     (cream Prospectus, etc.). If one overlaps the top 60px of the
+ *     viewport we flip `isDark → false` and invert every colour token
+ *     (wordmark, StarMark, link text, Apply pill, hamburger bars,
+ *     hairline) with a 500ms transition, so the bar never clashes with
+ *     the surface beneath it.
+ *   - Below `sm`, links collapse into a hamburger that opens a
+ *     full-screen navy overlay. While the overlay is open we lock body
+ *     scroll using the fixed-body trick so iOS Safari can't
+ *     rubber-band.
  */
 
 type NavLink = { href: string; label: string };
@@ -20,6 +29,43 @@ const LINKS: NavLink[] = [{ href: "/portfolio", label: "Portfolio" }];
 
 export function Nav() {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [isDark, setIsDark] = useState(true);
+
+  // Theme-of-what's-under-the-nav detection. Light sections opt in via
+  // `data-theme="light"` on their outer element; we check whether any
+  // of them overlap the top 60px of the viewport and flip accordingly.
+  const onScroll = useCallback(() => {
+    setScrolled(window.scrollY > 20);
+
+    const lightSections = document.querySelectorAll<HTMLElement>(
+      "[data-theme='light']",
+    );
+    if (lightSections.length === 0) {
+      setIsDark(true);
+      return;
+    }
+
+    let overTop = false;
+    for (const el of lightSections) {
+      const rect = el.getBoundingClientRect();
+      if (rect.top <= 60 && rect.bottom >= 60) {
+        overTop = true;
+        break;
+      }
+    }
+    setIsDark(!overTop);
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    onScroll();
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, [onScroll]);
 
   // Close on Escape + when the viewport grows past the overlay breakpoint.
   useEffect(() => {
@@ -67,29 +113,50 @@ export function Nav() {
 
   return (
     <>
-      <nav aria-label="Primary" className="fixed inset-x-0 top-0 z-[400]">
-        {/* Solid navy at the top (fully hides content scrolling under), fading
-            to transparent by ~140px. Over solid-navy sections the overlay
-            paints navy-on-navy → invisible; over the hero it feathers the
-            stars behind the links. No backdrop-filter — that was the source
-            of the visible blurred band earlier. */}
+      <nav
+        aria-label="Primary"
+        className={`fixed inset-x-0 top-0 z-[400] transition-colors duration-500 ${
+          isDark ? "text-white" : "text-ink"
+        }`}
+      >
+        {/* Scroll-triggered blur plate. Near-invisible tint + 3px blur
+            gives a gentle lift off whatever is underneath without ever
+            looking like a solid band. */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-x-0 top-0 h-[140px]"
-          style={{
-            background:
-              "linear-gradient(180deg, rgba(5,9,26,1) 0%, rgba(5,9,26,0.92) 40%, rgba(5,9,26,0.55) 72%, transparent 100%)",
-          }}
+          className={`pointer-events-none absolute inset-0 transition-all duration-700 ${
+            scrolled
+              ? isDark
+                ? "bg-black/[0.04] backdrop-blur-[3px] backdrop-saturate-[1.1]"
+                : "bg-cream/[0.35] backdrop-blur-[3px] backdrop-saturate-[1.2]"
+              : ""
+          }`}
+        />
+
+        {/* Hairline at the bottom edge, same fade. */}
+        <div
+          aria-hidden
+          className={`pointer-events-none absolute inset-x-0 bottom-0 h-px transition-opacity duration-500 ${
+            scrolled ? "opacity-100" : "opacity-0"
+          } ${isDark ? "bg-white/[0.08]" : "bg-ink/[0.1]"}`}
         />
 
         <div className="relative flex items-center justify-between px-5 pb-5 pt-4 sm:px-8 sm:pb-6 sm:pt-4">
           <Link
             href="/"
             aria-label="North Star — home"
-            className="group flex items-center gap-2.5 transition-colors"
+            className="group flex items-center gap-2.5 transition-opacity duration-300 hover:opacity-75"
           >
-            <StarMark className="size-[22px] shrink-0 text-white/95 transition-colors group-hover:text-white" />
-            <span className="wordmark-sm text-white/90 transition-colors group-hover:text-white">
+            <StarMark
+              className={`size-[22px] shrink-0 transition-colors duration-500 ${
+                isDark ? "text-white/95" : "text-ink"
+              }`}
+            />
+            <span
+              className={`wordmark-sm transition-colors duration-500 ${
+                isDark ? "text-white/90" : "text-ink"
+              }`}
+            >
               North Star
             </span>
           </Link>
@@ -99,14 +166,22 @@ export function Nav() {
               <Link
                 key={l.href}
                 href={l.href}
-                className="nav-link whitespace-nowrap text-white/60 transition-colors hover:text-white"
+                className={`nav-link whitespace-nowrap transition-colors duration-500 ${
+                  isDark
+                    ? "text-white/60 hover:text-white"
+                    : "text-ink-mute hover:text-ink"
+                }`}
               >
                 {l.label}
               </Link>
             ))}
             <Link
               href="/apply"
-              className="inline-flex h-9 items-center rounded-full bg-white px-5 text-[13px] font-medium tracking-[-0.01em] text-navy transition-colors hover:bg-white/90"
+              className={`inline-flex h-9 items-center rounded-full px-5 text-[13px] font-medium tracking-[-0.01em] transition-colors duration-500 ${
+                isDark
+                  ? "bg-white text-navy hover:bg-white/90"
+                  : "bg-ink text-cream hover:bg-ink/90"
+              }`}
             >
               Apply
             </Link>
@@ -118,27 +193,34 @@ export function Nav() {
             aria-expanded={open}
             aria-controls="primary-mobile-menu"
             onClick={() => setOpen((v) => !v)}
-            className="relative flex h-10 w-10 items-center justify-center rounded-md border border-hair-strong bg-navy/70 backdrop-blur-md transition-colors hover:border-white/40 sm:hidden"
+            className={`relative flex h-10 w-10 items-center justify-center rounded-md border transition-colors duration-500 sm:hidden ${
+              isDark
+                ? "border-hair-strong hover:border-white/40"
+                : "border-ink-hair-strong hover:border-ink/60"
+            }`}
           >
             <span className="sr-only">Menu</span>
-            <span
-              aria-hidden
-              className={`absolute block h-[2px] w-[16px] bg-white/85 transition-transform duration-300 ${
-                open ? "rotate-45" : "-translate-y-[5px]"
-              }`}
-            />
-            <span
-              aria-hidden
-              className={`absolute block h-[2px] w-[16px] bg-white/85 transition-opacity duration-200 ${
-                open ? "opacity-0" : "opacity-100"
-              }`}
-            />
-            <span
-              aria-hidden
-              className={`absolute block h-[2px] w-[16px] bg-white/85 transition-transform duration-300 ${
-                open ? "-rotate-45" : "translate-y-[5px]"
-              }`}
-            />
+            {[0, 1, 2].map((i) => {
+              const base = `absolute block h-[2px] w-[16px] transition-[transform,opacity] duration-300 ${
+                // Mobile menu overlay is always dark navy, so when `open`
+                // the bars are always white regardless of `isDark`.
+                open || isDark ? "bg-white/85" : "bg-ink/85"
+              }`;
+              const pose = open
+                ? i === 0
+                  ? "rotate-45"
+                  : i === 1
+                    ? "opacity-0"
+                    : "-rotate-45"
+                : i === 0
+                  ? "-translate-y-[5px]"
+                  : i === 1
+                    ? "opacity-100"
+                    : "translate-y-[5px]";
+              return (
+                <span key={i} aria-hidden className={`${base} ${pose}`} />
+              );
+            })}
           </button>
         </div>
       </nav>
@@ -161,7 +243,7 @@ export function Nav() {
             href={l.href}
             onClick={() => setOpen(false)}
             tabIndex={open ? 0 : -1}
-            className="font-mono text-[13px] uppercase tracking-[0.22em] text-white/75 transition-colors hover:text-white"
+            className="nav-link text-[13px] tracking-[0.22em] text-white/75 transition-colors hover:text-white"
           >
             {l.label}
           </Link>

@@ -13,21 +13,21 @@ export default function ApplyPage() {
   return (
     <>
       <Nav />
-      <main>
-        <section className="relative pt-36 pb-20 md:pt-44 md:pb-28">
+      <main data-theme="light" className="bg-cream text-ink">
+        <section className="relative pt-36 pb-16 md:pt-44 md:pb-20">
           <div className="shell mx-auto max-w-3xl text-center">
-            <p className="eyebrow mb-7">Cohort 01 · Application</p>
-            <h1 className="display-xl text-balance">Apply</h1>
-            <p className="body-lg mx-auto mt-10 max-w-[58ch] text-balance">
-              One form. Six short sections. Non-equity grants up to $50,000,
-              a curated mentor network, and monthly accountability with the
-              Executive Director of the Innovation Labs. Admission is by
-              application and selection.
+            <h1 className="display-xl text-balance">
+              Apply to the{" "}
+              <em className="display-em">first cohort</em>.
+            </h1>
+            <p className="body-lg mx-auto mt-10 max-w-[58ch] text-balance text-ink-mute">
+              Reviewed by the Executive Director of the Innovation Labs.
+              You’ll hear back within two weeks.
             </p>
           </div>
         </section>
 
-        <div className="shell mx-auto max-w-5xl pb-28">
+        <div className="shell pb-28 md:pb-36">
           <ApplicationForm />
         </div>
       </main>

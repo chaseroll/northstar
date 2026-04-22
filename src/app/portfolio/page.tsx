@@ -7,149 +7,88 @@ import { Reveal } from "@/components/reveal";
 export const metadata: Metadata = {
   title: "Portfolio",
   description:
-    "Companies building out of North Star at the University of Austin. Cohort 01 is forthcoming.",
+    "Companies building out of North Star at the University of Austin. Cohort 01 is being selected.",
 };
 
 /**
- * Portfolio — splash layout populated with representative sample
- * companies so the page has real information density while the real
- * cohort is being selected. Every entry here is illustrative.
+ * Portfolio — holding page until Cohort 01 is announced.
+ *
+ * Honest empty state modelled on the Austin Fund "unresolved" grid:
+ * six placeholder rows with the real row anatomy (index, two stacked
+ * skeleton bars, a pill) — so the shape of the future portfolio is
+ * visible without inventing company names.
  */
 
-type SampleCompany = {
-  name: string;
-  sector: string;
-  description: string;
-  founder: string;
-  stage: string;
-};
-
-const SAMPLE_COMPANIES: readonly SampleCompany[] = [
-  {
-    name: "Foreland",
-    sector: "Defense",
-    description: "Maritime autonomy for offshore defense fleets.",
-    founder: "Ana Reyes",
-    stage: "Pre-seed",
-  },
-  {
-    name: "Vesper",
-    sector: "Developer tools",
-    description: "Evaluation infrastructure for production AI agents.",
-    founder: "Michael Tate",
-    stage: "Pre-seed",
-  },
-  {
-    name: "Meridian",
-    sector: "Biotech",
-    description: "Synthetic enzyme discovery at industrial scale.",
-    founder: "Priya Shah",
-    stage: "Seed",
-  },
-  {
-    name: "Ridgeline",
-    sector: "Crypto",
-    description: "Self-custody primitives for institutional treasuries.",
-    founder: "Ethan Cole",
-    stage: "Pre-seed",
-  },
-  {
-    name: "Cardinal",
-    sector: "Robotics",
-    description: "Vision systems for industrial inspection at scale.",
-    founder: "Lena Park",
-    stage: "Pre-seed",
-  },
-  {
-    name: "Fathom",
-    sector: "Hardware",
-    description: "Subsea autonomy for offshore energy infrastructure.",
-    founder: "Will Henriksen",
-    stage: "Pre-seed",
-  },
-];
+const PLACEHOLDERS = Array.from({ length: 6 }, (_, i) => i);
 
 export default function PortfolioPage() {
   return (
     <>
       <Nav />
-      <main>
-        <section className="relative pt-36 pb-20 md:pt-44 md:pb-24">
+      <main data-theme="light" className="bg-cream text-ink">
+        <section className="relative pt-36 pb-16 md:pt-44 md:pb-20">
           <div className="shell mx-auto max-w-3xl text-center">
             <Reveal>
-              <p className="eyebrow mb-7">Portfolio · Cohort 01</p>
+              <h1 className="display-xl text-balance">
+                Who we <em className="display-em">back</em>.
+              </h1>
             </Reveal>
-            <Reveal delay={0.04}>
-              <h1 className="display-xl text-balance">Who we back</h1>
-            </Reveal>
-            <Reveal delay={0.1}>
-              <p className="body-lg mx-auto mt-10 max-w-[58ch] text-balance">
-                The first North Star cohort is being selected. Admitted companies
-                will be announced here at the start of the program, each with
-                its founders, stage, and the milestones set by the Executive
-                Director of the Innovation Labs. Representative sample below.
+            <Reveal delay={0.06}>
+              <p className="body-lg mx-auto mt-10 max-w-[52ch] text-balance text-ink-mute">
+                Cohort 01 is being selected. Announced here at the start of
+                the program.
               </p>
             </Reveal>
           </div>
         </section>
 
-        <section className="section-y pt-0 md:pt-0">
-          <div className="shell mx-auto max-w-5xl">
-            <Reveal>
-              <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 md:gap-6">
-                {SAMPLE_COMPANIES.map((company, i) => (
-                  <article
-                    key={company.name}
-                    className="group relative flex aspect-square flex-col justify-between rounded-md border border-hair bg-navy-2/40 p-7 transition-colors hover:border-hair-strong"
-                  >
-                    <header className="flex items-start justify-between">
-                      <span className="eyebrow-sm tabular-nums text-mute-2">
-                        0{i + 1}
+        <section className="pb-24 md:pb-32">
+          <div className="shell">
+            <div className="mx-auto max-w-[680px]">
+              <ul>
+                {PLACEHOLDERS.map((i) => (
+                  <Reveal key={i} delay={0.05 + i * 0.035}>
+                    <li
+                      aria-hidden
+                      className="flex items-center gap-6 border-t border-ink-hair py-8 md:gap-10 md:py-10"
+                    >
+                      <span className="eyebrow-sm tabular-nums text-ink/20">
+                        {String(i + 1).padStart(2, "0")}
                       </span>
-                      <span className="eyebrow-sm text-mute-2">
-                        {company.stage}
-                      </span>
-                    </header>
-
-                    <div>
-                      <h3 className="display-sm text-white">{company.name}</h3>
-                      <p className="body mt-2.5 max-w-[28ch] text-mute">
-                        {company.description}
-                      </p>
-                    </div>
-
-                    <footer className="flex items-baseline justify-between gap-3">
-                      <span className="eyebrow text-mute-2">
-                        {company.sector}
-                      </span>
-                      <span className="body text-[13px] text-mute-2">
-                        {company.founder}
-                      </span>
-                    </footer>
-                  </article>
+                      <div className="flex flex-1 flex-col gap-2 md:flex-row md:items-center md:justify-between">
+                        <div className="flex flex-col gap-2">
+                          <div className="h-5 w-40 rounded bg-ink/[0.07] md:w-56" />
+                          <div className="h-3 w-52 rounded bg-ink/[0.045] md:w-72" />
+                        </div>
+                        <div className="h-5 w-16 rounded-full bg-ink/[0.06] md:w-20" />
+                      </div>
+                    </li>
+                  </Reveal>
                 ))}
-              </div>
-            </Reveal>
+              </ul>
 
-            <Reveal delay={0.08}>
-              <div className="mt-24 flex flex-col items-center gap-7 border-t border-hair pt-20 text-center md:mt-32 md:pt-24">
-                <p className="eyebrow">Admission</p>
-                <h2 className="display-lg text-balance">
-                  The next name on this page could be yours
-                </h2>
-                <p className="body-lg mx-auto max-w-[58ch] text-balance">
-                  Applications for Cohort 01 are open to University of Austin
-                  students. One form, reviewed by the Executive Director of the
-                  Innovation Labs.
-                </p>
-                <Link
-                  href="/apply"
-                  className="mt-3 inline-flex h-11 items-center rounded-full bg-white px-6 text-[14px] font-medium tracking-[-0.01em] text-navy transition-colors hover:bg-white/90"
+              <Reveal>
+                <div
+                  id="apply"
+                  className="mt-24 flex flex-col items-center border-t border-ink-hair pt-20 text-center md:mt-32 md:pt-28"
                 >
-                  Apply to North Star
-                </Link>
-              </div>
-            </Reveal>
+                  <h2 className="display-lg text-balance text-ink">
+                    Apply to the{" "}
+                    <em className="display-em">first cohort</em>.
+                  </h2>
+                  <p className="body-lg mt-6 max-w-[42ch] text-balance text-ink-mute">
+                    Reviewed by the Executive Director of the Innovation Labs.
+                  </p>
+                  <Link
+                    href="/apply"
+                    className="mt-10 inline-flex h-12 items-center gap-3 rounded-full bg-ink px-7 text-[14px] font-medium tracking-[-0.005em] text-cream transition-colors hover:bg-ink/90"
+                  >
+                    Apply
+                    <span aria-hidden>→</span>
+                  </Link>
+                </div>
+              </Reveal>
+            </div>
           </div>
         </section>
       </main>

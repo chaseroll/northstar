@@ -10,14 +10,28 @@
   --color-mute: rgba(255, 255, 255, 0.58);
   --color-mute-2: rgba(255, 255, 255, 0.34);
 
+  /* Light "paper" surface for editorial sections — YC cream, warm off-white.
+     `ink` reuses the navy for high-contrast text so the two worlds feel
+     like the same brand with its lights turned on. */
+  --color-cream: #f3f1e8;
+  --color-cream-2: #ece9dd;
+  --color-ink: #0a0f22;
+  --color-ink-mute: rgba(10, 15, 34, 0.62);
+  --color-ink-mute-2: rgba(10, 15, 34, 0.42);
+  --color-ink-hair: rgba(10, 15, 34, 0.1);
+  --color-ink-hair-strong: rgba(10, 15, 34, 0.22);
+
   /* ─── Fonts ──────────────────────────────────────────── */
   /*
-   * Two fonts total. Geist is a variable-weight geometric sans (100–900)
-   * that carries the entire type system — wordmark, display, body, UI.
-   * Geist Mono is used only for eyebrow/meta labels.
+   * YC's exact stack: Source Serif 4 for display + italic emphasis,
+   * Outfit for UI, nav, body, and eyebrows. Geist Mono is retained only
+   * for the intentional typewriter-style prospectus / apply cards.
    */
+  --font-serif:
+    "Source Serif 4", "Source Serif Pro", ui-serif, Georgia, Cambria,
+    "Times New Roman", Times, serif;
   --font-sans:
-    "Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    "Outfit", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono:
     "Geist Mono", ui-monospace, "SF Mono", "JetBrains Mono", monospace;
 
@@ -48,6 +62,14 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-tap-highlight-color: transparent;
+}
+
+/* Surface-level default text color. Navy comes from `body` above;
+   any subtree marked `data-theme="light"` flips the inherited color
+   to ink so type utilities never have to know which surface they're
+   sitting on. */
+[data-theme="light"] {
+  color: var(--color-ink);
 }
 
 html {
@@ -95,89 +117,95 @@ body.menu-open {
   }
 }
 
-/* ─── Typography tokens ─────────────────────────────────── */
+/* ─── Typography tokens ──────────────────────────────────
+   Every utility below sets family / size / weight / tracking only —
+   never color. Color inherits from the surface (body = white on navy,
+   [data-theme="light"] = ink on cream, see below). When a call site
+   wants a muted tier, it applies `text-mute` / `text-ink-mute` or the
+   `-2` variant explicitly. One rule, no surface surprises. */
+
+/* Eyebrows + nav — Outfit uppercase with generous tracking, matching
+   YC's "DURING YC" / "NOW" / nav treatment. Weight 500 so they hold
+   optical color at tiny sizes without feeling thin. */
 @utility eyebrow {
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: var(--fs-eyebrow);
-  letter-spacing: 0.18em;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--color-mute);
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.4;
 }
 
 /* A smaller eyebrow for list indices and fine meta, preserving the exact
    same family/tracking so it reads as a child of the eyebrow system. */
 @utility eyebrow-sm {
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: var(--fs-eyebrow-sm);
-  letter-spacing: 0.18em;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--color-mute);
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.4;
 }
 
-/* Nav links — uppercase mono, quieter than eyebrow, sized for lock-up. */
+/* Nav links — uppercase sans, quieter than eyebrow, sized for lock-up. */
 @utility nav-link {
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: var(--fs-nav);
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1;
 }
 
-/* Wordmark — the words "North Star", set in the sans at a medium weight so
-   nav, footer, and hero share one type identity. Tight optical tracking
-   matches display-xl's vibe at small sizes. */
+/* Wordmark — "North Star" set in Source Serif 4 to echo YC's serif
+   display voice in the nav and footer. Weight is medium so it holds its
+   own next to the sans nav links. */
 @utility wordmark {
-  font-family: var(--font-sans);
+  font-family: var(--font-serif);
   font-size: var(--fs-wordmark);
   font-weight: 500;
   line-height: 1;
-  letter-spacing: -0.025em;
-  color: var(--color-white);
+  letter-spacing: -0.015em;
 }
 
-/* Nav-scale wordmark — same type, smaller size. */
+/* Nav-scale wordmark — same serif, smaller size. */
 @utility wordmark-sm {
-  font-family: var(--font-sans);
+  font-family: var(--font-serif);
   font-size: var(--fs-wordmark-sm);
   font-weight: 500;
   line-height: 1;
-  letter-spacing: -0.025em;
-  color: var(--color-white);
+  letter-spacing: -0.012em;
 }
 
-/* Display system — single sans family, weight steps down as size steps up.
-   At ≥100px the light weight + tight tracking produces the airy, modern
-   "YC / Linear / Vercel" display feel. */
+/* Display system — Source Serif 4 for hero + section headlines, matching
+   YC's "builders into formidable founders" treatment. Optical sizing is
+   dialed up so the large sizes read properly at display weights, and
+   italics are used for emphasis via `<em>` inside a display node. */
 @utility display-xl {
-  font-family: var(--font-sans);
+  font-family: var(--font-serif);
   font-size: var(--fs-display-xl);
-  font-weight: 300;
-  line-height: 0.98;
-  letter-spacing: -0.045em;
-  color: var(--color-white);
+  font-weight: 400;
+  line-height: 1.02;
+  letter-spacing: -0.025em;
+  font-variation-settings: "opsz" 60;
 }
 
 @utility display-lg {
-  font-family: var(--font-sans);
+  font-family: var(--font-serif);
   font-size: var(--fs-display-lg);
   font-weight: 400;
-  line-height: 1.06;
-  letter-spacing: -0.03em;
-  color: var(--color-white);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  font-variation-settings: "opsz" 40;
 }
 
 @utility display-md {
-  font-family: var(--font-sans);
+  font-family: var(--font-serif);
   font-size: var(--fs-display-md);
   font-weight: 500;
-  line-height: 1.16;
-  letter-spacing: -0.022em;
-  color: var(--color-white);
+  line-height: 1.18;
+  letter-spacing: -0.015em;
+  font-variation-settings: "opsz" 24;
 }
 
 @utility display-sm {
@@ -185,20 +213,27 @@ body.menu-open {
   font-size: var(--fs-display-sm);
   font-weight: 500;
   line-height: 1.24;
-  letter-spacing: -0.016em;
-  color: var(--color-white);
+  letter-spacing: -0.012em;
+}
+
+/* Emphasis inside a display heading — Source Serif 4 italic at the same
+   weight. Use as: <h1 class="display-xl">North Star <em>program</em></h1>.
+   Flip-tracked slightly tighter to echo YC's italic flow. */
+@utility display-em {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: inherit;
+  letter-spacing: -0.005em;
 }
 
 @utility body {
   font-size: var(--fs-body);
   line-height: 1.65;
-  color: var(--color-mute);
 }
 
 @utility body-lg {
   font-size: var(--fs-body-lg);
   line-height: 1.65;
-  color: var(--color-mute);
 }
 
 /* ─── Section rhythm ────────────────────────────────────── */
@@ -250,4 +285,19 @@ body.menu-open {
   outline: 1px solid var(--color-white);
   outline-offset: 2px;
   border-radius: 2px;
+}
+
+/* ─── Text selection ────────────────────────────────────────
+   Defaults to a white wash on the dark/navy surfaces. Inside
+   anything marked [data-theme='light'] (the cream Prospectus and
+   any future light section) the selection flips to ink-on-cream
+   so the highlight is actually visible. */
+::selection {
+  background-color: rgba(255, 255, 255, 0.22);
+  color: var(--color-white);
+}
+
+[data-theme="light"] ::selection {
+  background-color: rgba(10, 15, 34, 0.16);
+  color: var(--color-ink);
 }
