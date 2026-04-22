@@ -33,20 +33,23 @@ type Position = {
   mobile: boolean;
 };
 
-/** Intentionally irregular — no ring, no grid, no symmetry. */
+/**
+ * Intentionally irregular scatter — some clusters, some loners, varied
+ * vertical density. No ring, no grid, no symmetry.
+ */
 const POSITIONS: Position[] = [
-  { x: 7, y: 22, size: 12, mobile: true },
-  { x: 24, y: 13, size: 11, mobile: false },
-  { x: 48, y: 9, size: 13, mobile: true },
-  { x: 71, y: 17, size: 11, mobile: false },
-  { x: 92, y: 28, size: 12, mobile: true },
-  { x: 4, y: 52, size: 11, mobile: false },
-  { x: 38, y: 44, size: 13, mobile: false },
-  { x: 87, y: 55, size: 12, mobile: false },
-  { x: 16, y: 74, size: 11, mobile: false },
-  { x: 54, y: 67, size: 12, mobile: true },
-  { x: 78, y: 80, size: 11, mobile: false },
-  { x: 32, y: 86, size: 12, mobile: true },
+  { x: 4, y: 18, size: 11, mobile: true },
+  { x: 19, y: 11, size: 13, mobile: false },
+  { x: 38, y: 7, size: 10, mobile: false },
+  { x: 66, y: 14, size: 12, mobile: false },
+  { x: 93, y: 9, size: 11, mobile: true },
+  { x: 8, y: 43, size: 12, mobile: false },
+  { x: 47, y: 38, size: 11, mobile: false },
+  { x: 88, y: 46, size: 13, mobile: true },
+  { x: 22, y: 63, size: 11, mobile: false },
+  { x: 71, y: 71, size: 12, mobile: false },
+  { x: 12, y: 89, size: 10, mobile: true },
+  { x: 56, y: 93, size: 12, mobile: false },
 ];
 
 export function FloatingCompanies() {
@@ -100,28 +103,9 @@ export function FloatingCompanies() {
               transition: { duration: 0.25, ease: "easeOut" },
             }}
           >
-            {/* Outer soft halo */}
+            {/* Text — faded by default, ignites on hover (no halo, text glow only) */}
             <span
-              aria-hidden
-              className="absolute size-40 opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100"
-              style={{
-                background:
-                  "radial-gradient(closest-side, rgba(255,255,255,0.22), rgba(255,255,255,0) 70%)",
-              }}
-            />
-            {/* Inner bright halo */}
-            <span
-              aria-hidden
-              className="absolute size-20 opacity-0 transition-opacity duration-300 ease-out group-hover:opacity-100"
-              style={{
-                background:
-                  "radial-gradient(closest-side, rgba(255,255,255,0.5), rgba(255,255,255,0) 72%)",
-              }}
-            />
-
-            {/* Text — faded by default, ignites on hover */}
-            <span
-              className="relative font-mono uppercase tracking-[0.16em] text-white opacity-[0.1] transition-[opacity,letter-spacing,text-shadow] duration-300 ease-out group-hover:opacity-100 group-hover:tracking-[0.22em] group-hover:[text-shadow:0_0_14px_rgba(255,255,255,0.6),0_0_32px_rgba(255,255,255,0.3)]"
+              className="font-mono uppercase tracking-[0.16em] text-white opacity-[0.1] transition-[opacity,letter-spacing,text-shadow] duration-300 ease-out group-hover:opacity-100 group-hover:tracking-[0.22em] group-hover:[text-shadow:0_0_12px_rgba(255,255,255,0.55),0_0_24px_rgba(255,255,255,0.25)]"
               style={{ fontSize: `${pos.size}px` }}
             >
               {company.name}
