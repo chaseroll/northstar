@@ -16,12 +16,6 @@ const REQUIRED_FIELDS = [
   "what",
   "problem",
   "stage",
-  "why_you",
-  "hours",
-  "enrolled",
-  "ask_amount",
-  "use_of_funds",
-  "milestones",
 ] as const;
 
 export async function POST(req: Request) {

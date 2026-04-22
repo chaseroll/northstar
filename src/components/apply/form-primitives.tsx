@@ -3,7 +3,7 @@
 import type { InputHTMLAttributes, SelectHTMLAttributes, TextareaHTMLAttributes, ReactNode } from "react";
 
 /**
- * Editorial form primitives for the NorthStar application.
+ * Editorial form primitives for the North Star application.
  *
  * Visual language:
  *   - Transparent inputs with a hairline bottom border (focus → white)
@@ -30,34 +30,39 @@ export function Field({
   counter?: string;
 }) {
   return (
-    <div className={`flex flex-col gap-2 ${className}`}>
+    <div className={`flex flex-col gap-3 ${className}`}>
       <div className="flex items-baseline justify-between gap-4">
         <label htmlFor={htmlFor} className="eyebrow">
           {label}
           {required ? (
-            <span className="ml-1 text-mute-2" aria-hidden>
+            <span className="ml-1.5 text-mute-2" aria-hidden>
               *
             </span>
           ) : (
-            <span className="ml-2 text-mute-2 normal-case tracking-normal" aria-hidden>
+            <span
+              className="ml-2 font-mono text-[10.5px] normal-case tracking-[0.08em] text-mute-2"
+              aria-hidden
+            >
               (optional)
             </span>
           )}
         </label>
         {counter ? (
-          <span className="eyebrow !text-[10px] text-mute-2 tabular-nums">
+          <span className="eyebrow-sm text-mute-2 tabular-nums">
             {counter}
           </span>
         ) : null}
       </div>
       {children}
-      {hint ? <p className="text-[13px] leading-snug text-mute-2">{hint}</p> : null}
+      {hint ? (
+        <p className="text-[12.5px] leading-relaxed text-mute-2">{hint}</p>
+      ) : null}
     </div>
   );
 }
 
 const baseInputCls =
-  "w-full border-b border-hair-strong bg-transparent px-0 py-3 text-[16px] text-white placeholder:text-mute-2 transition-colors focus:border-white focus:outline-none";
+  "w-full border-b border-hair-strong bg-transparent px-0 py-3 text-[16px] leading-[1.5] text-white placeholder:text-mute-2 transition-colors focus:border-white focus:outline-none";
 
 export function TextInput(props: InputHTMLAttributes<HTMLInputElement>) {
   return <input {...props} className={`${baseInputCls} ${props.className ?? ""}`} />;
@@ -67,7 +72,7 @@ export function TextArea(props: TextareaHTMLAttributes<HTMLTextAreaElement>) {
   return (
     <textarea
       {...props}
-      className={`${baseInputCls} resize-none leading-[1.55] py-3 ${props.className ?? ""}`}
+      className={`${baseInputCls} resize-none leading-[1.6] ${props.className ?? ""}`}
     />
   );
 }
@@ -86,7 +91,7 @@ export function Select({
       </select>
       <span
         aria-hidden
-        className="pointer-events-none absolute right-0 top-1/2 -translate-y-1/2 text-mute-2"
+        className="pointer-events-none absolute right-0 top-1/2 -translate-y-1/2 text-[11px] text-mute-2"
       >
         ▾
       </span>
@@ -108,7 +113,7 @@ export function RadioGroup({
   required?: boolean;
 }) {
   return (
-    <div role="radiogroup" className="flex flex-wrap gap-2">
+    <div role="radiogroup" className="flex flex-wrap gap-2.5">
       {options.map((opt) => {
         const id = `${name}-${opt.value}`;
         const checked = value === opt.value;
@@ -116,10 +121,10 @@ export function RadioGroup({
           <label
             key={opt.value}
             htmlFor={id}
-            className={`cursor-pointer rounded-full border px-4 py-2 text-[13px] transition-colors ${
+            className={`cursor-pointer rounded-full border px-4 py-2 text-[13px] tracking-[-0.005em] transition-colors ${
               checked
                 ? "border-white bg-white text-navy"
-                : "border-hair-strong text-white hover:border-white/60"
+                : "border-hair-strong text-white/85 hover:border-white/60 hover:text-white"
             }`}
           >
             <input
@@ -154,24 +159,24 @@ export function FormSection({
   children: ReactNode;
 }) {
   return (
-    <section className="border-t border-hair py-16 md:py-24">
-      <div className="grid grid-cols-12 gap-x-8 gap-y-10">
-        <div className="col-span-12 md:col-span-3">
-          <p className="eyebrow sticky top-24">
-            <span className="mr-2 text-mute-2 tabular-nums">
-              {typeof index === "number" ? `0${index}`.slice(-2) : index}
-            </span>
-            {label}
+    <section className="border-t border-hair py-20 md:py-28">
+      <div className="mx-auto max-w-3xl text-center">
+        <p className="eyebrow">
+          <span className="mr-2.5 text-mute-2 tabular-nums">
+            {typeof index === "number" ? `0${index}`.slice(-2) : index}
+          </span>
+          {label}
+        </p>
+        <h2 className="display-md mt-7 text-balance">{title}</h2>
+        {lede ? (
+          <p className="body-lg mx-auto mt-5 max-w-[58ch] text-balance">
+            {lede}
           </p>
-        </div>
+        ) : null}
+      </div>
 
-        <div className="col-span-12 md:col-span-9 md:col-start-4">
-          <h2 className="display-md text-balance">{title}</h2>
-          {lede ? (
-            <p className="body mt-4 max-w-[54ch] text-balance">{lede}</p>
-          ) : null}
-          <div className="mt-12 flex flex-col gap-10">{children}</div>
-        </div>
+      <div className="mx-auto mt-14 flex max-w-3xl flex-col gap-12 md:mt-16">
+        {children}
       </div>
     </section>
   );
@@ -190,5 +195,5 @@ export function FieldGrid({
       : cols === 3
         ? "grid-cols-1 md:grid-cols-3"
         : "grid-cols-1 md:grid-cols-2";
-  return <div className={`grid gap-8 ${cls}`}>{children}</div>;
+  return <div className={`grid gap-x-8 gap-y-10 ${cls}`}>{children}</div>;
 }

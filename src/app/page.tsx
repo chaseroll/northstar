@@ -4,6 +4,7 @@ import { Nav } from "@/components/nav";
 import { CtaSection } from "@/components/sections/cta";
 import { GapSection } from "@/components/sections/gap";
 import { ProgramSection } from "@/components/sections/program";
+import { TerminationSection } from "@/components/sections/termination";
 
 export default function Home() {
   return (
@@ -13,6 +14,7 @@ export default function Home() {
         <Hero />
         <GapSection />
         <ProgramSection />
+        <TerminationSection />
         <CtaSection />
       </main>
       <Footer />

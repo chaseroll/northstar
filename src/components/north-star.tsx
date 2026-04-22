@@ -1,30 +1,21 @@
-"use client";
-
-import { motion } from "framer-motion";
 import { useId } from "react";
 
 /**
- * NorthStar — anamorphic lens-flare guide star.
+ * North Star — anamorphic lens-flare guide star.
+ *
+ * Static SVG (no motion). Pure white throughout. Sized by its parent so the
+ * caller controls responsive scaling via CSS.
  *
  * Composition (bottom → top):
- *   1. Outer corona bloom (wide, soft, gently pulsing opacity)
- *   2. Secondary 45° rays (very faint — gives 8-point presence)
- *   3. Long tapered vertical beam (soft glow + sharp inner highlight)
+ *   1. Outer atmospheric bloom
+ *   2. Secondary 45° rays
+ *   3. Long tapered vertical beam
  *   4. Shorter tapered horizontal beam
  *   5. Diffraction hairlines beyond beam tips
  *   6. Hot white core with radial bloom
  *   7. Tiny specular pinprick
- *
- * All colors are pure white. No blue tint. No expanding ring pulse —
- * the "pulse" is just the bloom's opacity breathing in sync with the core.
  */
-export function NorthStar({
-  size = 720,
-  className = "",
-}: {
-  size?: number;
-  className?: string;
-}) {
+export function NorthStar({ className = "" }: { className?: string }) {
   const uid = useId().replace(/[:]/g, "");
 
   const id = {
@@ -39,14 +30,14 @@ export function NorthStar({
   return (
     <div
       className={`pointer-events-none relative ${className}`}
-      style={{ width: size, height: size }}
       aria-hidden
     >
       <svg
         viewBox="-300 -300 600 600"
-        width={size}
-        height={size}
-        className="overflow-visible"
+        width="100%"
+        height="100%"
+        preserveAspectRatio="xMidYMid meet"
+        className="block overflow-visible"
       >
         <defs>
           <radialGradient id={id.core} cx="50%" cy="50%" r="50%">
@@ -99,28 +90,19 @@ export function NorthStar({
           </filter>
         </defs>
 
-        {/* 1 · Outer atmospheric bloom — breathes gently for a soft pulse */}
-        <motion.circle
+        <circle
           cx="0"
           cy="0"
           r="170"
           fill={`url(#${id.bloom})`}
           filter={`url(#${id.bigBlur})`}
-          animate={{ opacity: [0.85, 1, 0.85] }}
-          transition={{
-            duration: 6.5,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
         />
 
-        {/* 2 · Secondary 45° rays */}
         <g opacity="0.28" transform="rotate(45)">
           <polygon points="0,-90 0.8,0 0,90 -0.8,0" fill="#ffffff" />
           <polygon points="-60,0 0,0.5 60,0 0,-0.5" fill="#ffffff" />
         </g>
 
-        {/* 3 · Vertical beam */}
         <g>
           <polygon
             points="0,-260 4.2,0 0,260 -4.2,0"
@@ -130,7 +112,6 @@ export function NorthStar({
           <polygon points="0,-260 0.9,0 0,260 -0.9,0" fill="#ffffff" />
         </g>
 
-        {/* 4 · Horizontal beam */}
         <g>
           <polygon
             points="-190,0 0,3 190,0 0,-3"
@@ -140,7 +121,6 @@ export function NorthStar({
           <polygon points="-190,0 0,0.7 190,0 0,-0.7" fill="#ffffff" />
         </g>
 
-        {/* 5 · Diffraction hairlines */}
         <g stroke="#ffffff" strokeWidth="0.35" opacity="0.35">
           <line x1="0" y1="-295" x2="0" y2="-260" />
           <line x1="0" y1="260" x2="0" y2="295" />
@@ -150,19 +130,11 @@ export function NorthStar({
           <line x1="190" y1="0" x2="225" y2="0" />
         </g>
 
-        {/* 6 · Hot core — gently breathing */}
-        <motion.g
-          animate={{ opacity: [1, 0.82, 1] }}
-          transition={{
-            duration: 5.5,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        >
+        <g>
           <circle cx="0" cy="0" r="40" fill={`url(#${id.core})`} />
           <circle cx="0" cy="0" r="14" fill={`url(#${id.core})`} />
           <circle cx="0" cy="0" r="1.8" fill="#ffffff" />
-        </motion.g>
+        </g>
       </svg>
     </div>
   );

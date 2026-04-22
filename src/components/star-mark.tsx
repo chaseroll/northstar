@@ -1,6 +1,6 @@
 /**
  * StarMark — four-point sparkle with concave waist, used as the brand lockup
- * next to the "NorthStar" wordmark in the nav and footer.
+ * next to the "North Star" wordmark in the nav and footer.
  *
  * Geometry: an asymmetric sparkle (longer vertical axis than horizontal) so
  * it reads as a guide star, not a compass rose. The concave inner waist at

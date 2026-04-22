@@ -13,14 +13,6 @@ import {
 
 type Status = "idle" | "submitting" | "success" | "error";
 
-const STAGES = [
-  { value: "idea", label: "Idea" },
-  { value: "prototype", label: "Prototype" },
-  { value: "beta", label: "Private beta" },
-  { value: "launched", label: "Launched" },
-  { value: "revenue", label: "Generating revenue" },
-];
-
 const TEAM_STRUCTURE = [
   { value: "solo", label: "Solo founder" },
   { value: "team", label: "Team of co-founders" },
@@ -46,13 +38,6 @@ const CLASS_YEARS = [
   "Undergraduate — Year 4",
   "Graduate",
   "Other",
-];
-
-const GRANT_ASK = [
-  "Under $10,000",
-  "$10,000 – $25,000",
-  "$25,000 – $50,000",
-  "I don't know yet",
 ];
 
 export function ApplicationForm() {
@@ -86,12 +71,12 @@ export function ApplicationForm() {
 
   if (status === "success") {
     return (
-      <div className="mx-auto max-w-2xl py-24 text-center md:py-40">
+      <div className="mx-auto max-w-3xl py-28 text-center md:py-40">
         <p className="eyebrow mb-8">Application received</p>
         <h2 className="display-lg text-balance">
-          Thank you. We have your submission.
+          Thank you. We have your submission
         </h2>
-        <p className="body mx-auto mt-6 max-w-[52ch] text-balance">
+        <p className="body-lg mx-auto mt-10 max-w-[58ch] text-balance">
           A member of the Innovation Labs team will review your application
           and reach out within two weeks. Keep building in the meantime.
         </p>
@@ -357,22 +342,6 @@ export function ApplicationForm() {
             disabled={disabled}
           />
         </Field>
-
-        <Field
-          label="Why now?"
-          htmlFor="why_now"
-          hint="What has changed in the world that makes this the right time."
-          counter="aim ~ 300 chars"
-        >
-          <TextArea
-            id="why_now"
-            name="why_now"
-            rows={4}
-            maxLength={800}
-            placeholder="A technology, behavior, regulation, cost curve — something that recently shifted."
-            disabled={disabled}
-          />
-        </Field>
       </FormSection>
 
       {/* ───────────────────────────── 05 · Progress */}
@@ -384,22 +353,14 @@ export function ApplicationForm() {
       >
         <FieldGrid cols={2}>
           <Field label="Stage" required htmlFor="stage">
-            <Select
+            <TextInput
               id="stage"
               name="stage"
+              type="text"
               required
-              defaultValue=""
+              placeholder="e.g. Idea on paper, prototype, private beta, $4k ARR"
               disabled={disabled}
-            >
-              <option value="" disabled>
-                Select…
-              </option>
-              {STAGES.map((s) => (
-                <option key={s.value} value={s.value}>
-                  {s.label}
-                </option>
-              ))}
-            </Select>
+            />
           </Field>
           <Field label="Users (if any)" htmlFor="users">
             <TextInput
@@ -446,157 +407,9 @@ export function ApplicationForm() {
         </Field>
       </FormSection>
 
-      {/* ───────────────────────────── 06 · Why you */}
+      {/* ───────────────────────────── 06 · Anything else */}
       <FormSection
         index={6}
-        label="Why you"
-        title="Why are you the right person/team for this?"
-      >
-        <Field
-          label="Why you?"
-          required
-          htmlFor="why_you"
-          counter="aim ~ 500 chars"
-        >
-          <TextArea
-            id="why_you"
-            name="why_you"
-            rows={5}
-            required
-            maxLength={1200}
-            placeholder="Background, obsessions, past projects, unfair advantages."
-            disabled={disabled}
-          />
-        </Field>
-
-        <Field
-          label="Time commitment"
-          required
-          htmlFor="hours"
-          hint="Hours per week you can commit to NorthStar during the program."
-        >
-          <TextInput
-            id="hours"
-            name="hours"
-            type="text"
-            required
-            placeholder="e.g. 25 hrs/week, full-time outside class"
-            disabled={disabled}
-          />
-        </Field>
-
-        <Field
-          label="Are you currently enrolled at UATX?"
-          required
-          htmlFor="enrolled"
-          hint="Admission requires active UATX enrollment for the duration of the program."
-        >
-          <RadioGroup
-            name="enrolled"
-            required
-            options={[
-              { value: "yes", label: "Yes, currently enrolled" },
-              { value: "incoming", label: "Admitted, starting next term" },
-              { value: "no", label: "Not enrolled" },
-            ]}
-          />
-        </Field>
-      </FormSection>
-
-      {/* ───────────────────────────── 07 · Ask */}
-      <FormSection
-        index={7}
-        label="Ask"
-        title="What are you asking NorthStar for?"
-        lede="Grants are non-equity, up to $50,000 per company per year. The initial amount is set by the Executive Director based on stage, scope, and need."
-      >
-        <FieldGrid cols={2}>
-          <Field label="Requested grant range" required htmlFor="ask_amount">
-            <Select
-              id="ask_amount"
-              name="ask_amount"
-              required
-              defaultValue=""
-              disabled={disabled}
-            >
-              <option value="" disabled>
-                Select…
-              </option>
-              {GRANT_ASK.map((g) => (
-                <option key={g} value={g}>
-                  {g}
-                </option>
-              ))}
-            </Select>
-          </Field>
-          <Field label="Earliest start" htmlFor="start_date">
-            <TextInput
-              id="start_date"
-              name="start_date"
-              type="text"
-              placeholder="e.g. next cycle, Fall 2026"
-              disabled={disabled}
-            />
-          </Field>
-        </FieldGrid>
-
-        <Field
-          label="How would you deploy the capital?"
-          required
-          htmlFor="use_of_funds"
-          counter="aim ~ 400 chars"
-        >
-          <TextArea
-            id="use_of_funds"
-            name="use_of_funds"
-            rows={4}
-            required
-            maxLength={1000}
-            placeholder="Roughly how the money gets spent — compute, tools, components, contractors, pilots."
-            disabled={disabled}
-          />
-        </Field>
-
-        <Field
-          label="Milestones you commit to in 6 months"
-          required
-          htmlFor="milestones"
-          hint="These will become your personalized milestones, reviewed monthly with the Executive Director."
-          counter="aim ~ 500 chars"
-        >
-          <TextArea
-            id="milestones"
-            name="milestones"
-            rows={5}
-            required
-            maxLength={1200}
-            placeholder="Be specific. Users, revenue, shipped features, design partners, etc."
-            disabled={disabled}
-          />
-        </Field>
-      </FormSection>
-
-      {/* ───────────────────────────── 08 · Video */}
-      <FormSection
-        index={8}
-        label="Video"
-        title="A one-minute introduction."
-        lede="Record a short Loom or YouTube unlisted link of you (and any co-founders) explaining what you’re building. Phone camera is fine."
-      >
-        <Field label="Video URL" htmlFor="video_url" hint="Loom, YouTube unlisted, or Google Drive.">
-          <TextInput
-            id="video_url"
-            name="video_url"
-            type="url"
-            placeholder="https://www.loom.com/share/…"
-            disabled={disabled}
-          />
-        </Field>
-      </FormSection>
-
-      {/* ───────────────────────────── 09 · Anything else */}
-      <FormSection
-        index={9}
         label="Anything else"
         title="Anything we should know that we haven’t asked?"
       >
@@ -613,13 +426,13 @@ export function ApplicationForm() {
       </FormSection>
 
       {/* ───────────────────────────── Submit */}
-      <div className="border-t border-hair py-16 md:py-24">
-        <div className="shell mx-auto flex max-w-3xl flex-col items-center gap-6 text-center">
+      <div className="border-t border-hair py-20 md:py-28">
+        <div className="shell mx-auto flex max-w-3xl flex-col items-center gap-7 text-center">
           <p className="eyebrow">Ready</p>
-          <h2 className="display-md text-balance">
-            Submit your application.
+          <h2 className="display-lg text-balance">
+            Submit your application
           </h2>
-          <p className="body max-w-[52ch] text-balance">
+          <p className="body-lg mx-auto max-w-[58ch] text-balance">
             Applications are reviewed on a rolling basis by the Executive
             Director of the Innovation Labs. You’ll hear back within two
             weeks.
@@ -628,13 +441,13 @@ export function ApplicationForm() {
           <button
             type="submit"
             disabled={disabled}
-            className="mt-4 inline-flex h-12 items-center rounded-full bg-white px-7 text-[14px] font-medium tracking-tight text-navy transition-colors hover:bg-white/90 disabled:opacity-60"
+            className="mt-4 inline-flex h-12 items-center rounded-full bg-white px-7 text-[14px] font-medium tracking-[-0.01em] text-navy transition-colors hover:bg-white/90 disabled:opacity-60"
           >
             {status === "submitting" ? "Submitting…" : "Submit application"}
           </button>
 
           <p
-            className={`h-4 text-[12px] transition-opacity ${
+            className={`h-4 text-[12px] leading-snug transition-opacity ${
               message ? "opacity-100" : "opacity-0"
             } ${status === "error" ? "text-red-300" : "text-mute"}`}
             role={status === "error" ? "alert" : "status"}

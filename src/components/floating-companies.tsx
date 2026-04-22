@@ -1,224 +1,189 @@
 "use client";
 
-import {
-  motion,
-  useMotionValue,
-  useReducedMotion,
-  useTransform,
-  type MotionValue,
-} from "framer-motion";
 import { useEffect, useRef } from "react";
+import type { CSSProperties } from "react";
 
 /**
  * FloatingCompanies — company names scattered across the hero. Each name
- * brightens based on cursor **proximity**, not direct hover. Clicking opens
- * the company in a new tab.
+ * brightens based on cursor **proximity**, not direct hover.
+ *
+ * Layout model:
+ *   - Positions are chosen to avoid the central text block
+ *     (reserved zone: x∈[15, 85], y∈[28, 72]).
+ *   - Chips with `x < 15` anchor to the left edge and chips with `x > 85`
+ *     anchor to the right edge, so they never extend past the viewport on
+ *     narrow screens. Everything else is centered on its x%.
+ *
+ * Perf model:
+ *   - A single `pointermove` listener on the window, but it's a no-op while
+ *     the hero is offscreen (IntersectionObserver flips `active`).
+ *   - Moves are coalesced into a single rAF that measures each chip via
+ *     getBoundingClientRect (accurate regardless of anchoring) and writes
+ *     a CSS variable (`--p`, a 0..1 proximity) onto the chip. All visuals
+ *     flow from that variable via CSS — no per-link JS, no framer-motion.
+ *   - On touch / no-hover devices the proximity effect is skipped and we
+ *     render each name at a calm, static opacity defined in CSS.
  */
 
-const COMPANIES: Array<{ name: string; url: string }> = [
-  { name: "Anduril", url: "https://www.anduril.com" },
-  { name: "Palantir", url: "https://www.palantir.com" },
-  { name: "Ramp", url: "https://ramp.com" },
-  { name: "Linear", url: "https://linear.app" },
-  { name: "Cursor", url: "https://cursor.com" },
-  { name: "Vercel", url: "https://vercel.com" },
-  { name: "Anthropic", url: "https://www.anthropic.com" },
-  { name: "Figma", url: "https://www.figma.com" },
-  { name: "Stripe", url: "https://stripe.com" },
-  { name: "SpaceX", url: "https://www.spacex.com" },
-  { name: "Neuralink", url: "https://neuralink.com" },
-  { name: "Scale AI", url: "https://scale.com" },
-];
-
-type Position = {
+type Company = {
+  name: string;
+  url: string;
   x: number;
   y: number;
   size: 10 | 11 | 12 | 13;
   mobile: boolean;
 };
 
-/** Intentionally irregular — clusters, loners, no grid. */
-const POSITIONS: Position[] = [
-  { x: 4, y: 18, size: 11, mobile: true },
-  { x: 19, y: 11, size: 13, mobile: false },
-  { x: 38, y: 7, size: 10, mobile: false },
-  { x: 66, y: 14, size: 12, mobile: false },
-  { x: 93, y: 9, size: 11, mobile: true },
-  { x: 8, y: 43, size: 12, mobile: false },
-  { x: 47, y: 38, size: 11, mobile: false },
-  { x: 88, y: 46, size: 13, mobile: true },
-  { x: 22, y: 63, size: 11, mobile: false },
-  { x: 71, y: 71, size: 12, mobile: false },
-  { x: 12, y: 89, size: 10, mobile: true },
-  { x: 56, y: 93, size: 12, mobile: false },
+// Positions are picked to feel like a scattered constellation rather than a
+// frame around the hero copy. The reserved text zone is roughly x∈[15, 85]
+// and y∈[28, 72]; every chip lives outside that rectangle, but inside the
+// safe bands the x/y values are intentionally non-uniform — staggered
+// heights across the top and bottom, mixed insets on the sides, and uneven
+// gaps — so the arrangement reads as organic instead of gridded.
+const COMPANIES: Company[] = [
+  { name: "Anduril", url: "https://www.anduril.com", x: 3, y: 22, size: 11, mobile: true },
+  { name: "Palantir", url: "https://www.palantir.com", x: 21, y: 5, size: 13, mobile: false },
+  { name: "Ramp", url: "https://ramp.com", x: 44, y: 16, size: 10, mobile: false },
+  { name: "Linear", url: "https://linear.app", x: 71, y: 8, size: 11, mobile: false },
+  { name: "Cursor", url: "https://cursor.com", x: 94, y: 19, size: 12, mobile: true },
+  { name: "Vercel", url: "https://vercel.com", x: 13, y: 34, size: 13, mobile: false },
+  { name: "Anthropic", url: "https://www.anthropic.com", x: 2, y: 65, size: 10, mobile: false },
+  { name: "Figma", url: "https://www.figma.com", x: 92, y: 31, size: 11, mobile: true },
+  { name: "Stripe", url: "https://stripe.com", x: 86, y: 68, size: 12, mobile: false },
+  { name: "SpaceX", url: "https://www.spacex.com", x: 73, y: 78, size: 13, mobile: false },
+  { name: "Neuralink", url: "https://neuralink.com", x: 9, y: 92, size: 10, mobile: true },
+  { name: "Scale AI", url: "https://scale.com", x: 49, y: 86, size: 11, mobile: false },
 ];
 
-const PROX_RADIUS = 220;
+const PROX_RADIUS_PX = 220;
 
-function CompanyLink({
-  company,
-  pos,
-  index,
-  mouseX,
-  mouseY,
-  rectRef,
-  reduce,
-}: {
-  company: { name: string; url: string };
-  pos: Position;
-  index: number;
-  mouseX: MotionValue<number>;
-  mouseY: MotionValue<number>;
-  rectRef: React.MutableRefObject<DOMRect | null>;
-  reduce: boolean;
-}) {
-  // Explicit subscription pattern: one motion value per link, updated
-  // whenever the shared mouse motion values change.
-  const proximity = useMotionValue(0);
-
-  useEffect(() => {
-    const update = () => {
-      const rect = rectRef.current;
-      if (!rect) {
-        proximity.set(0);
-        return;
-      }
-      const mx = mouseX.get();
-      const my = mouseY.get();
-      const cx = rect.left + (pos.x / 100) * rect.width;
-      const cy = rect.top + (pos.y / 100) * rect.height;
-      const dist = Math.hypot(mx - cx, my - cy);
-      const raw = Math.max(0, Math.min(1, 1 - dist / PROX_RADIUS));
-      proximity.set(raw * raw);
-    };
-    update();
-    const unsubX = mouseX.on("change", update);
-    const unsubY = mouseY.on("change", update);
-    return () => {
-      unsubX();
-      unsubY();
-    };
-  }, [mouseX, mouseY, pos.x, pos.y, proximity, rectRef]);
-
-  const opacity = useTransform(proximity, (p) => 0.1 + p * 0.9);
-  const scale = useTransform(proximity, (p) => 1 + p * 0.08);
-  const letterSpacing = useTransform(
-    proximity,
-    (p) => `${0.16 + p * 0.06}em`,
-  );
-  const textShadow = useTransform(proximity, (p) =>
-    p > 0.02
-      ? `0 0 ${12 * p}px rgba(255,255,255,${0.55 * p}), 0 0 ${24 * p}px rgba(255,255,255,${0.25 * p})`
-      : "none",
-  );
-  const arrowOpacity = useTransform(proximity, (p) => p * 0.8);
-
-  const driftX = 5 - ((index * 7) % 11);
-  const driftY = 4 - ((index * 3) % 9);
-  const duration = 12 + (index % 6) * 2.4;
-  const delay = (index * 0.43) % 4;
-
-  return (
-    <div
-      className={`pointer-events-none absolute -translate-x-1/2 -translate-y-1/2 ${
-        pos.mobile ? "" : "hidden md:block"
-      }`}
-      style={{ left: `${pos.x}%`, top: `${pos.y}%` }}
-    >
-      <motion.a
-        href={company.url}
-        target="_blank"
-        rel="noreferrer noopener"
-        aria-label={`Visit ${company.name}`}
-        className="pointer-events-auto inline-flex items-center whitespace-nowrap font-mono uppercase text-white"
-        style={{
-          fontSize: `${pos.size}px`,
-          opacity,
-          scale,
-          letterSpacing,
-          textShadow,
-        }}
-        animate={
-          reduce
-            ? undefined
-            : { x: [0, driftX, 0], y: [0, driftY, 0] }
-        }
-        transition={{
-          duration,
-          repeat: Infinity,
-          ease: "easeInOut",
-          delay,
-        }}
-      >
-        {company.name}
-        <motion.span
-          aria-hidden
-          className="ml-1.5 inline-block"
-          style={{ opacity: arrowOpacity }}
-        >
-          ↗
-        </motion.span>
-      </motion.a>
-    </div>
-  );
+type Anchor = "left" | "right" | "center";
+function anchorFor(x: number): Anchor {
+  if (x < 15) return "left";
+  if (x > 85) return "right";
+  return "center";
 }
 
 export function FloatingCompanies() {
-  const reduce = useReducedMotion() ?? false;
-  const parentRef = useRef<HTMLDivElement>(null);
-  const rectRef = useRef<DOMRect | null>(null);
-  const mouseX = useMotionValue(-99999);
-  const mouseY = useMotionValue(-99999);
+  const rootRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const updateRect = () => {
-      rectRef.current = parentRef.current?.getBoundingClientRect() ?? null;
-    };
-    updateRect();
+    const root = rootRef.current;
+    if (!root) return;
 
-    const onMove = (e: MouseEvent) => {
-      mouseX.set(e.clientX);
-      mouseY.set(e.clientY);
-    };
-    const onLeave = () => {
-      mouseX.set(-99999);
-      mouseY.set(-99999);
+    if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+      return;
+    }
+
+    const links = Array.from(
+      root.querySelectorAll<HTMLAnchorElement>("a[data-company]"),
+    );
+    if (links.length === 0) return;
+
+    let mouseX = -99999;
+    let mouseY = -99999;
+    let rafPending = false;
+    let active = true;
+
+    const computeAndWrite = () => {
+      rafPending = false;
+      if (!active) return;
+      for (let i = 0; i < links.length; i++) {
+        const el = links[i];
+        const r = el.getBoundingClientRect();
+        const cx = r.left + r.width / 2;
+        const cy = r.top + r.height / 2;
+        const dx = mouseX - cx;
+        const dy = mouseY - cy;
+        const dist = Math.hypot(dx, dy);
+        const raw = Math.max(0, 1 - dist / PROX_RADIUS_PX);
+        el.style.setProperty("--p", (raw * raw).toFixed(3));
+      }
     };
 
-    window.addEventListener("mousemove", onMove, { passive: true });
-    window.addEventListener("mouseleave", onLeave);
-    window.addEventListener("scroll", updateRect, { passive: true });
-    window.addEventListener("resize", updateRect);
+    const schedule = () => {
+      if (!rafPending) {
+        rafPending = true;
+        requestAnimationFrame(computeAndWrite);
+      }
+    };
+
+    const onMove = (e: PointerEvent) => {
+      if (!active) return;
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      schedule();
+    };
+
+    // Fires only when the pointer actually leaves the document (not when it
+    // crosses between elements). Resets proximity so chips fade back out.
+    const onDocLeave = (e: MouseEvent) => {
+      if (e.relatedTarget === null) {
+        mouseX = -99999;
+        mouseY = -99999;
+        schedule();
+      }
+    };
+
+    window.addEventListener("pointermove", onMove, { passive: true });
+    document.addEventListener("mouseout", onDocLeave);
+
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        active = entry?.isIntersecting ?? false;
+      },
+      { root: null, threshold: 0 },
+    );
+    io.observe(root);
 
     return () => {
-      window.removeEventListener("mousemove", onMove);
-      window.removeEventListener("mouseleave", onLeave);
-      window.removeEventListener("scroll", updateRect);
-      window.removeEventListener("resize", updateRect);
+      window.removeEventListener("pointermove", onMove);
+      document.removeEventListener("mouseout", onDocLeave);
+      io.disconnect();
     };
-  }, [mouseX, mouseY]);
+  }, []);
 
   return (
     <div
-      ref={parentRef}
+      ref={rootRef}
       aria-label="Aspirational companies"
       className="pointer-events-none absolute inset-0"
       style={{ zIndex: 1 }}
     >
-      {COMPANIES.map((company, i) => {
-        const pos = POSITIONS[i];
-        if (!pos) return null;
+      {COMPANIES.map((c) => {
+        const anchor = anchorFor(c.x);
+        const positionStyle: CSSProperties =
+          anchor === "right"
+            ? { right: `${100 - c.x}%`, top: `${c.y}%` }
+            : { left: `${c.x}%`, top: `${c.y}%` };
+        const transformClass =
+          anchor === "center"
+            ? "-translate-x-1/2 -translate-y-1/2"
+            : "-translate-y-1/2";
+
         return (
-          <CompanyLink
-            key={company.name}
-            company={company}
-            pos={pos}
-            index={i}
-            mouseX={mouseX}
-            mouseY={mouseY}
-            rectRef={rectRef}
-            reduce={reduce}
-          />
+          <div
+            key={c.name}
+            className={`pointer-events-none absolute ${transformClass} ${
+              c.mobile ? "" : "hidden md:block"
+            }`}
+            style={positionStyle}
+          >
+            <a
+              data-company
+              href={c.url}
+              target="_blank"
+              rel="noreferrer noopener"
+              aria-label={`Visit ${c.name}`}
+              className="company-chip pointer-events-auto inline-flex items-center whitespace-nowrap font-mono uppercase text-white"
+              style={{ fontSize: `${c.size}px` }}
+            >
+              {c.name}
+              <span aria-hidden className="company-arrow ml-1.5 inline-block">
+                ↗
+              </span>
+            </a>
+          </div>
         );
       })}
     </div>
