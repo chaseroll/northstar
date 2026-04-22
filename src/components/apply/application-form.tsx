@@ -49,33 +49,18 @@ const CLASS_YEARS = [
   "Other",
 ];
 
-const GRANT_ASK = [
-  "Under $10,000",
-  "$10,000 – $25,000",
-  "$25,000 – $50,000",
-  "I don't know yet",
-];
-
 type CountedName =
   | "oneliner"
   | "what"
   | "problem"
-  | "why_now"
   | "built"
-  | "why_you"
-  | "use_of_funds"
-  | "milestones"
   | "extra";
 
 const MAX: Record<CountedName, number> = {
   oneliner: 140,
   what: 1200,
   problem: 1200,
-  why_now: 800,
   built: 800,
-  why_you: 1200,
-  use_of_funds: 1000,
-  milestones: 1200,
   extra: 800,
 };
 
@@ -87,11 +72,7 @@ export function ApplicationForm() {
     oneliner: 0,
     what: 0,
     problem: 0,
-    why_now: 0,
     built: 0,
-    why_you: 0,
-    use_of_funds: 0,
-    milestones: 0,
     extra: 0,
   });
 
@@ -407,22 +388,6 @@ export function ApplicationForm() {
           />
         </Field>
 
-        <Field
-          label="Why now?"
-          htmlFor="why_now"
-          hint="What has changed in the world that makes this the right time"
-          counter={<CharCounter current={counts.why_now} max={MAX.why_now} />}
-        >
-          <TextArea
-            id="why_now"
-            name="why_now"
-            rows={4}
-            maxLength={MAX.why_now}
-            placeholder="A technology, behavior, regulation, cost curve — something that recently shifted"
-            disabled={disabled}
-            onChange={track("why_now")}
-          />
-        </Field>
       </FormSection>
 
       {/* ───────────────────────────── 05 · Progress */}
@@ -498,155 +463,17 @@ export function ApplicationForm() {
         </Field>
       </FormSection>
 
-      {/* ───────────────────────────── 06 · Why you */}
-      <FormSection
-        id="why-you"
-        index={6}
-        label="Why you"
-        title="Why are you the right person or team for this?"
-      >
-        <Field
-          label="Why you?"
-          required
-          htmlFor="why_you"
-          counter={<CharCounter current={counts.why_you} max={MAX.why_you} />}
-        >
-          <TextArea
-            id="why_you"
-            name="why_you"
-            rows={5}
-            required
-            maxLength={MAX.why_you}
-            placeholder="Background, obsessions, past projects, unfair advantages"
-            disabled={disabled}
-            onChange={track("why_you")}
-          />
-        </Field>
-
-        <Field
-          label="Time commitment"
-          required
-          htmlFor="hours"
-          hint="Hours per week you can commit to NorthStar during the program"
-        >
-          <TextInput
-            id="hours"
-            name="hours"
-            type="text"
-            required
-            placeholder="e.g. 25 hrs/week, full-time outside class"
-            disabled={disabled}
-          />
-        </Field>
-
-        <Field
-          label="Are you currently enrolled at UATX?"
-          required
-          htmlFor="enrolled"
-          hint="Admission requires active UATX enrollment for the duration of the program"
-        >
-          <RadioGroup
-            name="enrolled"
-            required
-            options={[
-              { value: "yes", label: "Yes, currently enrolled" },
-              { value: "incoming", label: "Admitted, starting next term" },
-              { value: "no", label: "Not enrolled" },
-            ]}
-          />
-        </Field>
-      </FormSection>
-
-      {/* ───────────────────────────── 07 · Ask */}
-      <FormSection
-        id="ask"
-        index={7}
-        label="Ask"
-        title="What are you asking NorthStar for?"
-        lede="Grants are non-equity, up to $50,000 per company per year. The initial amount is set by the Executive Director based on stage, scope, and need"
-      >
-        <FieldGrid cols={2}>
-          <Field label="Requested grant range" required htmlFor="ask_amount">
-            <Select
-              id="ask_amount"
-              name="ask_amount"
-              required
-              defaultValue=""
-              disabled={disabled}
-            >
-              <option value="" disabled>
-                Select…
-              </option>
-              {GRANT_ASK.map((g) => (
-                <option key={g} value={g}>
-                  {g}
-                </option>
-              ))}
-            </Select>
-          </Field>
-          <Field label="Earliest start" htmlFor="start_date">
-            <TextInput
-              id="start_date"
-              name="start_date"
-              type="text"
-              placeholder="e.g. next cycle, Fall 2026"
-              disabled={disabled}
-            />
-          </Field>
-        </FieldGrid>
-
-        <Field
-          label="How would you deploy the capital?"
-          required
-          htmlFor="use_of_funds"
-          counter={
-            <CharCounter current={counts.use_of_funds} max={MAX.use_of_funds} />
-          }
-        >
-          <TextArea
-            id="use_of_funds"
-            name="use_of_funds"
-            rows={4}
-            required
-            maxLength={MAX.use_of_funds}
-            placeholder="Roughly how the money gets spent — compute, tools, components, contractors, pilots"
-            disabled={disabled}
-            onChange={track("use_of_funds")}
-          />
-        </Field>
-
-        <Field
-          label="Milestones you commit to in 6 months"
-          required
-          htmlFor="milestones"
-          hint="These become your personalized milestones, reviewed monthly with the Executive Director"
-          counter={
-            <CharCounter current={counts.milestones} max={MAX.milestones} />
-          }
-        >
-          <TextArea
-            id="milestones"
-            name="milestones"
-            rows={5}
-            required
-            maxLength={MAX.milestones}
-            placeholder="Be specific — users, revenue, shipped features, design partners"
-            disabled={disabled}
-            onChange={track("milestones")}
-          />
-        </Field>
-      </FormSection>
-
-      {/* ───────────────────────────── 08 · Video */}
+      {/* ───────────────────────────── 06 · Video */}
       <FormSection
         id="video"
-        index={8}
+        index={6}
         label="Video"
         title="A one-minute introduction"
         lede="Record a short Loom or YouTube unlisted video of you (and any co-founders) explaining what you’re building. Phone camera is fine"
       >
         <Field
           label="Video URL"
+          required
           htmlFor="video_url"
           hint="Loom, YouTube unlisted, or Google Drive"
         >
@@ -654,21 +481,23 @@ export function ApplicationForm() {
             id="video_url"
             name="video_url"
             type="url"
+            required
             placeholder="https://www.loom.com/share/…"
             disabled={disabled}
           />
         </Field>
       </FormSection>
 
-      {/* ───────────────────────────── 09 · Anything else */}
+      {/* ───────────────────────────── 07 · Anything else */}
       <FormSection
         id="else"
-        index={9}
+        index={7}
         label="Anything else"
         title="Anything we should know that we haven’t asked?"
       >
         <Field
           label="Notes"
+          required
           htmlFor="extra"
           counter={<CharCounter current={counts.extra} max={MAX.extra} />}
         >
@@ -676,6 +505,7 @@ export function ApplicationForm() {
             id="extra"
             name="extra"
             rows={5}
+            required
             maxLength={MAX.extra}
             placeholder="Context, concerns, questions, clarifications — whatever is on your mind"
             disabled={disabled}

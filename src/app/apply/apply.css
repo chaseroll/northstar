@@ -1,20 +1,16 @@
-@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Cormorant+Infant:ital,wght@0,400;0,500;1,400&display=swap");
-
-/* Scope every font inside the apply section to Cormorant Garamond — override
-   the Geist Sans / Mono / Fraunces serif fallbacks defined in globals.css. */
+/* Scope every font inside the apply section to Cormorant Garamond, which is
+   loaded via next/font/google in page.tsx (exposes --font-cormorant). */
 .apply-fancy,
 .apply-fancy * {
   font-family:
+    var(--font-cormorant),
     "Cormorant Garamond",
-    "Cormorant Infant",
     "EB Garamond",
     ui-serif,
     Georgia,
     "Times New Roman",
     serif !important;
   font-variation-settings: normal !important;
-  -webkit-font-feature-settings: "liga", "dlig", "swsh", "calt";
-  font-feature-settings: "liga", "dlig", "swsh", "calt";
   letter-spacing: 0;
 }
 

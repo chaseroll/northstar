@@ -1,8 +1,19 @@
 import type { Metadata } from "next";
+import { Cormorant_Garamond } from "next/font/google";
 import { ApplicationForm } from "@/components/apply/application-form";
+import { ProgressRail } from "@/components/apply/progress-rail";
 import { Footer } from "@/components/footer";
 import { Nav } from "@/components/nav";
+import { SECTIONS } from "./sections";
 import "./apply.css";
+
+const cormorant = Cormorant_Garamond({
+  subsets: ["latin"],
+  variable: "--font-cormorant",
+  weight: ["300", "400", "500", "600", "700"],
+  style: ["normal", "italic"],
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Apply",
@@ -18,8 +29,9 @@ const STATS: { label: string; value: string }[] = [
 
 export default function ApplyPage() {
   return (
-    <div className="apply-fancy bg-navy text-white">
+    <div className={`${cormorant.variable} apply-fancy bg-navy text-white`}>
       <Nav />
+      <ProgressRail sections={SECTIONS} />
       <main className="text-center">
         <section className="relative pt-36 pb-14 md:pt-44 md:pb-20">
           <div className="mx-auto max-w-3xl px-6">
@@ -30,7 +42,7 @@ export default function ApplyPage() {
               Apply to NorthStar
             </h1>
             <p className="mx-auto mt-10 max-w-[50ch] text-[20px] leading-[1.55] text-white/75 text-balance">
-              One form. Nine short sections. Non-equity grants up to $50,000,
+              One form. Seven short sections. Non-equity grants up to $50,000,
               a curated mentor network, and monthly accountability with the
               Executive Director of the Innovation Labs. Admission is by
               application and selection
@@ -40,12 +52,14 @@ export default function ApplyPage() {
               {STATS.map((s) => (
                 <li
                   key={s.label}
-                  className="inline-flex items-baseline gap-2 rounded-full border border-hair-strong px-4 py-1.5 text-[13px]"
+                  className="group inline-flex cursor-default items-baseline gap-2 rounded-full border border-hair-strong bg-white/[0.01] px-4 py-1.5 text-[13px] transition-[transform,border-color,background-color,box-shadow] duration-300 ease-out hover:-translate-y-0.5 hover:border-white/60 hover:bg-white/[0.06] hover:shadow-[0_10px_32px_-8px_rgba(255,255,255,0.22)]"
                 >
-                  <span className="italic tracking-[0.12em] text-white/50">
+                  <span className="italic tracking-[0.12em] text-white/50 transition-colors duration-300 group-hover:text-white/80">
                     {s.label}
                   </span>
-                  <span className="text-white/25">·</span>
+                  <span className="text-white/25 transition-colors duration-300 group-hover:text-white/50">
+                    ·
+                  </span>
                   <span className="text-white">{s.value}</span>
                 </li>
               ))}
