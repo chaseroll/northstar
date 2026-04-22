@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Fraunces } from "next/font/google";
 import { FloatingCompanies } from "@/components/floating-companies";
+import { FloatingStars } from "@/components/floating-stars";
 import { StarField } from "@/components/star-field";
 import "./globals.css";
 
@@ -55,6 +56,7 @@ export default function RootLayout({
     >
       <body className="min-h-full bg-navy text-white font-sans selection:bg-white/20 selection:text-white">
         <StarField />
+        <FloatingStars />
         <FloatingCompanies />
         {children}
       </body>
