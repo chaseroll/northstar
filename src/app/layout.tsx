@@ -1,8 +1,5 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Fraunces } from "next/font/google";
-import { FloatingCompanies } from "@/components/floating-companies";
-import { FloatingStars } from "@/components/floating-stars";
-import { StarField } from "@/components/star-field";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -55,10 +52,7 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} ${fraunces.variable} h-full antialiased`}
     >
       <body className="min-h-full bg-navy text-white font-sans selection:bg-white/20 selection:text-white">
-        <StarField density={0.00011} baseOpacity={0.9} maxStars={260} />
-        <FloatingStars />
-        <FloatingCompanies />
-        <div className="relative z-10">{children}</div>
+        {children}
       </body>
     </html>
   );

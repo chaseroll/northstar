@@ -8,15 +8,15 @@ import { useId } from "react";
  *
  * Composition (bottom → top):
  *   1. Outer corona bloom (wide, soft, low-opacity)
- *   2. Secondary 45° rays (very faint — gives it 8-point presence)
- *   3. Long tapered vertical beam (soft glow + sharp inner highlight)
- *   4. Shorter tapered horizontal beam
- *   5. Diffraction hairlines beyond beam tips (camera flare feel)
- *   6. Hot white core with radial bloom
- *   7. Tiny specular pinprick
+ *   2. Pulsing ring — circular hairline that expands + fades on loop
+ *   3. Secondary 45° rays (very faint — gives 8-point presence)
+ *   4. Long tapered vertical beam (soft glow + sharp inner highlight)
+ *   5. Shorter tapered horizontal beam
+ *   6. Diffraction hairlines beyond beam tips
+ *   7. Hot white core with radial bloom
+ *   8. Tiny specular pinprick
  *
- * Motion: only a slow breath on the core. The star is a fixed point of
- * reference — it does not follow the cursor.
+ * All colors are pure white. No blue tint.
  */
 export function NorthStar({
   size = 720,
@@ -52,14 +52,14 @@ export function NorthStar({
           <radialGradient id={id.core} cx="50%" cy="50%" r="50%">
             <stop offset="0%" stopColor="#ffffff" stopOpacity="1" />
             <stop offset="18%" stopColor="#ffffff" stopOpacity="0.95" />
-            <stop offset="45%" stopColor="#dfe6ff" stopOpacity="0.35" />
-            <stop offset="100%" stopColor="#dfe6ff" stopOpacity="0" />
+            <stop offset="45%" stopColor="#ffffff" stopOpacity="0.35" />
+            <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
           </radialGradient>
 
           <radialGradient id={id.bloom} cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="#ffffff" stopOpacity="0.38" />
-            <stop offset="35%" stopColor="#c7d3ff" stopOpacity="0.10" />
-            <stop offset="100%" stopColor="#c7d3ff" stopOpacity="0" />
+            <stop offset="0%" stopColor="#ffffff" stopOpacity="0.34" />
+            <stop offset="35%" stopColor="#ffffff" stopOpacity="0.10" />
+            <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
           </radialGradient>
 
           <linearGradient id={id.vbeam} x1="0" y1="0" x2="0" y2="1">
@@ -108,13 +108,44 @@ export function NorthStar({
           filter={`url(#${id.bigBlur})`}
         />
 
-        {/* 2 · Secondary 45° rays */}
+        {/* 2 · Pulsing rings — two phased hairlines that expand + fade */}
+        <motion.circle
+          cx="0"
+          cy="0"
+          r="55"
+          fill="none"
+          stroke="#ffffff"
+          strokeWidth="0.6"
+          animate={{ r: [55, 150, 55], opacity: [0.55, 0, 0.55] }}
+          transition={{
+            duration: 4.2,
+            repeat: Infinity,
+            ease: "easeOut",
+          }}
+        />
+        <motion.circle
+          cx="0"
+          cy="0"
+          r="55"
+          fill="none"
+          stroke="#ffffff"
+          strokeWidth="0.5"
+          animate={{ r: [55, 150, 55], opacity: [0.4, 0, 0.4] }}
+          transition={{
+            duration: 4.2,
+            repeat: Infinity,
+            ease: "easeOut",
+            delay: 2.1,
+          }}
+        />
+
+        {/* 3 · Secondary 45° rays */}
         <g opacity="0.28" transform="rotate(45)">
           <polygon points="0,-90 0.8,0 0,90 -0.8,0" fill="#ffffff" />
           <polygon points="-60,0 0,0.5 60,0 0,-0.5" fill="#ffffff" />
         </g>
 
-        {/* 3 · Vertical beam */}
+        {/* 4 · Vertical beam */}
         <g>
           <polygon
             points="0,-260 4.2,0 0,260 -4.2,0"
@@ -124,7 +155,7 @@ export function NorthStar({
           <polygon points="0,-260 0.9,0 0,260 -0.9,0" fill="#ffffff" />
         </g>
 
-        {/* 4 · Horizontal beam */}
+        {/* 5 · Horizontal beam */}
         <g>
           <polygon
             points="-190,0 0,3 190,0 0,-3"
@@ -134,7 +165,7 @@ export function NorthStar({
           <polygon points="-190,0 0,0.7 190,0 0,-0.7" fill="#ffffff" />
         </g>
 
-        {/* 5 · Diffraction hairlines */}
+        {/* 6 · Diffraction hairlines */}
         <g stroke="#ffffff" strokeWidth="0.35" opacity="0.35">
           <line x1="0" y1="-295" x2="0" y2="-260" />
           <line x1="0" y1="260" x2="0" y2="295" />
@@ -144,7 +175,7 @@ export function NorthStar({
           <line x1="190" y1="0" x2="225" y2="0" />
         </g>
 
-        {/* 6 · Hot core — gently breathing */}
+        {/* 7 · Hot core — gently breathing */}
         <motion.g
           animate={{ opacity: [1, 0.82, 1] }}
           transition={{
