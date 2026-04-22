@@ -1,51 +1,25 @@
-"use client";
-
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
 import { StarMark } from "./star-mark";
 
-/** Hysteresis so the bar doesn't flicker around the threshold */
-const SCROLL_ON = 72;
-const SCROLL_OFF = 36;
-
+/**
+ * Nav — Soranos-style soft hood. No scroll detection, no backdrop blur,
+ * no solid tint bar. Just a gradient that fades from a hint of navy at
+ * the top to fully transparent at the bottom, so the nav content stays
+ * readable without a hard edge against the starscape.
+ */
 export function Nav() {
-  const [scrolled, setScrolled] = useState(false);
-  const ticking = useRef(false);
-
-  useEffect(() => {
-    const read = () => {
-      ticking.current = false;
-      const y = Math.max(window.scrollY, document.documentElement.scrollTop);
-      setScrolled((prev) => (prev ? y > SCROLL_OFF : y > SCROLL_ON));
-    };
-
-    const onScroll = () => {
-      if (ticking.current) return;
-      ticking.current = true;
-      requestAnimationFrame(read);
-    };
-
-    read();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
   return (
-    <nav className="fixed inset-x-0 top-0 z-50 [contain:layout_style]">
-      {/* Blur + tint only appears once you've scrolled past the hero */}
+    <nav className="fixed inset-x-0 top-0 z-50">
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 transition-opacity duration-300 ease-out"
+        className="pointer-events-none absolute inset-0"
         style={{
-          opacity: scrolled ? 1 : 0,
-          backgroundColor: "rgba(5, 9, 26, 0.18)",
-          borderBottom: "1px solid rgba(255, 255, 255, 0.06)",
-          backdropFilter: "blur(14px) saturate(150%)",
-          WebkitBackdropFilter: "blur(14px) saturate(150%)",
+          background:
+            "linear-gradient(180deg, rgba(5,9,26,0.55) 0%, rgba(5,9,26,0.25) 55%, transparent 100%)",
         }}
       />
 
-      <div className="relative z-10 flex items-center justify-between px-4 py-3 sm:px-8 sm:py-3.5">
+      <div className="relative z-10 flex items-center justify-between px-4 pb-5 pt-3 sm:px-8 sm:pb-6 sm:pt-3.5">
         <Link
           href="/"
           aria-label="NorthStar — home"
