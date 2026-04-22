@@ -10,9 +10,9 @@ import {
 import { useEffect, useRef } from "react";
 
 /**
- * FloatingCompanies — company names scattered across the hero, drifting
- * among the starfield. Each name brightens based on cursor **proximity**
- * (not direct hover), and clicks open the company in a new tab.
+ * FloatingCompanies — company names scattered across the hero. Each name
+ * brightens based on cursor **proximity**, not direct hover. Clicking opens
+ * the company in a new tab.
  */
 
 const COMPANIES: Array<{ name: string; url: string }> = [
@@ -53,7 +53,6 @@ const POSITIONS: Position[] = [
   { x: 56, y: 93, size: 12, mobile: false },
 ];
 
-/** Cursor distance (px) at which proximity = 1. */
 const PROX_RADIUS = 220;
 
 function CompanyLink({
@@ -73,20 +72,33 @@ function CompanyLink({
   rectRef: React.MutableRefObject<DOMRect | null>;
   reduce: boolean;
 }) {
-  // Proximity ∈ [0, 1], eased — 0 when cursor is beyond PROX_RADIUS, 1 at center
-  const proximity = useTransform(() => {
-    const rect = rectRef.current;
-    if (!rect) return 0;
-    const mx = mouseX.get();
-    const my = mouseY.get();
-    const cx = rect.left + (pos.x / 100) * rect.width;
-    const cy = rect.top + (pos.y / 100) * rect.height;
-    const dx = mx - cx;
-    const dy = my - cy;
-    const dist = Math.hypot(dx, dy);
-    const raw = Math.max(0, Math.min(1, 1 - dist / PROX_RADIUS));
-    return raw * raw; // ease-in
-  });
+  // Explicit subscription pattern: one motion value per link, updated
+  // whenever the shared mouse motion values change.
+  const proximity = useMotionValue(0);
+
+  useEffect(() => {
+    const update = () => {
+      const rect = rectRef.current;
+      if (!rect) {
+        proximity.set(0);
+        return;
+      }
+      const mx = mouseX.get();
+      const my = mouseY.get();
+      const cx = rect.left + (pos.x / 100) * rect.width;
+      const cy = rect.top + (pos.y / 100) * rect.height;
+      const dist = Math.hypot(mx - cx, my - cy);
+      const raw = Math.max(0, Math.min(1, 1 - dist / PROX_RADIUS));
+      proximity.set(raw * raw);
+    };
+    update();
+    const unsubX = mouseX.on("change", update);
+    const unsubY = mouseY.on("change", update);
+    return () => {
+      unsubX();
+      unsubY();
+    };
+  }, [mouseX, mouseY, pos.x, pos.y, proximity, rectRef]);
 
   const opacity = useTransform(proximity, (p) => 0.1 + p * 0.9);
   const scale = useTransform(proximity, (p) => 1 + p * 0.08);
