@@ -131,7 +131,7 @@ export function StarField({
         );
         const radius = s.r + proxEase * 1.8;
 
-        // Soft halo for stars near the cursor
+        // Soft halo for stars near the cursor.
         if (proxEase > 0.04) {
           const haloR = radius * 6;
           const g = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, haloR);

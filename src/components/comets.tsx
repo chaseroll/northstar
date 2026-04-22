@@ -126,7 +126,7 @@ export function Comets({
         g.addColorStop(1, "rgba(255,255,255,0)");
 
         ctx.strokeStyle = g;
-        ctx.lineWidth = 1.2;
+        ctx.lineWidth = 1.35;
         ctx.lineCap = "round";
         ctx.beginPath();
         ctx.moveTo(c.x, c.y);
@@ -136,7 +136,7 @@ export function Comets({
         // Small bright head
         ctx.fillStyle = `rgba(255,255,255,${a})`;
         ctx.beginPath();
-        ctx.arc(c.x, c.y, 1.3, 0, Math.PI * 2);
+        ctx.arc(c.x, c.y, 1.45, 0, Math.PI * 2);
         ctx.fill();
       }
 

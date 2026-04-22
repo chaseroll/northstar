@@ -1,4 +1,12 @@
+import { Cormorant_Garamond } from "next/font/google";
 import { Reveal } from "../reveal";
+
+const cormorant = Cormorant_Garamond({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  style: ["normal", "italic"],
+  display: "swap",
+});
 
 export function GapSection() {
   return (
@@ -9,8 +17,10 @@ export function GapSection() {
         </Reveal>
 
         <Reveal delay={0.04}>
-          <p className="display-md text-balance">
-            The infrastructure supporting builders at UATX is underdeveloped.
+          <p
+            className={`display-md text-[clamp(44px,5.4vw,68px)] leading-[1.06] text-balance ${cormorant.className}`}
+          >
+            The infrastructure supporting builders at UATX is underdeveloped
           </p>
         </Reveal>
 
@@ -24,7 +34,7 @@ export function GapSection() {
         </Reveal>
 
         <Reveal delay={0.16}>
-          <p className="body mx-auto mt-5 max-w-[58ch] text-balance text-white">
+          <p className="body mx-auto mt-5 max-w-[58ch] text-balance">
             There is a need for a program whose sole purpose is to increase
             the number of venture-backable startups within the university.
             NorthStar is the first step.

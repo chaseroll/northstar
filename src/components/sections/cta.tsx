@@ -1,5 +1,13 @@
+import { Cormorant_Garamond } from "next/font/google";
 import { InterestForm } from "../interest-form";
 import { Reveal } from "../reveal";
+
+const cormorant = Cormorant_Garamond({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  style: ["normal", "italic"],
+  display: "swap",
+});
 
 export function CtaSection() {
   return (
@@ -10,8 +18,10 @@ export function CtaSection() {
         </Reveal>
 
         <Reveal delay={0.04}>
-          <h2 className="display-lg text-balance">
-            Build something worth following.
+          <h2
+            className={`display-lg text-[clamp(50px,6.2vw,82px)] leading-[1.02] text-balance ${cormorant.className}`}
+          >
+            Build something worth following
           </h2>
         </Reveal>
 

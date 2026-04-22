@@ -1,3 +1,4 @@
+import { Cormorant_Garamond } from "next/font/google";
 import { Reveal } from "../reveal";
 
 type Subsection = {
@@ -15,12 +16,12 @@ const SUBSECTIONS: readonly Subsection[] = [
     eyebrow: "Capital",
     meta: "Grant structure",
     stat: "Up to $50,000",
-    lede: "Non-equity funding per company, per year.",
+    lede: "Non-equity funding per company, per year",
     items: [
-      "Companies must be incorporated prior to disbursement of funds — incorporation costs are covered by the program upon acceptance.",
-      "The initial grant size is set by the Executive Director based on stage, scope, and capital need.",
-      "Additional funds are unlocked upon demonstrated progress or justified need.",
-      "The overall program budget and grant parameters are approved by the Executive Director, UATX CFO, and General Counsel at the start of each cycle.",
+      "Companies must be incorporated prior to disbursement of funds — incorporation costs are covered by the program upon acceptance",
+      "The initial grant size is set by the Executive Director based on stage, scope, and capital need",
+      "Additional funds are unlocked upon demonstrated progress or justified need",
+      "The overall program budget and grant parameters are approved by the Executive Director, UATX CFO, and General Counsel at the start of each cycle",
     ],
   },
   {
@@ -28,11 +29,11 @@ const SUBSECTIONS: readonly Subsection[] = [
     eyebrow: "NorthStar Mentor Network",
     meta: "Mentorship",
     stat: "50+ practitioners",
-    lede: "A curated network, actively matched to what you are building.",
+    lede: "A curated network, actively matched to what you are building",
     items: [
-      "Managed by the Innovation Labs Director of Student Engagement.",
-      "A curated network of 50+ practitioners across industries, each committed to mentoring founders in the program.",
-      "Fellows are actively matched with mentors based on what they are building — not left to find connections on their own.",
+      "Managed by the Innovation Labs Director of Student Engagement",
+      "A curated network of 50+ practitioners across industries, each committed to mentoring founders in the program",
+      "Fellows are actively matched with mentors based on what they are building — not left to find connections on their own",
     ],
   },
   {
@@ -40,10 +41,10 @@ const SUBSECTIONS: readonly Subsection[] = [
     eyebrow: "Accountability",
     meta: "Cadence",
     stat: "Monthly reviews",
-    lede: "Progress checks for the duration of the program.",
+    lede: "Progress checks for the duration of the program",
     items: [
-      "After the first month, each member meets once a month with the Executive Director of the Innovation Labs for progress checks, on a set date, for the duration of the program.",
-      "By the end of the program, each member is expected to have reached their personalized milestones set by the Program Director.",
+      "After the first month, each member meets once a month with the Executive Director of the Innovation Labs for progress checks, on a set date, for the duration of the program",
+      "By the end of the program, each member is expected to have reached their personalized milestones set by the Program Director",
     ],
   },
   {
@@ -51,13 +52,20 @@ const SUBSECTIONS: readonly Subsection[] = [
     eyebrow: "Termination policy",
     meta: "Governance",
     stat: "Two grounds",
-    lede: "The bar for remaining in the program.",
+    lede: "The bar for remaining in the program",
     items: [
-      "The Program Director may terminate a member’s participation if the member fails to demonstrate meaningful progress toward their milestones.",
-      "If a member misappropriates funds, they are immediately and permanently disqualified from future participation in the NorthStar Program.",
+      "The Program Director may terminate a member’s participation if the member fails to demonstrate meaningful progress toward their milestones",
+      "If a member misappropriates funds, they are immediately and permanently disqualified from future participation in the NorthStar Program",
     ],
   },
 ];
+
+const cormorant = Cormorant_Garamond({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  style: ["normal", "italic"],
+  display: "swap",
+});
 
 export function ProgramSection() {
   return (
@@ -68,8 +76,10 @@ export function ProgramSection() {
             <p className="eyebrow mb-6">The proposal</p>
           </Reveal>
           <Reveal delay={0.05}>
-            <h2 className="display-lg text-balance">
-              Three instruments and a governing bar.
+            <h2
+              className={`display-lg text-[clamp(50px,6.2vw,82px)] leading-[1.02] text-balance ${cormorant.className}`}
+            >
+              Three instruments and a governing bar
             </h2>
           </Reveal>
           <Reveal delay={0.1}>

@@ -2,6 +2,7 @@
 
 import {
   motion,
+  useAnimationControls,
   useMotionValue,
   useReducedMotion,
   useTransform,
@@ -15,19 +16,20 @@ import { useEffect, useRef } from "react";
  * the company in a new tab.
  */
 
-const COMPANIES: Array<{ name: string; url: string }> = [
-  { name: "Anduril", url: "https://www.anduril.com" },
-  { name: "Palantir", url: "https://www.palantir.com" },
-  { name: "Ramp", url: "https://ramp.com" },
-  { name: "Linear", url: "https://linear.app" },
-  { name: "Cursor", url: "https://cursor.com" },
-  { name: "Vercel", url: "https://vercel.com" },
-  { name: "Anthropic", url: "https://www.anthropic.com" },
-  { name: "Figma", url: "https://www.figma.com" },
-  { name: "Stripe", url: "https://stripe.com" },
-  { name: "SpaceX", url: "https://www.spacex.com" },
-  { name: "Neuralink", url: "https://neuralink.com" },
-  { name: "Scale AI", url: "https://scale.com" },
+const COMPANIES: Array<{
+  name: string;
+  url: string;
+}> = [
+  { name: "Reading Rooms", url: "https://readingrooms.org" },
+  { name: "SpecScout", url: "https://specscout.org" },
+  { name: "Texas Film Scene", url: "https://filmscenetexas.com" },
+  { name: "GumGauge Dental", url: "https://gumgaugedental.com" },
+  { name: "ResearchDocAI", url: "https://researchdocai.com" },
+  { name: "ZenQuill", url: "https://zenquill.ai" },
+  { name: "OptionsAI", url: "https://optionsai.com" },
+  { name: "Oros Hydration", url: "https://getoros.com" },
+  { name: "Nemora", url: "https://nemora.app" },
+  { name: "Urban Pulse", url: "https://urbanpulsemapping.com" },
 ];
 
 type Position = {
@@ -39,21 +41,25 @@ type Position = {
 
 /** Intentionally irregular — clusters, loners, no grid. */
 const POSITIONS: Position[] = [
-  { x: 4, y: 18, size: 11, mobile: true },
+  { x: 12, y: 18, size: 11, mobile: true },
   { x: 19, y: 11, size: 13, mobile: false },
-  { x: 38, y: 7, size: 10, mobile: false },
+  { x: 42, y: 8, size: 10, mobile: false },
   { x: 66, y: 14, size: 12, mobile: false },
-  { x: 93, y: 9, size: 11, mobile: true },
+  { x: 88, y: 9, size: 11, mobile: true },
   { x: 8, y: 43, size: 12, mobile: false },
-  { x: 47, y: 38, size: 11, mobile: false },
+  { x: 88, y: 60, size: 11, mobile: false },
   { x: 88, y: 46, size: 13, mobile: true },
-  { x: 22, y: 63, size: 11, mobile: false },
-  { x: 71, y: 71, size: 12, mobile: false },
+  { x: 26, y: 66, size: 11, mobile: true },
+  { x: 90, y: 79, size: 12, mobile: false },
   { x: 12, y: 89, size: 10, mobile: true },
   { x: 56, y: 93, size: 12, mobile: false },
 ];
 
 const PROX_RADIUS = 220;
+const COMPANY_LINK_CLASS =
+  "group pointer-events-auto inline-flex items-center whitespace-nowrap font-mono uppercase text-white";
+const COMPANY_UNDERLINE_CLASS =
+  "pointer-events-none absolute -bottom-1 left-0 h-px w-full bg-gradient-to-r from-white/15 via-white/45 to-white";
 
 function CompanyLink({
   company,
@@ -64,7 +70,10 @@ function CompanyLink({
   rectRef,
   reduce,
 }: {
-  company: { name: string; url: string };
+  company: {
+    name: string;
+    url: string;
+  };
   pos: Position;
   index: number;
   mouseX: MotionValue<number>;
@@ -75,6 +84,7 @@ function CompanyLink({
   // Explicit subscription pattern: one motion value per link, updated
   // whenever the shared mouse motion values change.
   const proximity = useMotionValue(0);
+  const underlineControls = useAnimationControls();
 
   useEffect(() => {
     const update = () => {
@@ -100,7 +110,8 @@ function CompanyLink({
     };
   }, [mouseX, mouseY, pos.x, pos.y, proximity, rectRef]);
 
-  const opacity = useTransform(proximity, (p) => 0.1 + p * 0.9);
+  const baseOpacity = 0.08;
+  const opacity = useTransform(proximity, (p) => baseOpacity + p * (1 - baseOpacity));
   const scale = useTransform(proximity, (p) => 1 + p * 0.08);
   const letterSpacing = useTransform(
     proximity,
@@ -118,6 +129,22 @@ function CompanyLink({
   const duration = 12 + (index % 6) * 2.4;
   const delay = (index * 0.43) % 4;
 
+  const handleUnderlineEnter = () => {
+    underlineControls.start({
+      clipPath: ["inset(0 100% 0 0)", "inset(0 0% 0 0)"],
+      opacity: [0.85, 1],
+      transition: { duration: 0.42, ease: "easeOut" },
+    });
+  };
+
+  const handleUnderlineLeave = () => {
+    underlineControls.start({
+      clipPath: ["inset(0 0% 0 0)", "inset(0 0% 0 100%)"],
+      opacity: [1, 0],
+      transition: { duration: 0.4, ease: "easeInOut" },
+    });
+  };
+
   return (
     <div
       className={`pointer-events-none absolute -translate-x-1/2 -translate-y-1/2 ${
@@ -130,7 +157,9 @@ function CompanyLink({
         target="_blank"
         rel="noreferrer noopener"
         aria-label={`Visit ${company.name}`}
-        className="pointer-events-auto inline-flex items-center whitespace-nowrap font-mono uppercase text-white"
+        className={COMPANY_LINK_CLASS}
+        onMouseEnter={handleUnderlineEnter}
+        onMouseLeave={handleUnderlineLeave}
         style={{
           fontSize: `${pos.size}px`,
           opacity,
@@ -150,7 +179,15 @@ function CompanyLink({
           delay,
         }}
       >
-        {company.name}
+        <span className="relative">
+          {company.name}
+          <motion.span
+            aria-hidden
+            className={COMPANY_UNDERLINE_CLASS}
+            initial={{ clipPath: "inset(0 100% 0 0)", opacity: 0 }}
+            animate={underlineControls}
+          />
+        </span>
         <motion.span
           aria-hidden
           className="ml-1.5 inline-block"

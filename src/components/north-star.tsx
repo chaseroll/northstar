@@ -8,12 +8,11 @@ import { useId } from "react";
  *
  * Composition (bottom → top):
  *   1. Outer corona bloom (wide, soft, gently pulsing opacity)
- *   2. Secondary 45° rays (very faint — gives 8-point presence)
- *   3. Long tapered vertical beam (soft glow + sharp inner highlight)
- *   4. Shorter tapered horizontal beam
- *   5. Diffraction hairlines beyond beam tips
- *   6. Hot white core with radial bloom
- *   7. Tiny specular pinprick
+ *   2. Long tapered vertical beam (soft glow + sharp inner highlight)
+ *   3. Shorter tapered horizontal beam
+ *   4. Diffraction hairlines beyond beam tips
+ *   5. Hot white core with radial bloom
+ *   6. Tiny specular pinprick
  *
  * All colors are pure white. No blue tint. No expanding ring pulse —
  * the "pulse" is just the bloom's opacity breathing in sync with the core.
@@ -33,6 +32,7 @@ export function NorthStar({
     vbeam: `ns-vbeam-${uid}`,
     hbeam: `ns-hbeam-${uid}`,
     softBlur: `ns-soft-${uid}`,
+    midBlur: `ns-mid-${uid}`,
     bigBlur: `ns-big-${uid}`,
   };
 
@@ -57,8 +57,8 @@ export function NorthStar({
           </radialGradient>
 
           <radialGradient id={id.bloom} cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="#ffffff" stopOpacity="0.34" />
-            <stop offset="35%" stopColor="#ffffff" stopOpacity="0.10" />
+            <stop offset="0%" stopColor="#ffffff" stopOpacity="0.22" />
+            <stop offset="35%" stopColor="#ffffff" stopOpacity="0.06" />
             <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
           </radialGradient>
 
@@ -89,6 +89,16 @@ export function NorthStar({
           </filter>
 
           <filter
+            id={id.midBlur}
+            x="-80%"
+            y="-80%"
+            width="260%"
+            height="260%"
+          >
+            <feGaussianBlur stdDeviation="6.5" />
+          </filter>
+
+          <filter
             id={id.bigBlur}
             x="-100%"
             y="-100%"
@@ -103,34 +113,28 @@ export function NorthStar({
         <motion.circle
           cx="0"
           cy="0"
-          r="170"
+          r="92"
           fill={`url(#${id.bloom})`}
           filter={`url(#${id.bigBlur})`}
-          animate={{ opacity: [0.85, 1, 0.85] }}
+          animate={{ opacity: [0.48, 0.64, 0.48] }}
           transition={{
-            duration: 6.5,
+            duration: 8.2,
             repeat: Infinity,
             ease: "easeInOut",
           }}
         />
 
-        {/* 2 · Secondary 45° rays */}
-        <g opacity="0.28" transform="rotate(45)">
-          <polygon points="0,-90 0.8,0 0,90 -0.8,0" fill="#ffffff" />
-          <polygon points="-60,0 0,0.5 60,0 0,-0.5" fill="#ffffff" />
-        </g>
-
-        {/* 3 · Vertical beam */}
+        {/* 2 · Vertical beam */}
         <g>
           <polygon
-            points="0,-260 4.2,0 0,260 -4.2,0"
+            points="0,-238 4.2,0 0,238 -4.2,0"
             fill={`url(#${id.vbeam})`}
             filter={`url(#${id.softBlur})`}
           />
-          <polygon points="0,-260 0.9,0 0,260 -0.9,0" fill="#ffffff" />
+          <polygon points="0,-238 0.9,0 0,238 -0.9,0" fill="#ffffff" />
         </g>
 
-        {/* 4 · Horizontal beam */}
+        {/* 3 · Horizontal beam */}
         <g>
           <polygon
             points="-190,0 0,3 190,0 0,-3"
@@ -140,21 +144,36 @@ export function NorthStar({
           <polygon points="-190,0 0,0.7 190,0 0,-0.7" fill="#ffffff" />
         </g>
 
-        {/* 5 · Diffraction hairlines */}
+        {/* 4 · Diffraction hairlines */}
         <g stroke="#ffffff" strokeWidth="0.35" opacity="0.35">
-          <line x1="0" y1="-295" x2="0" y2="-260" />
-          <line x1="0" y1="260" x2="0" y2="295" />
+          <line x1="0" y1="-273" x2="0" y2="-238" />
+          <line x1="0" y1="238" x2="0" y2="273" />
         </g>
         <g stroke="#ffffff" strokeWidth="0.35" opacity="0.22">
           <line x1="-225" y1="0" x2="-190" y2="0" />
           <line x1="190" y1="0" x2="225" y2="0" />
         </g>
 
+        {/* 5 · Center-origin glow */}
+        <motion.circle
+          cx="0"
+          cy="0"
+          r="68"
+          fill="#ffffff"
+          filter={`url(#${id.midBlur})`}
+          animate={{ opacity: [0.1, 0.18, 0.1] }}
+          transition={{
+            duration: 7.6,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        />
+
         {/* 6 · Hot core — gently breathing */}
         <motion.g
-          animate={{ opacity: [1, 0.82, 1] }}
+          animate={{ opacity: [0.9, 0.96, 0.9] }}
           transition={{
-            duration: 5.5,
+            duration: 7.2,
             repeat: Infinity,
             ease: "easeInOut",
           }}

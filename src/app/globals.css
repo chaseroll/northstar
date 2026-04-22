@@ -190,6 +190,21 @@ body {
 .animate-breathe {
   animation: breathe 6s ease-in-out infinite;
 }
+
+@keyframes comet-sweep {
+  0% {
+    left: 0;
+    opacity: 1;
+  }
+  75% {
+    opacity: 1;
+  }
+  100% {
+    left: calc(100% - 0.75rem);
+    opacity: 0;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-breathe {
     animation: none !important;

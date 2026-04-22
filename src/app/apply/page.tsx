@@ -24,7 +24,8 @@ export const metadata: Metadata = {
 const STATS: { label: string; value: string }[] = [
   { label: "Cohort", value: "01" },
   { label: "Grant", value: "Up to $50,000" },
-  { label: "Review", value: "Rolling · within two weeks" },
+  { label: "Application window", value: "May 1 to end of Spring term" },
+  { label: "Decisions", value: "Released July 15 each year" },
 ];
 
 export default function ApplyPage() {
@@ -52,7 +53,7 @@ export default function ApplyPage() {
               {STATS.map((s) => (
                 <li
                   key={s.label}
-                  className="group inline-flex cursor-default items-baseline gap-2 rounded-full border border-hair-strong bg-white/[0.01] px-4 py-1.5 text-[13px] transition-[transform,border-color,background-color,box-shadow] duration-300 ease-out hover:-translate-y-0.5 hover:border-white/60 hover:bg-white/[0.06] hover:shadow-[0_10px_32px_-8px_rgba(255,255,255,0.22)]"
+                  className="group inline-flex cursor-default items-center gap-2 rounded-full border border-hair-strong bg-white/[0.01] px-4 py-1.5 text-[13px] transition-[transform,border-color,background-color,box-shadow] duration-300 ease-out hover:-translate-y-0.5 hover:border-white/60 hover:bg-white/[0.06] hover:shadow-[0_10px_32px_-8px_rgba(255,255,255,0.22)]"
                 >
                   <span className="italic tracking-[0.12em] text-white/50 transition-colors duration-300 group-hover:text-white/80">
                     {s.label}
