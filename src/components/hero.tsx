@@ -1,3 +1,4 @@
+import { FloatingCompanies } from "./floating-companies";
 import { NorthStar } from "./north-star";
 
 export function Hero() {
@@ -6,6 +7,8 @@ export function Hero() {
       <div className="pointer-events-none absolute inset-0 z-0 flex items-center justify-center">
         <NorthStar size={780} className="-translate-y-4 opacity-70" />
       </div>
+
+      <FloatingCompanies />
 
       <div className="shell relative z-10 mx-auto flex w-full max-w-3xl flex-col items-center text-center">
         <p className="eyebrow mb-10">
