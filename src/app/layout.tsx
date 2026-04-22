@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist_Mono, Fraunces } from "next/font/google";
+import { Geist_Mono } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
 
@@ -22,6 +22,11 @@ const generalSans = localFont({
       weight: "600",
       style: "normal",
     },
+    {
+      path: "../../public/fonts/GeneralSans-700.woff2",
+      weight: "700",
+      style: "normal",
+    },
   ],
 });
 
@@ -29,13 +34,6 @@ const geistMono = Geist_Mono({
   variable: "--font-mono",
   subsets: ["latin"],
   display: "swap",
-});
-
-const fraunces = Fraunces({
-  variable: "--font-serif",
-  subsets: ["latin"],
-  display: "swap",
-  axes: ["opsz"],
 });
 
 export const metadata: Metadata = {
@@ -66,7 +64,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${generalSans.variable} ${geistMono.variable} ${fraunces.variable} h-full antialiased`}
+      className={`${generalSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full bg-navy text-white font-sans selection:bg-white/20 selection:text-white">
         {children}
