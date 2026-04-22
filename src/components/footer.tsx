@@ -14,9 +14,6 @@ export function Footer() {
         </div>
 
         <div className="flex flex-col items-center gap-2 md:items-end">
-          <p className="eyebrow">
-            Proposed by Joshua&nbsp;Strauss &amp; Chase&nbsp;Roll
-          </p>
           <p className="eyebrow text-mute-2">© {year} · Austin,&nbsp;TX</p>
         </div>
       </div>

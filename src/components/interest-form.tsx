@@ -55,7 +55,7 @@ export function InterestForm() {
           type="email"
           required
           autoComplete="email"
-          placeholder="you@university.edu"
+          placeholder="you@student.uaustin.org"
           disabled={disabled}
           className="body flex-1 bg-transparent px-5 py-2.5 text-white placeholder:text-mute-2 focus:outline-none disabled:opacity-60"
         />
