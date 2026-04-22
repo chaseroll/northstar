@@ -38,7 +38,7 @@ export function Nav() {
         className="pointer-events-none absolute inset-0 transition-opacity duration-300 ease-out"
         style={{
           opacity: scrolled ? 1 : 0,
-          backgroundColor: "rgba(5, 9, 26, 0.5)",
+          backgroundColor: "rgba(5, 9, 26, 0.18)",
           borderBottom: "1px solid rgba(255, 255, 255, 0.06)",
           backdropFilter: "blur(14px) saturate(150%)",
           WebkitBackdropFilter: "blur(14px) saturate(150%)",
