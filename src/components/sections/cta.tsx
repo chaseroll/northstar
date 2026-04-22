@@ -19,8 +19,8 @@ export function CtaSection() {
           <p className="body mx-auto mt-6 max-w-[52ch] text-balance">
             Admission into the program is determined by an application and
             selection process managed by the Executive Director of the
-            Innovation Labs. Leave your email and we’ll send it when
-            applications open.
+            Innovation Labs. Companies must be incorporated to receive
+            capital.
           </p>
         </Reveal>
 

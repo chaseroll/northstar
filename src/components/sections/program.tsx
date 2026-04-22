@@ -17,6 +17,7 @@ const SUBSECTIONS: readonly Subsection[] = [
     stat: "Up to $50,000",
     lede: "Non-equity funding per company, per year.",
     items: [
+      "Companies must be incorporated prior to disbursement of funds.",
       "The initial grant size is set by the Executive Director based on stage, scope, and capital need.",
       "Additional funds are unlocked upon demonstrated progress or justified need.",
       "The overall program budget and grant parameters are approved by the Executive Director, UATX CFO, and General Counsel at the start of each cycle.",
