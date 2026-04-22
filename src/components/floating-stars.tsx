@@ -43,7 +43,7 @@ export function FloatingStars() {
     <div
       aria-hidden
       className="pointer-events-none fixed inset-0"
-      style={{ zIndex: -5 }}
+      style={{ zIndex: 1 }}
     >
       {STARS.map((star, i) => {
         const driftX = 3 - ((i * 5) % 7);

@@ -42,25 +42,21 @@
 
 html,
 body {
-  background: var(--color-navy);
+  background-color: var(--color-navy);
   color: var(--color-white);
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* One restrained top glow, sitting behind the starfield. */
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: -20;
-  background: radial-gradient(
+/* Subtle top glow, painted directly onto the body (no pseudo-element). */
+body {
+  background-image: radial-gradient(
     900px 560px at 50% -8%,
     rgba(255, 255, 255, 0.05),
     transparent 65%
   );
+  background-attachment: fixed;
 }
 
 /* ─── Text wrapping ─────────────────────────────────────── */

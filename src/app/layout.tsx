@@ -58,7 +58,7 @@ export default function RootLayout({
         <StarField density={0.00011} baseOpacity={0.9} maxStars={260} />
         <FloatingStars />
         <FloatingCompanies />
-        {children}
+        <div className="relative z-10">{children}</div>
       </body>
     </html>
   );

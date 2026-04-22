@@ -169,7 +169,8 @@ export function StarField({
     <canvas
       ref={ref}
       aria-hidden
-      className={`pointer-events-none fixed inset-0 -z-10 ${className}`}
+      className={`pointer-events-none fixed inset-0 ${className}`}
+      style={{ zIndex: 0 }}
     />
   );
 }

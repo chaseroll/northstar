@@ -56,7 +56,7 @@ export function FloatingCompanies() {
     <div
       aria-label="Aspirational companies"
       className="pointer-events-none fixed inset-0"
-      style={{ zIndex: -5 }}
+      style={{ zIndex: 1 }}
     >
       {COMPANIES.map((company, i) => {
         const pos = POSITIONS[i];
