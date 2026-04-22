@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { StarMark } from "./star-mark";
 
 export function Nav() {
   return (
@@ -7,9 +8,10 @@ export function Nav() {
         <Link
           href="/"
           aria-label="NorthStar — home"
-          className="wordmark transition-colors"
+          className="group flex items-center gap-2.5"
         >
-          NorthStar
+          <StarMark className="size-[18px] text-white transition-opacity group-hover:opacity-90" />
+          <span className="wordmark">NorthStar</span>
         </Link>
 
         <div className="flex items-center gap-6">
