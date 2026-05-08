@@ -29,24 +29,24 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://northstar.uaustin.org"),
+  metadataBase: new URL("https://northstar.uaustin.fund"),
   title: {
-    default: "North Star — Funding the first build",
+    default: "North Star",
     template: "%s · North Star",
   },
   description:
-    "Non-dilutive grants for first-time founders at the University of Austin. Up to $50K, a network of mentors, and a stage at the Austin Fund Demo Day.",
+    "Non-dilutive capital for founders at the University of Austin, before their first round.",
   openGraph: {
-    title: "North Star — Funding the first build",
+    title: "North Star",
     description:
-      "Non-dilutive grants for first-time founders at the University of Austin. Up to $50K, a network of mentors, and a stage at the Austin Fund Demo Day.",
+      "Non-dilutive capital for founders at the University of Austin, before their first round.",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "North Star — Funding the first build",
+    title: "North Star",
     description:
-      "Non-dilutive grants for first-time founders at the University of Austin. Up to $50K, a network of mentors, and a stage at the Austin Fund Demo Day.",
+      "Non-dilutive capital for founders at the University of Austin, before their first round.",
   },
 };
 
