@@ -30,25 +30,22 @@ export function Footer() {
   return (
     <footer className="pb-16 pt-24">
       <div className="shell mx-auto flex flex-col items-center gap-10 text-center">
-        <div className="flex flex-col items-center gap-3">
-          <Link
-            href="/"
-            aria-label="North Star — home"
-            onMouseEnter={handleEnter}
-            onMouseLeave={handleLeave}
-            className="relative inline-block pb-1.5"
-          >
-            <span className="wordmark">North Star</span>
-            <motion.span
-              aria-hidden
-              className="pointer-events-none absolute bottom-0 left-0 h-px w-full bg-gradient-to-r from-white/10 via-white/40 to-white"
-              initial={{ clipPath: "inset(0 100% 0 0)", opacity: 0 }}
-              animate={lineControls}
-              style={{ boxShadow: "0 0 8px rgba(255,255,255,0.35)" }}
-            />
-          </Link>
-          <span className="eyebrow text-mute">University of Austin</span>
-        </div>
+        <Link
+          href="/"
+          aria-label="North Star — home"
+          onMouseEnter={handleEnter}
+          onMouseLeave={handleLeave}
+          className="relative inline-block pb-1.5"
+        >
+          <span className="wordmark">North Star</span>
+          <motion.span
+            aria-hidden
+            className="pointer-events-none absolute bottom-0 left-0 h-px w-full bg-gradient-to-r from-white/10 via-white/40 to-white"
+            initial={{ clipPath: "inset(0 100% 0 0)", opacity: 0 }}
+            animate={lineControls}
+            style={{ boxShadow: "0 0 8px rgba(255,255,255,0.35)" }}
+          />
+        </Link>
 
         <p className="eyebrow text-mute-2">© {year} · Austin,&nbsp;TX</p>
       </div>
