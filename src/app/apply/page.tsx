@@ -21,11 +21,16 @@ export default function ApplyPage() {
       <>
         <Nav />
         <main data-theme="light" className="bg-cream text-ink">
-          <section className="flex min-h-[60svh] flex-col items-center justify-center px-6 text-center">
-            <p className="eyebrow text-ink-mute">Apply</p>
-            <p className="body mt-4 max-w-[36ch] text-balance text-ink-mute">
-              Applications coming soon.
-            </p>
+          <section className="relative flex min-h-[100svh] items-center justify-center px-6 pt-24 pb-24 md:pt-32 md:pb-32">
+            <div className="shell mx-auto max-w-3xl text-center">
+              <h1 className="display-xl text-balance">
+                Apply to the{" "}
+                <em className="display-em">first cohort</em>.
+              </h1>
+              <p className="body-lg mx-auto mt-10 max-w-[58ch] text-balance text-ink-mute">
+                Applications coming soon.
+              </p>
+            </div>
           </section>
         </main>
         <Footer />
