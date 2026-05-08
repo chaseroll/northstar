@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { Comets } from "./comets";
 import { FloatingCompanies } from "./floating-companies";
 import { NorthStar } from "./north-star";
@@ -6,14 +5,12 @@ import { NorthStar } from "./north-star";
 /**
  * Hero — full-viewport cosmic splash.
  *
- * Layered (back → front):
- *   1. FloatingCompanies — ambient brand chips with cursor-proximity glow
- *   2. Comets — slow drift accent
- *   3. NorthStar — central lens-flare guide star
- *   4. Copy — wordmark + program lede, centered in the shell
- *
- * `min-h-[100svh]` pins the splash to the full small-viewport height
- * so it never collapses under mobile browser chrome.
+ * Composition:
+ *   1. Ambient backdrop: FloatingCompanies + Comets
+ *   2. Star: NorthStar lens-flare, optical center on the same vertical
+ *      line as the wordmark/subtext column (matching translate-y).
+ *   3. Wordmark + subtext: stacked tight together so the splash reads
+ *      as one block sitting on the star.
  */
 export function Hero() {
   return (
@@ -36,19 +33,19 @@ export function Hero() {
         </div>
       </div>
 
-      <div className="shell relative z-10 mx-auto flex w-full max-w-3xl flex-col items-center text-center">
+      <div className="shell relative z-10 mx-auto flex w-full max-w-3xl -translate-y-2 flex-col items-center text-center sm:-translate-y-4">
         <h1 className="display-xl text-balance">North Star</h1>
 
-        <p className="body mt-8 max-w-[42ch] text-balance text-mute sm:mt-10">
-          A program for founders at the University of Austin.
-        </p>
-
-        <Link
-          href="/apply"
-          className="mt-8 inline-flex h-9 items-center rounded-full bg-white px-5 text-[13px] font-medium tracking-[-0.01em] text-navy transition-colors hover:bg-white/90"
+        <p
+          className="mt-6 max-w-[44ch] text-balance text-white/85 sm:mt-7"
+          style={{
+            fontFamily: "var(--font-serif)",
+            fontSize: "var(--fs-body-lg)",
+            lineHeight: 1.5,
+          }}
         >
-          Apply
-        </Link>
+          Non-dilutive capital for founders at the University of Austin, before their first round.
+        </p>
       </div>
     </section>
   );

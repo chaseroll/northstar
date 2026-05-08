@@ -205,7 +205,7 @@ export function Nav() {
               href="https://uaustin.fund"
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="Visit Austin Fund"
+              aria-label="Visit Austin Fund — pre-seed and seed venture capital for founders at the University of Austin"
               className={`nav-link hidden whitespace-nowrap pb-1.5 transition-colors duration-500 sm:inline-flex ${
                 isDark
                   ? "text-white/60 hover:text-white"
@@ -301,7 +301,7 @@ export function Nav() {
           href="https://uaustin.fund"
           target="_blank"
           rel="noopener noreferrer"
-          aria-label="Visit Austin Fund"
+          aria-label="Visit Austin Fund — pre-seed and seed venture capital for founders at the University of Austin"
           onClick={() => setOpen(false)}
           tabIndex={open ? 0 : -1}
           className="nav-link border-b border-hair-strong pb-4 text-[13px] tracking-[0.22em] text-white/75 transition-colors hover:text-white"

@@ -31,22 +31,22 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL("https://northstar.uaustin.org"),
   title: {
-    default: "North Star — A founders program at the University of Austin",
+    default: "North Star — Funding the first build",
     template: "%s · North Star",
   },
   description:
-    "A founders program at the University of Austin. Non-equity grants up to $50,000, 50+ practitioner mentors, and monthly reviews with the North Star team.",
+    "Non-dilutive grants for first-time founders at the University of Austin. Up to $50K, operator mentors, and a stage at the Austin Fund Demo Day.",
   openGraph: {
-    title: "North Star — A founders program at the University of Austin",
+    title: "North Star — Funding the first build",
     description:
-      "Non-equity grants up to $50,000, 50+ practitioner mentors, and monthly reviews with the North Star team.",
+      "Non-dilutive grants for first-time founders at the University of Austin. Up to $50K, operator mentors, and a stage at the Austin Fund Demo Day.",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "North Star — A founders program at the University of Austin",
+    title: "North Star — Funding the first build",
     description:
-      "Non-equity grants up to $50,000. Reviewed by the North Star team.",
+      "Non-dilutive grants for first-time founders at the University of Austin. Up to $50K, operator mentors, and a stage at the Austin Fund Demo Day.",
   },
 };
 

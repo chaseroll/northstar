@@ -2,22 +2,16 @@ import Link from "next/link";
 import { Reveal } from "./reveal";
 
 /**
- * Prospectus — about + what fellows receive.
+ * Prospectus — editorial thesis + what fellows receive.
  *
- * Editorial about paragraph, then a clean bullet list of what the
- * program offers. No requirements, no rules, no expectations — just
- * what we do.
+ * Single declarative paragraph that names every deliverable in prose,
+ * mirroring the Austin Fund Mission section. No bullets — bullets
+ * always read like a deck; prose reads like a thesis. The Apply
+ * CTA below is set off by a hairline rule.
  */
 
 const ABOUT =
-  "North Star is a program for founders at the University of Austin. We back fellows with capital, mentorship, and a path to investors.";
-
-const OFFERINGS: readonly string[] = [
-  "Non-equity grants up to $50,000 per company, per year.",
-  "Direct introductions to 50+ practitioner mentors.",
-  "Monthly reviews with the North Star team.",
-  "Demo Day to investors at the end of the program.",
-];
+  "North Star backs founders at the University of Austin before their first round. Fellows receive non-dilutive grants of up to $50K per year, direct introductions to a network of operator mentors, and an invitation to present at the Austin Fund Demo Day in front of partnered founders, angels, and VC's.";
 
 export function Prospectus() {
   return (
@@ -29,24 +23,13 @@ export function Prospectus() {
       <div className="shell">
         <div className="mx-auto max-w-[680px]">
           <Reveal>
-            <h2 className="display-md text-ink">About</h2>
+            <h2 className="display-md text-balance text-ink">
+              Funding the{" "}
+              <em className="display-em">first build</em>.
+            </h2>
             <p className="body-lg mt-6 text-pretty text-ink-mute">
               {ABOUT}
             </p>
-          </Reveal>
-
-          <Reveal delay={0.08}>
-            <ul className="mt-14 space-y-4 text-[17px] leading-[1.7] text-ink md:mt-16 md:text-[18px]">
-              {OFFERINGS.map((item, i) => (
-                <li key={i} className="flex items-start gap-4">
-                  <span
-                    aria-hidden
-                    className="mt-[0.7em] h-[4px] w-[4px] shrink-0 rounded-full bg-ink-mute-2"
-                  />
-                  <span className="text-pretty">{item}</span>
-                </li>
-              ))}
-            </ul>
           </Reveal>
         </div>
 
@@ -60,7 +43,7 @@ export function Prospectus() {
               <em className="display-em">first cohort</em>.
             </h2>
             <p className="body-lg mt-6 max-w-[42ch] text-balance text-ink-mute">
-              Reviewed by the North Star team.
+              Open call. Reviewed by the North Star team.
             </p>
             <Link
               href="/apply"
