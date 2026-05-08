@@ -26,7 +26,7 @@ const SECTIONS: readonly Section[] = [
     lede: "Non-equity, per company, per year.",
     items: [
       "Companies must be incorporated before funds are released. North Star covers the cost.",
-      "Grant size is set by the Innovation Labs based on stage, scope, and need.",
+      "Grant size is set by the Innovation Labs to hit set milestones.",
       "Additional funds follow demonstrated progress.",
     ],
   },

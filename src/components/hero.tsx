@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Comets } from "./comets";
 import { FloatingCompanies } from "./floating-companies";
 import { NorthStar } from "./north-star";
@@ -39,10 +40,19 @@ export function Hero() {
         <h1 className="display-xl text-balance">North Star</h1>
 
         <p className="body mt-8 max-w-[42ch] text-balance text-mute sm:mt-10">
-          We back founders at the University of Austin. Fellows receive
-          non-equity grants up to $50,000, direct access to 50+ practitioner
-          mentors, and a Demo Day in front of investors.
+          A founders program at the University of Austin.
         </p>
+
+        <p className="mt-3 max-w-[42ch] text-balance text-[14px] leading-[1.6] text-mute">
+          Non-equity grants to hit set milestones.
+        </p>
+
+        <Link
+          href="/apply"
+          className="mt-8 inline-flex h-9 items-center rounded-full bg-white px-5 text-[13px] font-medium tracking-[-0.01em] text-navy transition-colors hover:bg-white/90"
+        >
+          Apply
+        </Link>
       </div>
     </section>
   );
