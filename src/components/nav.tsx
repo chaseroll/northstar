@@ -164,41 +164,60 @@ export function Nav() {
         />
 
         <div className="relative flex items-center justify-between px-5 pb-5 pt-4 sm:px-8 sm:pb-6 sm:pt-4">
-          <Link
-            href="/"
-            aria-label="North Star — home"
-            onMouseEnter={handleWordmarkEnter}
-            onMouseLeave={handleWordmarkLeave}
-            className="group relative flex items-center gap-2.5 pb-1.5"
-          >
-            <StarMark
-              className={`size-[22px] shrink-0 transition-colors duration-500 ${
-                isDark ? "text-white/95" : "text-ink"
-              }`}
-            />
-            <span
-              className={`wordmark-sm transition-colors duration-500 ${
-                isDark ? "text-white/90" : "text-ink"
+          <div className="flex items-baseline">
+            <Link
+              href="/"
+              aria-label="North Star — home"
+              onMouseEnter={handleWordmarkEnter}
+              onMouseLeave={handleWordmarkLeave}
+              className="group relative flex items-center gap-2.5 pb-1.5"
+            >
+              <StarMark
+                className={`size-[22px] shrink-0 transition-colors duration-500 ${
+                  isDark ? "text-white/95" : "text-ink"
+                }`}
+              />
+              <span
+                className={`wordmark-sm transition-colors duration-500 ${
+                  isDark ? "text-white/90" : "text-ink"
+                }`}
+              >
+                North Star
+              </span>
+              <motion.span
+                aria-hidden
+                className={`pointer-events-none absolute bottom-0 left-0 h-px w-full ${
+                  isDark
+                    ? "bg-gradient-to-r from-white/10 via-white/40 to-white"
+                    : "bg-gradient-to-r from-ink/10 via-ink/40 to-ink"
+                }`}
+                initial={{ clipPath: "inset(0 100% 0 0)", opacity: 0 }}
+                animate={wordmarkLineControls}
+                style={{
+                  boxShadow: isDark
+                    ? "0 0 8px rgba(255,255,255,0.35)"
+                    : "0 0 6px rgba(10,15,34,0.18)",
+                }}
+              />
+            </Link>
+            {/* Mirror cross-link to Austin Fund, the originating program. */}
+            <a
+              href="https://www.uaustin.fund"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Visit Austin Fund"
+              className={`nav-link hidden items-baseline whitespace-nowrap transition-colors duration-500 sm:inline-flex ${
+                isDark
+                  ? "text-white/60 hover:text-white"
+                  : "text-ink-mute hover:text-ink"
               }`}
             >
-              North Star
-            </span>
-            <motion.span
-              aria-hidden
-              className={`pointer-events-none absolute bottom-0 left-0 h-px w-full ${
-                isDark
-                  ? "bg-gradient-to-r from-white/10 via-white/40 to-white"
-                  : "bg-gradient-to-r from-ink/10 via-ink/40 to-ink"
-              }`}
-              initial={{ clipPath: "inset(0 100% 0 0)", opacity: 0 }}
-              animate={wordmarkLineControls}
-              style={{
-                boxShadow: isDark
-                  ? "0 0 8px rgba(255,255,255,0.35)"
-                  : "0 0 6px rgba(10,15,34,0.18)",
-              }}
-            />
-          </Link>
+              {"\u2003·\u2003Austin Fund\u2009"}
+              <span aria-hidden className="text-[0.85em]">
+                {"\u2197"}
+              </span>
+            </a>
+          </div>
 
           <div className="hidden items-center gap-8 sm:flex">
             {LINKS.map((l) => (
@@ -276,6 +295,22 @@ export function Nav() {
             : "pointer-events-none -translate-y-2 opacity-0"
         }`}
       >
+        {/* Mirror cross-link to Austin Fund sits above the in-site links,
+            separated by a hairline so it reads as its own plane. */}
+        <a
+          href="https://www.uaustin.fund"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Visit Austin Fund"
+          onClick={() => setOpen(false)}
+          tabIndex={open ? 0 : -1}
+          className="nav-link border-b border-hair-strong pb-4 text-[13px] tracking-[0.22em] text-white/75 transition-colors hover:text-white"
+        >
+          {"Austin Fund\u2009"}
+          <span aria-hidden className="text-[0.85em]">
+            {"\u2197"}
+          </span>
+        </a>
         {LINKS.map((l) => (
           <Link
             key={l.href}
