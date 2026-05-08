@@ -36,7 +36,7 @@ export function Hero() {
             lineHeight: 1.55,
             fontStyle: "italic",
             textShadow:
-              "0 0 18px rgba(7, 9, 22, 0.92), 0 0 8px rgba(7, 9, 22, 0.75), 0 1px 2px rgba(7, 9, 22, 0.6)",
+              "0 0 28px rgba(4, 6, 16, 0.98), 0 0 14px rgba(4, 6, 16, 0.95), 0 0 6px rgba(4, 6, 16, 0.85), 0 1px 2px rgba(0, 0, 0, 0.7)",
           }}
         >
           Non-dilutive capital for founders at the University of Austin,
