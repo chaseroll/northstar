@@ -43,10 +43,6 @@ export function Hero() {
           A founders program at the University of Austin.
         </p>
 
-        <p className="mt-3 max-w-[42ch] text-balance text-[14px] leading-[1.6] text-mute">
-          Non-equity grants to hit set milestones.
-        </p>
-
         <Link
           href="/apply"
           className="mt-8 inline-flex h-9 items-center rounded-full bg-white px-5 text-[13px] font-medium tracking-[-0.01em] text-navy transition-colors hover:bg-white/90"
