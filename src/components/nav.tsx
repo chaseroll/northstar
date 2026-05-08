@@ -163,14 +163,14 @@ export function Nav() {
           } ${isDark ? "bg-white/[0.08]" : "bg-ink/[0.1]"}`}
         />
 
-        <div className="relative flex items-center justify-between px-5 pb-5 pt-4 sm:px-8 sm:pb-6 sm:pt-4">
-          <div className="flex items-center">
+        <div className="relative flex items-center justify-between px-5 py-5 sm:px-8 sm:py-6">
+          <div className="flex items-baseline">
             <Link
               href="/"
               aria-label="North Star — home"
               onMouseEnter={handleWordmarkEnter}
               onMouseLeave={handleWordmarkLeave}
-              className="group relative flex items-center gap-2.5 pb-1.5"
+              className="group relative flex items-baseline gap-2.5"
             >
               <StarMark
                 className={`size-[22px] shrink-0 transition-colors duration-500 ${
@@ -186,7 +186,7 @@ export function Nav() {
               </span>
               <motion.span
                 aria-hidden
-                className={`pointer-events-none absolute bottom-0 left-0 h-px w-full ${
+                className={`pointer-events-none absolute -bottom-1 left-0 h-px w-full ${
                   isDark
                     ? "bg-gradient-to-r from-white/10 via-white/40 to-white"
                     : "bg-gradient-to-r from-ink/10 via-ink/40 to-ink"
@@ -206,7 +206,7 @@ export function Nav() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Visit Austin Fund"
-              className={`nav-link hidden whitespace-nowrap transition-colors duration-500 sm:inline-flex ${
+              className={`nav-link hidden items-baseline whitespace-nowrap transition-colors duration-500 sm:inline-flex ${
                 isDark
                   ? "text-white/60 hover:text-white"
                   : "text-ink-mute hover:text-ink"
