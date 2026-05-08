@@ -39,7 +39,9 @@ export function Hero() {
         <h1 className="display-xl text-balance">North Star</h1>
 
         <p className="body mt-8 max-w-[42ch] text-balance text-mute sm:mt-10">
-          A founders program at the University of Austin.
+          We back founders at the University of Austin. Fellows receive
+          non-equity grants up to $50,000, direct access to 50+ practitioner
+          mentors, and a Demo Day in front of investors.
         </p>
       </div>
     </section>

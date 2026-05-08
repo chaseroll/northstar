@@ -21,8 +21,8 @@ export default function ApplyPage() {
               <em className="display-em">first cohort</em>.
             </h1>
             <p className="body-lg mx-auto mt-10 max-w-[58ch] text-balance text-ink-mute">
-              Reviewed by the Executive Director of the Innovation Labs.
-              You’ll hear back within two weeks.
+              Reviewed by the Innovation Labs. You’ll hear back within two
+              weeks.
             </p>
           </div>
         </section>

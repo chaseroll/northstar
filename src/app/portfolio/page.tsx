@@ -77,7 +77,7 @@ export default function PortfolioPage() {
                     <em className="display-em">first cohort</em>.
                   </h2>
                   <p className="body-lg mt-6 max-w-[42ch] text-balance text-ink-mute">
-                    Reviewed by the Executive Director of the Innovation Labs.
+                    Reviewed by the Innovation Labs.
                   </p>
                   <Link
                     href="/apply"

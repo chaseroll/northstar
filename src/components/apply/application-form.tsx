@@ -74,8 +74,7 @@ export function ApplicationForm() {
       <div className="mx-auto max-w-2xl py-16 text-center md:py-24">
         <h2 className="display-lg text-balance text-ink">Received.</h2>
         <p className="body-lg mx-auto mt-6 max-w-[62ch] text-balance text-ink-mute">
-          Reviewed by the Executive Director of the Innovation Labs. You’ll
-          hear back within two weeks.
+          Reviewed by the Innovation Labs. You’ll hear back within two weeks.
         </p>
       </div>
     );

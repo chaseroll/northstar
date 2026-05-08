@@ -26,7 +26,7 @@ const SECTIONS: readonly Section[] = [
     lede: "Non-equity, per company, per year.",
     items: [
       "Companies must be incorporated before funds are released. North Star covers the cost.",
-      "Grant size is set by the Executive Director based on stage, scope, and need.",
+      "Grant size is set by the Innovation Labs based on stage, scope, and need.",
       "Additional funds follow demonstrated progress.",
     ],
   },
@@ -38,7 +38,7 @@ const SECTIONS: readonly Section[] = [
   {
     id: "accountability",
     stat: "Monthly reviews",
-    lede: "With the Executive Director of the Innovation Labs, for the duration of the program.",
+    lede: "With the Innovation Labs, for the duration of the program.",
     items: [
       "On a set date each month.",
       "Fellows are expected to hit the milestones the Program Director sets.",
@@ -77,7 +77,7 @@ export function Prospectus() {
               <em className="display-em">first cohort</em>.
             </h2>
             <p className="body-lg mt-6 max-w-[42ch] text-balance text-ink-mute">
-              Reviewed by the Executive Director of the Innovation Labs.
+              Reviewed by the Innovation Labs.
             </p>
             <Link
               href="/apply"
