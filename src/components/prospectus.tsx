@@ -49,15 +49,6 @@ const SECTIONS: readonly Section[] = [
     stat: "Demo Day",
     lede: "Fellows present to investors at the end of the program.",
   },
-  {
-    id: "standards",
-    stat: "Admission is not permanent.",
-    lede: "Members can be removed for two reasons:",
-    items: [
-      "Failure to make progress on their milestones.",
-      "Misappropriation of funds — permanently disqualifying.",
-    ],
-  },
 ];
 
 export function Prospectus() {
