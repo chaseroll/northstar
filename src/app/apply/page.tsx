@@ -20,10 +20,10 @@ export default function ApplyPage() {
     return (
       <>
         <Nav />
-        <main>
+        <main data-theme="light" className="bg-cream text-ink">
           <section className="flex min-h-[60svh] flex-col items-center justify-center px-6 text-center">
-            <p className="eyebrow text-mute">Apply</p>
-            <p className="body mt-4 max-w-[36ch] text-balance text-mute">
+            <p className="eyebrow text-ink-mute">Apply</p>
+            <p className="body mt-4 max-w-[36ch] text-balance text-ink-mute">
               Applications coming soon.
             </p>
           </section>
