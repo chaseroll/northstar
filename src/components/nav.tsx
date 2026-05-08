@@ -202,7 +202,7 @@ export function Nav() {
             </Link>
             {/* Mirror cross-link to Austin Fund, the originating program. */}
             <a
-              href="https://www.uaustin.fund"
+              href="https://uaustin.fund"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Visit Austin Fund"
@@ -298,7 +298,7 @@ export function Nav() {
         {/* Mirror cross-link to Austin Fund sits above the in-site links,
             separated by a hairline so it reads as its own plane. */}
         <a
-          href="https://www.uaustin.fund"
+          href="https://uaustin.fund"
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Visit Austin Fund"
