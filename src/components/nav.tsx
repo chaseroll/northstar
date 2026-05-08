@@ -206,7 +206,7 @@ export function Nav() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Visit Austin Fund"
-              className={`nav-link hidden whitespace-nowrap transition-colors duration-500 sm:inline-flex ${
+              className={`nav-link hidden whitespace-nowrap pb-1.5 transition-colors duration-500 sm:inline-flex ${
                 isDark
                   ? "text-white/60 hover:text-white"
                   : "text-ink-mute hover:text-ink"
