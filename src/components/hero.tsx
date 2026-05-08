@@ -29,12 +29,14 @@ export function Hero() {
         </div>
 
         <p
-          className="relative z-10 mt-5 max-w-[42ch] text-balance text-white/85"
+          className="relative z-10 mt-5 max-w-[42ch] text-balance text-white/90"
           style={{
             fontFamily: "var(--font-serif)",
             fontSize: "clamp(18px, 1.7vw, 22px)",
             lineHeight: 1.55,
             fontStyle: "italic",
+            textShadow:
+              "0 0 18px rgba(7, 9, 22, 0.92), 0 0 8px rgba(7, 9, 22, 0.75), 0 1px 2px rgba(7, 9, 22, 0.6)",
           }}
         >
           Non-dilutive capital for founders at the University of Austin,
