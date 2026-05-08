@@ -40,7 +40,7 @@ export function Hero() {
         <h1 className="display-xl text-balance">North Star</h1>
 
         <p className="body mt-8 max-w-[42ch] text-balance text-mute sm:mt-10">
-          A founders program at the University of Austin.
+          A program for founders at the University of Austin.
         </p>
 
         <Link

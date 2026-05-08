@@ -2,53 +2,21 @@ import Link from "next/link";
 import { Reveal } from "./reveal";
 
 /**
- * Prospectus — editorial "paper" section under the hero.
+ * Prospectus — about + what fellows receive.
  *
- * The hero already names the program; the sections below say what it
- * does. No middle About layer, no pitch sentences, no marketing
- * adjectives. Each section is a serif stat, a one-line lede, and
- * (where it matters) a short bulleted list of facts.
+ * Editorial about paragraph, then a clean bullet list of what the
+ * program offers. No requirements, no rules, no expectations — just
+ * what we do.
  */
 
-type BulletItem = string;
+const ABOUT =
+  "North Star is a program for founders at the University of Austin. We back fellows with capital, mentorship, and a path to investors.";
 
-type Section = {
-  id: string;
-  stat: string;
-  lede: string;
-  items?: readonly BulletItem[];
-};
-
-const SECTIONS: readonly Section[] = [
-  {
-    id: "capital",
-    stat: "Up to $50,000",
-    lede: "Non-equity, per company, per year.",
-    items: [
-      "Companies must be incorporated before funds are released. North Star covers the cost.",
-      "Grant size is set to hit set milestones.",
-      "Additional funds follow demonstrated progress.",
-    ],
-  },
-  {
-    id: "mentors",
-    stat: "50+ practitioners",
-    lede: "You are introduced to mentors based on what you’re building.",
-  },
-  {
-    id: "accountability",
-    stat: "Monthly reviews",
-    lede: "With the North Star team, for the duration of the program.",
-    items: [
-      "On a set date each month.",
-      "Fellows are expected to hit the milestones the Program Director sets.",
-    ],
-  },
-  {
-    id: "demo-day",
-    stat: "Demo Day",
-    lede: "Fellows present to investors at the end of the program.",
-  },
+const OFFERINGS: readonly string[] = [
+  "Non-equity grants up to $50,000 per company, per year.",
+  "Direct introductions to 50+ practitioner mentors.",
+  "Monthly reviews with the North Star team.",
+  "Demo Day to investors at the end of the program.",
 ];
 
 export function Prospectus() {
@@ -59,12 +27,27 @@ export function Prospectus() {
       className="relative bg-cream text-ink section-y"
     >
       <div className="shell">
-        <div className="mx-auto max-w-[680px] space-y-14 md:space-y-20">
-          {SECTIONS.map((s, i) => (
-            <Reveal key={s.id} delay={i * 0.04}>
-              <SectionBlock section={s} />
-            </Reveal>
-          ))}
+        <div className="mx-auto max-w-[680px]">
+          <Reveal>
+            <h2 className="display-md text-ink">About</h2>
+            <p className="body-lg mt-6 text-pretty text-ink-mute">
+              {ABOUT}
+            </p>
+          </Reveal>
+
+          <Reveal delay={0.08}>
+            <ul className="mt-14 space-y-4 text-[17px] leading-[1.7] text-ink md:mt-16 md:text-[18px]">
+              {OFFERINGS.map((item, i) => (
+                <li key={i} className="flex items-start gap-4">
+                  <span
+                    aria-hidden
+                    className="mt-[0.7em] h-[4px] w-[4px] shrink-0 rounded-full bg-ink-mute-2"
+                  />
+                  <span className="text-pretty">{item}</span>
+                </li>
+              ))}
+            </ul>
+          </Reveal>
         </div>
 
         <Reveal>
@@ -90,34 +73,5 @@ export function Prospectus() {
         </Reveal>
       </div>
     </section>
-  );
-}
-
-function SectionBlock({ section }: { section: Section }) {
-  const { id, stat, lede, items } = section;
-  return (
-    <section id={id}>
-      <h2 className="display-md text-ink">{stat}</h2>
-      <p className="mt-3 text-[17px] leading-[1.6] text-ink-mute md:text-[18px]">
-        {lede}
-      </p>
-      {items ? <Bullets items={items} /> : null}
-    </section>
-  );
-}
-
-function Bullets({ items }: { items: readonly BulletItem[] }) {
-  return (
-    <ul className="mt-6 space-y-3 text-[16px] leading-[1.7] text-ink-mute md:text-[17px]">
-      {items.map((item, i) => (
-        <li key={i} className="flex items-start gap-4">
-          <span
-            aria-hidden
-            className="mt-[0.75em] h-[3px] w-[3px] shrink-0 rounded-full bg-ink-mute-2"
-          />
-          <span className="text-pretty">{item}</span>
-        </li>
-      ))}
-    </ul>
   );
 }
