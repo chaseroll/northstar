@@ -164,7 +164,7 @@ export function Nav() {
         />
 
         <div className="relative flex items-center justify-between px-5 pb-5 pt-4 sm:px-8 sm:pb-6 sm:pt-4">
-          <div className="flex items-baseline">
+          <div className="flex items-center">
             <Link
               href="/"
               aria-label="North Star — home"
@@ -206,7 +206,7 @@ export function Nav() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Visit Austin Fund"
-              className={`nav-link hidden items-baseline whitespace-nowrap transition-colors duration-500 sm:inline-flex ${
+              className={`nav-link hidden whitespace-nowrap transition-colors duration-500 sm:inline-flex ${
                 isDark
                   ? "text-white/60 hover:text-white"
                   : "text-ink-mute hover:text-ink"
