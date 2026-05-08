@@ -11,7 +11,7 @@ import { Reveal } from "./reveal";
  */
 
 const ABOUT =
-  "North Star backs founders at the University of Austin before their first round. Fellows receive non-dilutive grants of up to $50K per year, direct introductions to a network of operator mentors, and an invitation to present at the Austin Fund Demo Day in front of partnered founders, angels, and VC's.";
+  "North Star backs founders at the University of Austin before their first round. Fellows receive non-dilutive grants of up to $50K per year, direct introductions to a network of mentors, and an invitation to present at the Austin Fund Demo Day in front of partnered founders, angels, and VC's.";
 
 export function Prospectus() {
   return (

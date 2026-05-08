@@ -35,18 +35,18 @@ export const metadata: Metadata = {
     template: "%s · North Star",
   },
   description:
-    "Non-dilutive grants for first-time founders at the University of Austin. Up to $50K, operator mentors, and a stage at the Austin Fund Demo Day.",
+    "Non-dilutive grants for first-time founders at the University of Austin. Up to $50K, a network of mentors, and a stage at the Austin Fund Demo Day.",
   openGraph: {
     title: "North Star — Funding the first build",
     description:
-      "Non-dilutive grants for first-time founders at the University of Austin. Up to $50K, operator mentors, and a stage at the Austin Fund Demo Day.",
+      "Non-dilutive grants for first-time founders at the University of Austin. Up to $50K, a network of mentors, and a stage at the Austin Fund Demo Day.",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
     title: "North Star — Funding the first build",
     description:
-      "Non-dilutive grants for first-time founders at the University of Austin. Up to $50K, operator mentors, and a stage at the Austin Fund Demo Day.",
+      "Non-dilutive grants for first-time founders at the University of Austin. Up to $50K, a network of mentors, and a stage at the Austin Fund Demo Day.",
   },
 };
 
