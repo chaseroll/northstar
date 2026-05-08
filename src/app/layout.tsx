@@ -35,18 +35,18 @@ export const metadata: Metadata = {
     template: "%s · North Star",
   },
   description:
-    "A founders program at the University of Austin. Non-equity grants up to $50,000, 50+ practitioner mentors, and monthly reviews with the Innovation Labs.",
+    "A founders program at the University of Austin. Non-equity grants up to $50,000, 50+ practitioner mentors, and monthly reviews with the North Star team.",
   openGraph: {
     title: "North Star — A founders program at the University of Austin",
     description:
-      "Non-equity grants up to $50,000, 50+ practitioner mentors, and monthly reviews with the Innovation Labs.",
+      "Non-equity grants up to $50,000, 50+ practitioner mentors, and monthly reviews with the North Star team.",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
     title: "North Star — A founders program at the University of Austin",
     description:
-      "Non-equity grants up to $50,000. Reviewed by the Innovation Labs.",
+      "Non-equity grants up to $50,000. Reviewed by the North Star team.",
   },
 };
 

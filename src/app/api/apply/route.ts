@@ -2,6 +2,11 @@ import { NextResponse } from "next/server";
 
 export const runtime = "nodejs";
 
+// Mirrors the flag in src/app/apply/page.tsx. While `false`, every POST
+// returns 503 so any client that tries to submit gets a clean rejection
+// instead of silently looking like it worked.
+const APPLICATIONS_OPEN = false;
+
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const REQUIRED_FIELDS = [
@@ -19,6 +24,13 @@ const REQUIRED_FIELDS = [
 ] as const;
 
 export async function POST(req: Request) {
+  if (!APPLICATIONS_OPEN) {
+    return NextResponse.json(
+      { error: "Applications are temporarily closed." },
+      { status: 503 },
+    );
+  }
+
   let body: Record<string, unknown>;
   try {
     body = (await req.json()) as Record<string, unknown>;
