@@ -42,7 +42,7 @@ type Company = {
 // gaps — so the arrangement reads as organic instead of gridded.
 const COMPANIES: Company[] = [
   { name: "Reading Rooms", url: "https://readingrooms.org", x: 3, y: 22, size: 11, mobile: true },
-  { name: "SpecScout", url: "https://specscout.org", x: 21, y: 5, size: 13, mobile: false },
+  { name: "SpecScout", url: "https://specscout.org", x: 21, y: 18, size: 13, mobile: false },
   { name: "Texas Film Scene", url: "https://filmscenetexas.com", x: 44, y: 16, size: 10, mobile: false },
   { name: "GumGauge Dental", url: "https://gumgaugedental.com", x: 71, y: 8, size: 11, mobile: false },
   { name: "ResearchDocAI", url: "https://researchdocai.com", x: 94, y: 19, size: 12, mobile: true },
