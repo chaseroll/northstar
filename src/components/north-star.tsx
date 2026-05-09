@@ -57,9 +57,13 @@ export function NorthStar({ className = "" }: { className?: string }) {
 
           <linearGradient id={id.vbeam} x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stopColor="#ffffff" stopOpacity="0" />
-            <stop offset="38%" stopColor="#ffffff" stopOpacity="0.85" />
+            <stop offset="8%" stopColor="#ffffff" stopOpacity="0.5" />
+            <stop offset="22%" stopColor="#ffffff" stopOpacity="0.85" />
+            <stop offset="38%" stopColor="#ffffff" stopOpacity="0.95" />
             <stop offset="50%" stopColor="#ffffff" stopOpacity="1" />
-            <stop offset="62%" stopColor="#ffffff" stopOpacity="0.85" />
+            <stop offset="62%" stopColor="#ffffff" stopOpacity="0.95" />
+            <stop offset="78%" stopColor="#ffffff" stopOpacity="0.85" />
+            <stop offset="92%" stopColor="#ffffff" stopOpacity="0.5" />
             <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
           </linearGradient>
 

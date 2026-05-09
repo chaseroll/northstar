@@ -82,8 +82,9 @@ export function Nav() {
   useEffect(() => {
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll);
-    onScroll();
+    const raf = requestAnimationFrame(onScroll);
     return () => {
+      cancelAnimationFrame(raf);
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
     };
