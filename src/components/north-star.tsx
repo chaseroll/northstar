@@ -89,10 +89,10 @@ export function NorthStar({ className = "" }: { className?: string }) {
 
           <mask id={id.vmask} maskUnits="userSpaceOnUse">
             <rect
-              x="-300"
-              y="-300"
-              width="600"
-              height="600"
+              x="-340"
+              y="-340"
+              width="680"
+              height="680"
               fill={`url(#${id.vmaskGrad})`}
             />
           </mask>
@@ -133,11 +133,11 @@ export function NorthStar({ className = "" }: { className?: string }) {
 
         <g mask={`url(#${id.vmask})`}>
           <polygon
-            points="0,-260 4.2,0 0,260 -4.2,0"
+            points="0,-330 4.2,0 0,330 -4.2,0"
             fill={`url(#${id.vbeam})`}
             filter={`url(#${id.softBlur})`}
           />
-          <polygon points="0,-260 0.9,0 0,260 -0.9,0" fill="#ffffff" />
+          <polygon points="0,-330 0.9,0 0,330 -0.9,0" fill="#ffffff" />
         </g>
 
         <g>
@@ -150,8 +150,8 @@ export function NorthStar({ className = "" }: { className?: string }) {
         </g>
 
         <g stroke="#ffffff" strokeWidth="0.7" opacity="0.45">
-          <line x1="0" y1="-295" x2="0" y2="-260" />
-          <line x1="0" y1="260" x2="0" y2="295" />
+          <line x1="0" y1="-365" x2="0" y2="-330" />
+          <line x1="0" y1="330" x2="0" y2="365" />
         </g>
         <g stroke="#ffffff" strokeWidth="0.7" opacity="0.3">
           <line x1="-225" y1="0" x2="-190" y2="0" />
