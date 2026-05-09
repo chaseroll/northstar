@@ -1,7 +1,7 @@
 import { useId } from "react";
 
 /**
- * North Star — anamorphic lens-flare guide star.
+ * North Star: anamorphic lens-flare guide star.
  *
  * Static SVG (no motion). Pure white throughout. Sized by its parent so the
  * caller controls responsive scaling via CSS.
