@@ -56,14 +56,13 @@ export function NorthStar({ className = "" }: { className?: string }) {
           </radialGradient>
 
           <linearGradient id={id.vbeam} x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#ffffff" stopOpacity="0" />
-            <stop offset="8%" stopColor="#ffffff" stopOpacity="0.5" />
-            <stop offset="22%" stopColor="#ffffff" stopOpacity="0.85" />
-            <stop offset="38%" stopColor="#ffffff" stopOpacity="0.95" />
-            <stop offset="50%" stopColor="#ffffff" stopOpacity="1" />
-            <stop offset="62%" stopColor="#ffffff" stopOpacity="0.95" />
-            <stop offset="78%" stopColor="#ffffff" stopOpacity="0.85" />
-            <stop offset="92%" stopColor="#ffffff" stopOpacity="0.5" />
+            <stop offset="0%" stopColor="#ffffff" stopOpacity="0.45" />
+            <stop offset="18%" stopColor="#ffffff" stopOpacity="0.75" />
+            <stop offset="35%" stopColor="#ffffff" stopOpacity="0.95" />
+            <stop offset="46%" stopColor="#ffffff" stopOpacity="1" />
+            <stop offset="60%" stopColor="#ffffff" stopOpacity="0.95" />
+            <stop offset="80%" stopColor="#ffffff" stopOpacity="0.7" />
+            <stop offset="95%" stopColor="#ffffff" stopOpacity="0.25" />
             <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
           </linearGradient>
 
@@ -137,11 +136,14 @@ export function NorthStar({ className = "" }: { className?: string }) {
 
         <g mask={`url(#${id.vmask})`}>
           <polygon
-            points="0,-260 4.2,0 0,260 -4.2,0"
+            points="-1,-220 1,-220 4.2,0 0,260 -4.2,0"
             fill={`url(#${id.vbeam})`}
             filter={`url(#${id.softBlur})`}
           />
-          <polygon points="0,-260 0.9,0 0,260 -0.9,0" fill="#ffffff" />
+          <polygon
+            points="-0.3,-220 0.3,-220 1,0 0,260 -1,0"
+            fill="#ffffff"
+          />
         </g>
 
         <g>
@@ -154,7 +156,7 @@ export function NorthStar({ className = "" }: { className?: string }) {
         </g>
 
         <g stroke="#ffffff" strokeWidth="0.7" opacity="0.45">
-          <line x1="0" y1="-292" x2="0" y2="-260" />
+          <line x1="0" y1="-252" x2="0" y2="-220" />
           <line x1="0" y1="260" x2="0" y2="292" />
         </g>
         <g stroke="#ffffff" strokeWidth="0.7" opacity="0.3">
