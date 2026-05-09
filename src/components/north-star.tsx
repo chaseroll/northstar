@@ -149,11 +149,11 @@ export function NorthStar({ className = "" }: { className?: string }) {
           <polygon points="-190,0 0,0.7 190,0 0,-0.7" fill="#ffffff" />
         </g>
 
-        <g stroke="#ffffff" strokeWidth="0.35" opacity="0.35">
+        <g stroke="#ffffff" strokeWidth="0.7" opacity="0.45">
           <line x1="0" y1="-295" x2="0" y2="-260" />
           <line x1="0" y1="260" x2="0" y2="295" />
         </g>
-        <g stroke="#ffffff" strokeWidth="0.35" opacity="0.22">
+        <g stroke="#ffffff" strokeWidth="0.7" opacity="0.3">
           <line x1="-225" y1="0" x2="-190" y2="0" />
           <line x1="190" y1="0" x2="225" y2="0" />
         </g>

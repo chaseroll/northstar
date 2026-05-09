@@ -20,7 +20,7 @@ export function Hero() {
           <div
             className="pointer-events-none absolute left-1/2 top-0 -z-10 -translate-x-1/2 -translate-y-1/2 opacity-95"
             style={{
-              width: "min(86vmin, 780px)",
+              width: "min(100vmin, 780px)",
               aspectRatio: "1 / 1",
             }}
           >
