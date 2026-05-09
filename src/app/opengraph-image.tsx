@@ -2,7 +2,7 @@ import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
 export const alt =
-  "North Star · Non-dilutive capital for founders at the University of Austin, before their first round";
+  "North Star · Non-dilutive capital for founders at the University of Austin";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -60,7 +60,7 @@ export default async function Image() {
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          background: "#05091a",
+          background: "#000000",
           padding: "72px 80px",
           fontFamily: "Source Serif 4",
           color: "#ffffff",
@@ -116,9 +116,9 @@ export default async function Image() {
             <defs>
               <radialGradient id="bloom" cx="50%" cy="50%" r="50%">
                 <stop offset="0%" stopColor="#ffffff" stopOpacity="0.55" />
-                <stop offset="35%" stopColor="#bcd1ff" stopOpacity="0.18" />
-                <stop offset="70%" stopColor="#5e7cff" stopOpacity="0.05" />
-                <stop offset="100%" stopColor="#05091a" stopOpacity="0" />
+                <stop offset="35%" stopColor="#ffffff" stopOpacity="0.18" />
+                <stop offset="70%" stopColor="#ffffff" stopOpacity="0.05" />
+                <stop offset="100%" stopColor="#000000" stopOpacity="0" />
               </radialGradient>
               <radialGradient id="core" cx="50%" cy="50%" r="50%">
                 <stop offset="0%" stopColor="#ffffff" stopOpacity="1" />
@@ -226,8 +226,7 @@ export default async function Image() {
               justifyContent: "center",
             }}
           >
-            Non-dilutive capital for founders at the University of Austin,
-            before their first round.
+            Non-dilutive capital for founders at the University of Austin.
           </div>
         </div>
 

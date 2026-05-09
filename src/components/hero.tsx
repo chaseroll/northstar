@@ -6,7 +6,7 @@ import { NorthStar } from "./north-star";
  * Layered (back → front):
  *   1. Global StarBackdrop (root layout) — ambient starfield
  *   2. NorthStar — central lens-flare guide star
- *   3. Copy — wordmark + italic subtext, centered on the star
+ *   3. Copy — serif wordmark + sans subtext, centered on the star
  *
  * No floating companies, no comets, no chevron, no CTA.
  */
@@ -14,7 +14,15 @@ export function Hero() {
   return (
     <section className="relative flex min-h-[100svh] items-center justify-center overflow-hidden px-6">
       <div className="shell relative isolate mx-auto flex w-full max-w-3xl -translate-y-2 flex-col items-center text-center sm:-translate-y-4">
-        <h1 className="display-xl relative z-10 text-balance">North Star</h1>
+        <h1
+          className="display-xl relative z-10 text-balance"
+          style={{
+            textShadow:
+              "0 0 36px rgba(0, 0, 0, 0.7), 0 0 14px rgba(0, 0, 0, 0.5)",
+          }}
+        >
+          North Star
+        </h1>
 
         <div aria-hidden className="relative mt-5 h-0 w-full">
           <div
@@ -29,14 +37,15 @@ export function Hero() {
         </div>
 
         <p
-          className="relative z-10 mt-5 max-w-[42ch] text-balance text-white/90"
+          className="relative z-10 mt-6 max-w-[44ch] text-balance text-white/85"
           style={{
-            fontFamily: "var(--font-serif)",
-            fontSize: "clamp(18px, 1.7vw, 22px)",
-            lineHeight: 1.55,
-            fontStyle: "italic",
+            fontFamily: "var(--font-sans)",
+            fontSize: "clamp(15px, 1.2vw, 17px)",
+            fontWeight: 400,
+            lineHeight: 1.6,
+            letterSpacing: "-0.005em",
             textShadow:
-              "0 0 28px rgba(4, 6, 16, 0.98), 0 0 14px rgba(4, 6, 16, 0.95), 0 0 6px rgba(4, 6, 16, 0.85), 0 1px 2px rgba(0, 0, 0, 0.7)",
+              "0 0 14px rgba(0, 0, 0, 0.75), 0 0 5px rgba(0, 0, 0, 0.55)",
           }}
         >
           Non-dilutive capital for founders at the University of Austin.

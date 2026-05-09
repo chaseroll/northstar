@@ -35,23 +35,23 @@ export const metadata: Metadata = {
     template: "%s · North Star",
   },
   description:
-    "Non-dilutive capital for founders at the University of Austin, before their first round.",
+    "Non-dilutive capital for founders at the University of Austin.",
   openGraph: {
     title: "North Star",
     description:
-      "Non-dilutive capital for founders at the University of Austin, before their first round.",
+      "Non-dilutive capital for founders at the University of Austin.",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
     title: "North Star",
     description:
-      "Non-dilutive capital for founders at the University of Austin, before their first round.",
+      "Non-dilutive capital for founders at the University of Austin.",
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#05091a",
+  themeColor: "#000000",
   colorScheme: "dark",
   width: "device-width",
   initialScale: 1,

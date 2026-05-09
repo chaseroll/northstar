@@ -96,7 +96,7 @@ export function Nav() {
       if (e.key === "Escape") setOpen(false);
     };
     const onResize = () => {
-      if (window.innerWidth >= 640) setOpen(false);
+      if (window.innerWidth >= 768) setOpen(false);
     };
     window.addEventListener("keydown", onKey);
     window.addEventListener("resize", onResize);
@@ -164,7 +164,7 @@ export function Nav() {
           } ${isDark ? "bg-white/[0.08]" : "bg-ink/[0.1]"}`}
         />
 
-        <div className="relative flex items-center justify-between px-5 py-5 sm:px-8 sm:py-6">
+        <div className="relative mx-auto flex items-center justify-between px-6 py-5 md:px-16 md:py-6 lg:px-24">
           <div className="flex items-center">
             <Link
               href="/"
@@ -207,7 +207,7 @@ export function Nav() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Visit Austin Fund — pre-seed and seed venture capital for founders at the University of Austin"
-              className={`nav-link hidden whitespace-nowrap pb-1.5 transition-colors duration-500 sm:inline-flex ${
+              className={`nav-link hidden whitespace-nowrap pb-1.5 transition-colors duration-500 md:inline-flex ${
                 isDark
                   ? "text-white/60 hover:text-white"
                   : "text-ink-mute hover:text-ink"
@@ -220,7 +220,7 @@ export function Nav() {
             </a>
           </div>
 
-          <div className="hidden items-center gap-8 sm:flex">
+          <div className="hidden items-center gap-10 md:flex">
             {LINKS.map((l) => (
               <Link
                 key={l.href}
@@ -252,7 +252,7 @@ export function Nav() {
             aria-expanded={open}
             aria-controls="primary-mobile-menu"
             onClick={() => setOpen((v) => !v)}
-            className={`relative flex h-10 w-10 items-center justify-center rounded-md border transition-colors duration-500 sm:hidden ${
+            className={`relative flex h-10 w-10 items-center justify-center rounded-md border transition-colors duration-500 md:hidden ${
               isDark
                 ? "border-hair-strong hover:border-white/40"
                 : "border-ink-hair-strong hover:border-ink/60"
@@ -290,7 +290,7 @@ export function Nav() {
         onClick={(e) => {
           if (e.target === e.currentTarget) setOpen(false);
         }}
-        className={`fixed inset-0 z-[300] flex flex-col items-center justify-center gap-10 bg-navy transition-[opacity,transform] duration-300 sm:hidden ${
+        className={`fixed inset-0 z-[300] flex flex-col items-center justify-center gap-10 bg-navy transition-[opacity,transform] duration-300 md:hidden ${
           open
             ? "pointer-events-auto translate-y-0 opacity-100"
             : "pointer-events-none -translate-y-2 opacity-0"
