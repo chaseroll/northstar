@@ -80,19 +80,19 @@ export function NorthStar({ className = "" }: { className?: string }) {
           >
             <stop offset="0%" stopColor="#ffffff" />
             <stop offset="50%" stopColor="#ffffff" />
-            <stop offset="52.5%" stopColor="#a8a8a8" />
-            <stop offset="58%" stopColor="#5a5a5a" />
-            <stop offset="66%" stopColor="#5a5a5a" />
-            <stop offset="76%" stopColor="#909090" />
+            <stop offset="51.83%" stopColor="#a8a8a8" />
+            <stop offset="56.51%" stopColor="#5a5a5a" />
+            <stop offset="63.27%" stopColor="#5a5a5a" />
+            <stop offset="71.56%" stopColor="#909090" />
             <stop offset="100%" stopColor="#000000" />
           </linearGradient>
 
           <mask id={id.vmask} maskUnits="userSpaceOnUse">
             <rect
               x="-340"
-              y="-340"
+              y="-410"
               width="680"
-              height="680"
+              height="820"
               fill={`url(#${id.vmaskGrad})`}
             />
           </mask>
@@ -133,11 +133,11 @@ export function NorthStar({ className = "" }: { className?: string }) {
 
         <g mask={`url(#${id.vmask})`}>
           <polygon
-            points="0,-330 4.2,0 0,330 -4.2,0"
+            points="0,-400 4.2,0 0,400 -4.2,0"
             fill={`url(#${id.vbeam})`}
             filter={`url(#${id.softBlur})`}
           />
-          <polygon points="0,-330 0.9,0 0,330 -0.9,0" fill="#ffffff" />
+          <polygon points="0,-400 0.9,0 0,400 -0.9,0" fill="#ffffff" />
         </g>
 
         <g>
@@ -150,8 +150,8 @@ export function NorthStar({ className = "" }: { className?: string }) {
         </g>
 
         <g stroke="#ffffff" strokeWidth="0.7" opacity="0.45">
-          <line x1="0" y1="-365" x2="0" y2="-330" />
-          <line x1="0" y1="330" x2="0" y2="365" />
+          <line x1="0" y1="-435" x2="0" y2="-400" />
+          <line x1="0" y1="400" x2="0" y2="435" />
         </g>
         <g stroke="#ffffff" strokeWidth="0.7" opacity="0.3">
           <line x1="-225" y1="0" x2="-190" y2="0" />
