@@ -56,11 +56,10 @@ export function NorthStar({ className = "" }: { className?: string }) {
           <linearGradient id={id.vbeam} x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stopColor="#ffffff" stopOpacity="0" />
             <stop offset="14%" stopColor="#ffffff" stopOpacity="0.55" />
-            <stop offset="28%" stopColor="#ffffff" stopOpacity="0.9" />
-            <stop offset="43.5%" stopColor="#ffffff" stopOpacity="1" />
-            <stop offset="58%" stopColor="#ffffff" stopOpacity="0.95" />
-            <stop offset="78%" stopColor="#ffffff" stopOpacity="0.75" />
-            <stop offset="93%" stopColor="#ffffff" stopOpacity="0.3" />
+            <stop offset="32%" stopColor="#ffffff" stopOpacity="0.92" />
+            <stop offset="50%" stopColor="#ffffff" stopOpacity="1" />
+            <stop offset="68%" stopColor="#ffffff" stopOpacity="0.92" />
+            <stop offset="86%" stopColor="#ffffff" stopOpacity="0.55" />
             <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
           </linearGradient>
 
@@ -108,11 +107,11 @@ export function NorthStar({ className = "" }: { className?: string }) {
 
         <g>
           <polygon
-            points="0,-200 4.2,0 0,260 -4.2,0"
+            points="0,-200 4.2,0 0,200 -4.2,0"
             fill={`url(#${id.vbeam})`}
             filter={`url(#${id.softBlur})`}
           />
-          <polygon points="0,-200 1,0 0,260 -1,0" fill="#ffffff" />
+          <polygon points="0,-200 1,0 0,200 -1,0" fill="#ffffff" />
         </g>
 
         <g>
@@ -122,11 +121,6 @@ export function NorthStar({ className = "" }: { className?: string }) {
             filter={`url(#${id.softBlur})`}
           />
           <polygon points="-190,0 0,0.7 190,0 0,-0.7" fill="#ffffff" />
-        </g>
-
-        <g stroke="#ffffff" strokeWidth="0.7" opacity="0.3">
-          <line x1="-225" y1="0" x2="-190" y2="0" />
-          <line x1="190" y1="0" x2="225" y2="0" />
         </g>
 
         <g>
