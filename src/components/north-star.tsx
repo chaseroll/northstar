@@ -23,8 +23,6 @@ export function NorthStar({ className = "" }: { className?: string }) {
     bloom: `ns-bloom-${uid}`,
     vbeam: `ns-vbeam-${uid}`,
     hbeam: `ns-hbeam-${uid}`,
-    vmask: `ns-vmask-${uid}`,
-    vmaskGrad: `ns-vmaskg-${uid}`,
     softBlur: `ns-soft-${uid}`,
     bigBlur: `ns-big-${uid}`,
   };
@@ -74,32 +72,6 @@ export function NorthStar({ className = "" }: { className?: string }) {
             <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
           </linearGradient>
 
-          <linearGradient
-            id={id.vmaskGrad}
-            x1="0"
-            y1="0"
-            x2="0"
-            y2="1"
-          >
-            <stop offset="0%" stopColor="#ffffff" />
-            <stop offset="50%" stopColor="#ffffff" />
-            <stop offset="53%" stopColor="#a8a8a8" />
-            <stop offset="60%" stopColor="#5a5a5a" />
-            <stop offset="67%" stopColor="#5a5a5a" />
-            <stop offset="75%" stopColor="#c8c8c8" />
-            <stop offset="100%" stopColor="#ffffff" />
-          </linearGradient>
-
-          <mask id={id.vmask} maskUnits="userSpaceOnUse">
-            <rect
-              x="-220"
-              y="-270"
-              width="440"
-              height="540"
-              fill={`url(#${id.vmaskGrad})`}
-            />
-          </mask>
-
           <filter
             id={id.softBlur}
             x="-50%"
@@ -134,7 +106,7 @@ export function NorthStar({ className = "" }: { className?: string }) {
           <polygon points="-60,0 0,0.5 60,0 0,-0.5" fill="#ffffff" />
         </g>
 
-        <g mask={`url(#${id.vmask})`}>
+        <g>
           <polygon
             points="-1,-220 1,-220 4.2,0 0,260 -4.2,0"
             fill={`url(#${id.vbeam})`}
