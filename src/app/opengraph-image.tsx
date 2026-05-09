@@ -60,7 +60,7 @@ export default async function Image() {
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          background: "#02041a",
+          background: "#03061a",
           padding: "72px 80px",
           fontFamily: "Source Serif 4",
           color: "#ffffff",
@@ -118,7 +118,7 @@ export default async function Image() {
                 <stop offset="0%" stopColor="#ffffff" stopOpacity="0.55" />
                 <stop offset="35%" stopColor="#ffffff" stopOpacity="0.18" />
                 <stop offset="70%" stopColor="#ffffff" stopOpacity="0.05" />
-                <stop offset="100%" stopColor="#02041a" stopOpacity="0" />
+                <stop offset="100%" stopColor="#03061a" stopOpacity="0" />
               </radialGradient>
               <radialGradient id="core" cx="50%" cy="50%" r="50%">
                 <stop offset="0%" stopColor="#ffffff" stopOpacity="1" />
