@@ -2,7 +2,7 @@ import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
 export const alt =
-  "North Star · Non-dilutive capital for founders at the University of Austin";
+  "North Star · Non-dilutive capital for student entrepreneurs at the University of Austin";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -226,7 +226,7 @@ export default async function Image() {
               justifyContent: "center",
             }}
           >
-            Non-dilutive capital for founders at the University of Austin.
+            Non-dilutive capital for student entrepreneurs at the University of Austin.
           </div>
         </div>
 

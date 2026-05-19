@@ -1,7 +1,7 @@
 # North Star
 
-A founders program at the **University of Austin** — splash page, portfolio
-holding page, and online application.
+A program for student entrepreneurs at the **University of Austin** — splash
+page, portfolio holding page, and online application.
 
 > A program whose sole purpose is to increase the number of venture-backable
 > startups within the university.

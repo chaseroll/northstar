@@ -48,7 +48,7 @@ export function Hero() {
               "0 0 14px rgba(0, 0, 0, 0.75), 0 0 5px rgba(0, 0, 0, 0.55)",
           }}
         >
-          Non-dilutive capital for founders at the University of Austin.
+          Non-dilutive capital for student entrepreneurs at the University of Austin.
         </p>
       </div>
     </section>
